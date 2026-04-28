@@ -1,0 +1,49 @@
+# ZhStudio
+
+ZhStudio ist ein Webdesign-Studio aus Stäfa im Kanton Zürich.
+Der Fokus liegt auf eleganten, schnellen und vertrauenswürdigen Websites für lokale Firmen,
+Restaurants, Vereine, Praxen und kleinere Unternehmen in der Region.
+
+## Positionierung
+
+- Lokal in Stäfa und im Kanton Zürich verankert
+- Fokus auf hochwertige visuelle Auftritte mit klarer Typografie
+- Schnelle und faire Webauftritte ab CHF 380 für einfache Projekte
+- Spezialisierung auf moderne, ruhige, vertrauensbildende Websites
+
+## Leistungen
+
+- Webdesign
+- Frontend-Umsetzung
+- SEO-Basis für lokale Sichtbarkeit
+- Branding Light
+- Struktur und Textführung für mehr Vertrauen
+
+## Kontakt
+
+- Name: ZhStudio
+- Standort: Weberstrasse 4, 8712 Stäfa, Schweiz
+- Website: zhstudio.ch
+- E-Mail: info@zhstudio.ch
+- Telefon: +41 78 251 20 23
+- Verantwortlich: Yannis Ress Lasser
+
+## Zielgruppen
+
+- Lokale KMU
+- Restaurants und Cafes
+- Vereine
+- Praxen und Dienstleistungsbetriebe
+- Handwerksbetriebe
+
+## Stil und Qualitätsanspruch
+
+ZhStudio steht für elegante, saubere, performante und lokal glaubwürdige Websites.
+Die Marke setzt auf eine warme orange Farbwelt, Glass-Design, hochwertige Animationen und
+eine ruhige, professionelle Benutzerführung statt austauschbarer Standard-Templates.
+
+## Wichtige Seiten
+
+- / : Startseite
+- /impressum : Impressum
+- /datenschutz : Datenschutzerklärung
