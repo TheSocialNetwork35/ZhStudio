@@ -481,10 +481,24 @@ function HomePage() {
         </section>
 
         <section className="section intro reveal">
-          <div className="section-heading section-heading-stacked">
-            <span className="eyebrow">Warum ZhStudio</span>
-            <h2>Eine Website darf ruhig wirken.</h2>
-            <p className="section-lead">Aber sie muss im richtigen Moment überzeugen.</p>
+          <div className="section-heading-row">
+            <div className="section-heading section-heading-stacked">
+              <span className="eyebrow">Warum ZhStudio</span>
+              <h2>Eine Website darf ruhig wirken.</h2>
+              <p className="section-lead">Aber sie muss im richtigen Moment überzeugen.</p>
+            </div>
+            <div className="heading-visual heading-visual-signals interactive-card parallax-card" aria-hidden="true">
+              <div className="signal-orbit">
+                <span />
+                <span />
+                <span />
+              </div>
+              <div className="signal-list">
+                <span>klar</span>
+                <span>schnell</span>
+                <span>vertrauensvoll</span>
+              </div>
+            </div>
           </div>
           <div className="intro-grid">
             <article className="interactive-card">
@@ -541,9 +555,26 @@ function HomePage() {
         </section>
 
         <section className="section reveal" id="arbeiten">
-          <div className="section-heading section-heading-quote">
-            <span className="eyebrow">Typische Projekte aus der Region</span>
-            <h2>Websites für Betriebe, die online so gut aussehen sollen wie ihre Arbeit vor Ort.</h2>
+          <div className="section-heading-row section-heading-row-projects">
+            <div className="section-heading section-heading-quote">
+              <span className="eyebrow">Typische Projekte aus der Region</span>
+              <h2>Websites für Betriebe, die online so gut aussehen sollen wie ihre Arbeit vor Ort.</h2>
+            </div>
+            <div className="heading-visual heading-visual-projects interactive-card parallax-card" aria-hidden="true">
+              <div className="project-preview project-preview-main">
+                <span>Stäfa</span>
+                <strong>Local Site</strong>
+              </div>
+              <div className="project-preview project-preview-soft">
+                <span>SEO</span>
+                <strong>Google-ready</strong>
+              </div>
+              <div className="project-lines">
+                <span />
+                <span />
+                <span />
+              </div>
+            </div>
           </div>
           <div className="showcase-grid showcase-grid-alt">
             {showcases.map((item, index) => (
@@ -904,23 +935,33 @@ export default function App() {
         )
       })
 
-      gsap.utils.toArray(['.ambient-a', '.ambient-b', '.ambient-c', '.ambient-d']).forEach(
-        (selector, index) => {
-          gsap.to(selector, {
-            x: index % 2 === 0 ? 42 : -34,
-            y: index % 2 === 0 ? -28 : 36,
-            scale: index % 2 === 0 ? 1.08 : 0.92,
-            duration: 9 + index * 2,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut',
-          })
-        },
-      )
+      gsap.utils.toArray('.background-bubble').forEach((bubble, index) => {
+        gsap.to(bubble, {
+          '--idle-x': `${index % 2 === 0 ? 42 : -38}px`,
+          '--idle-y': `${index % 3 === 0 ? -30 : 24}px`,
+          '--bubble-scale': index % 2 === 0 ? 1.08 : 0.94,
+          duration: 10 + index * 2.2,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+        })
+
+        gsap.to(bubble, {
+          '--scroll-y': `${index % 2 === 0 ? -150 - index * 18 : -90 + index * 14}px`,
+          '--scroll-x': `${index % 2 === 0 ? 44 + index * 12 : -52 - index * 8}px`,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: document.body,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1.1 + index * 0.2,
+          },
+        })
+      })
 
       gsap.to('.background-motion', {
-        backgroundPosition: '120% 20%, 0% 100%, 85% 0%, 10% 90%, 50% 50%',
-        duration: 28,
+        backgroundPosition: '50% 0%, 42% 100%',
+        duration: 24,
         repeat: -1,
         yoyo: true,
         ease: 'sine.inOut',
@@ -981,13 +1022,16 @@ export default function App() {
   }, [isLegalPage, isContactPage])
 
   return (
-    <div className={`site-shell${isLegalPage ? ' legal-shell' : ''}`} ref={appRef}>
+      <div className={`site-shell${isLegalPage ? ' legal-shell' : ''}`} ref={appRef}>
       <div className="background-motion" />
       <div className="background-grid" />
-      <div className="ambient ambient-a" />
-      <div className="ambient ambient-b" />
-      <div className="ambient ambient-c" />
-      <div className="ambient ambient-d" />
+      <div className="background-bubbles" aria-hidden="true">
+        <span className="background-bubble bubble-a" />
+        <span className="background-bubble bubble-b" />
+        <span className="background-bubble bubble-c" />
+        <span className="background-bubble bubble-d" />
+        <span className="background-bubble bubble-e" />
+      </div>
 
       <Header
         legal={isLegalPage}

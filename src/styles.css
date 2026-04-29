@@ -36,7 +36,7 @@ html {
 body {
   margin: 0;
   background:
-    linear-gradient(180deg, #f1c8ad 0%, #e8b18f 48%, #dc966f 100%);
+    linear-gradient(180deg, #f4d5c4 0%, #edbea4 48%, #df9d77 100%);
   color: var(--text);
 }
 
@@ -58,7 +58,8 @@ img {
 }
 
 .background-motion,
-.background-grid {
+.background-grid,
+.background-bubbles {
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -67,21 +68,18 @@ img {
 .background-motion {
   z-index: 0;
   background:
-    radial-gradient(circle at 18% 24%, rgba(255, 245, 233, 0.84), transparent 0 18%),
-    radial-gradient(circle at 78% 20%, rgba(197, 97, 44, 0.46), transparent 0 28%),
-    radial-gradient(circle at 68% 72%, rgba(229, 138, 82, 0.42), transparent 0 24%),
-    radial-gradient(circle at 22% 76%, rgba(255, 214, 183, 0.54), transparent 0 24%),
-    linear-gradient(140deg, rgba(255, 232, 217, 0.52), rgba(201, 105, 49, 0.28));
-  background-size: 130% 130%, 120% 120%, 140% 140%, 120% 120%, 100% 100%;
-  background-position: 0% 0%, 100% 0%, 50% 100%, 10% 80%, 50% 50%;
-  filter: blur(18px) saturate(128%);
+    linear-gradient(180deg, rgba(255, 247, 241, 0.62) 0%, rgba(255, 223, 202, 0.26) 48%, rgba(193, 92, 46, 0.16) 100%),
+    radial-gradient(ellipse at 50% 112%, rgba(255, 244, 235, 0.7), transparent 0 54%);
+  background-size: 100% 100%, 110% 120%;
+  background-position: 50% 0%, 50% 100%;
+  filter: saturate(116%);
   opacity: 1;
   animation: backgroundDrift 20s ease-in-out infinite alternate;
 }
 
 .background-grid {
   z-index: 0;
-  opacity: 0.18;
+  opacity: 0.1;
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.16) 1px, transparent 1px);
@@ -90,45 +88,78 @@ img {
   animation: gridFloat 18s linear infinite;
 }
 
-.ambient {
-  position: fixed;
-  inset: auto;
-  border-radius: 999px;
-  filter: blur(90px);
-  pointer-events: none;
+.background-bubbles {
   z-index: 0;
+  overflow: hidden;
+  opacity: 0.98;
 }
 
-.ambient-a {
-  top: 70px;
-  right: -80px;
-  width: 360px;
-  height: 360px;
-  background: rgba(202, 111, 58, 0.34);
+.background-bubble {
+  --idle-x: 0px;
+  --idle-y: 0px;
+  --scroll-x: 0px;
+  --scroll-y: 0px;
+  --bubble-scale: 1;
+  position: fixed;
+  display: block;
+  border-radius: 999px;
+  filter: blur(92px) saturate(118%);
+  mix-blend-mode: soft-light;
+  transform:
+    translate3d(
+      calc(var(--idle-x) + var(--scroll-x)),
+      calc(var(--idle-y) + var(--scroll-y)),
+      0
+    )
+    scale(var(--bubble-scale));
+  will-change: transform, opacity;
 }
 
-.ambient-b {
-  left: -120px;
-  bottom: 120px;
-  width: 420px;
-  height: 420px;
-  background: rgba(255, 213, 187, 0.28);
+.bubble-a {
+  left: -10vw;
+  bottom: -28vh;
+  width: 58vw;
+  height: 58vw;
+  background: rgba(207, 109, 57, 0.42);
+  opacity: 0.86;
 }
 
-.ambient-c {
-  top: 320px;
-  left: 22%;
-  width: 280px;
-  height: 280px;
-  background: rgba(236, 154, 106, 0.24);
+.bubble-b {
+  left: 20vw;
+  bottom: -34vh;
+  width: 52vw;
+  height: 52vw;
+  background: rgba(244, 150, 91, 0.34);
+  opacity: 0.78;
 }
 
-.ambient-d {
-  right: 14%;
-  bottom: 18%;
-  width: 300px;
-  height: 300px;
-  background: rgba(255, 241, 228, 0.36);
+.bubble-c {
+  right: -16vw;
+  bottom: -26vh;
+  width: 60vw;
+  height: 60vw;
+  background: rgba(185, 91, 49, 0.38);
+  opacity: 0.82;
+}
+
+.bubble-d {
+  right: 18vw;
+  bottom: -22vh;
+  width: 38vw;
+  height: 38vw;
+  background: rgba(255, 190, 143, 0.28);
+  opacity: 0.76;
+  filter: blur(104px) saturate(112%);
+}
+
+.bubble-e {
+  left: 44vw;
+  bottom: -18vh;
+  width: 34vw;
+  height: 34vw;
+  background: rgba(227, 126, 69, 0.26);
+  opacity: 0.68;
+  filter: blur(116px) saturate(110%);
 }
 
 .topbar,
@@ -875,6 +906,17 @@ img {
   max-width: 720px;
 }
 
+.section-heading-row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.74fr) minmax(300px, 0.46fr);
+  gap: 42px;
+  align-items: center;
+}
+
+.section-heading-row-projects {
+  grid-template-columns: minmax(0, 0.82fr) minmax(320px, 0.38fr);
+}
+
 .section-heading h2,
 .price-card h2 {
   font-size: clamp(2rem, 3.8vw, 3.6rem);
@@ -940,6 +982,164 @@ img {
   max-width: 15ch;
   font-size: clamp(2rem, 3.4vw, 3.1rem);
   line-height: 1.04;
+}
+
+.heading-visual {
+  position: relative;
+  min-height: 190px;
+  overflow: hidden;
+  padding: 26px;
+  border-radius: 30px;
+  background:
+    linear-gradient(180deg, rgba(255, 251, 248, 0.52), rgba(255, 241, 234, 0.34)),
+    rgba(255, 248, 244, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(24px) saturate(142%);
+  box-shadow:
+    0 28px 72px rgba(107, 67, 48, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
+.heading-visual::before {
+  content: '';
+  position: absolute;
+  inset: auto -44px -66px auto;
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 34%, rgba(255, 255, 255, 0.82), transparent 0 23%),
+    conic-gradient(from 130deg, rgba(181, 107, 75, 0.24), rgba(159, 205, 195, 0.34), rgba(255, 232, 217, 0.22), rgba(181, 107, 75, 0.2));
+  opacity: 0.78;
+}
+
+.heading-visual-signals {
+  display: grid;
+  grid-template-columns: 118px 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.signal-orbit {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.74) 0 30%, transparent 31%),
+    conic-gradient(from 10deg, rgba(199, 131, 99, 0.32), rgba(159, 205, 195, 0.34), rgba(255, 239, 229, 0.36), rgba(199, 131, 99, 0.28));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.78),
+    0 18px 40px rgba(141, 88, 64, 0.12);
+}
+
+.signal-orbit span {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255, 252, 249, 0.88);
+  border: 1px solid rgba(181, 107, 75, 0.18);
+  box-shadow: 0 10px 22px rgba(141, 88, 64, 0.12);
+}
+
+.signal-orbit span:nth-child(1) {
+  top: 8px;
+  left: 50%;
+}
+
+.signal-orbit span:nth-child(2) {
+  right: 8px;
+  bottom: 24px;
+}
+
+.signal-orbit span:nth-child(3) {
+  left: 10px;
+  bottom: 18px;
+}
+
+.signal-list {
+  display: grid;
+  gap: 10px;
+}
+
+.signal-list span {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(255, 252, 249, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  color: rgba(29, 23, 20, 0.74);
+  font-size: 0.9rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
+}
+
+.heading-visual-projects {
+  min-height: 220px;
+}
+
+.project-preview {
+  position: absolute;
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 250, 0.72), rgba(255, 242, 235, 0.48)),
+    rgba(255, 248, 244, 0.46);
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  box-shadow:
+    0 18px 42px rgba(141, 88, 64, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
+.project-preview span {
+  color: var(--accent-strong);
+  font-size: 0.8rem;
+}
+
+.project-preview strong {
+  font-size: 1.06rem;
+}
+
+.project-preview-main {
+  top: 24px;
+  left: 24px;
+  width: 58%;
+  min-height: 104px;
+}
+
+.project-preview-soft {
+  right: 24px;
+  bottom: 24px;
+  width: 52%;
+  min-height: 92px;
+}
+
+.project-lines {
+  position: absolute;
+  left: 40px;
+  right: 124px;
+  bottom: 38px;
+  display: grid;
+  gap: 9px;
+}
+
+.project-lines span {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(181, 107, 75, 0.16);
+}
+
+.project-lines span:nth-child(2) {
+  width: 78%;
+  background: rgba(159, 205, 195, 0.26);
+}
+
+.project-lines span:nth-child(3) {
+  width: 54%;
 }
 
 .intro-grid,
@@ -1500,6 +1700,7 @@ img {
 @media (max-width: 1024px) {
   .hero,
   .spotlight-layout,
+  .section-heading-row,
   .intro-grid,
   .service-layout,
   .service-grid,
@@ -1532,6 +1733,10 @@ img {
 
   .contact-mini-meta {
     justify-items: start;
+  }
+
+  .heading-visual {
+    min-height: 160px;
   }
 
   .service-side,
@@ -1598,6 +1803,10 @@ img {
 
   .showcase-topline {
     flex-wrap: wrap;
+  }
+
+  .heading-visual {
+    display: none;
   }
 
   .showcase-card-1 {
