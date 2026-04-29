@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -6,10 +6,51 @@ gsap.registerPlugin(ScrollTrigger)
 
 const offerMailto =
   'mailto:info@zhstudio.ch?subject=Offerte%20f%C3%BCr%20eine%20Website'
+const formEndpoint = 'https://formspree.io/f/xvzdeqvn'
 
 function triggerOfferMail(event) {
   event.preventDefault()
   window.location.href = offerMailto
+}
+
+function getLocationState() {
+  if (typeof window === 'undefined') {
+    return { pathname: '/', hash: '' }
+  }
+
+  return {
+    pathname: window.location.pathname || '/',
+    hash: window.location.hash || '',
+  }
+}
+
+function normalizeHref(href) {
+  if (!href) {
+    return { pathname: '/', hash: '' }
+  }
+
+  if (href.startsWith('#')) {
+    return { pathname: '/', hash: href }
+  }
+
+  const url = new URL(href, window.location.origin)
+  return {
+    pathname: url.pathname || '/',
+    hash: url.hash || '',
+  }
+}
+
+function navigateTo(href, updateLocation) {
+  const nextLocation = normalizeHref(href)
+  const currentLocation = getLocationState()
+  const nextUrl = `${nextLocation.pathname}${nextLocation.hash}`
+  const currentUrl = `${currentLocation.pathname}${currentLocation.hash}`
+
+  if (nextUrl !== currentUrl) {
+    window.history.pushState({}, '', nextUrl)
+  }
+
+  updateLocation(nextLocation)
 }
 
 const services = [
@@ -83,7 +124,7 @@ const legalContent = {
           'Website: zhstudio.ch',
           'E-Mail: info@zhstudio.ch',
           'Telefon: +41 78 251 20 23',
-          'Kontaktanfragen erfolgen derzeit per E-Mail oder Telefon.',
+          'Kontaktanfragen können per Kontaktformular, E-Mail oder Telefon erfolgen.',
         ],
       },
       {
@@ -119,7 +160,7 @@ const legalContent = {
         title: 'Erhebung von Daten',
         body: [
           'Beim Besuch dieser Website können technisch notwendige Daten wie Browsertyp, Uhrzeit oder IP-Adresse vorübergehend verarbeitet werden.',
-          'Wenn ihr uns per E-Mail kontaktiert, werden die von euch übermittelten Angaben zur Bearbeitung der Anfrage verwendet.',
+          'Wenn ihr uns per Kontaktformular, E-Mail oder Telefon kontaktiert, werden die von euch übermittelten Angaben zur Bearbeitung der Anfrage verwendet.',
         ],
       },
       {
@@ -130,10 +171,11 @@ const legalContent = {
         ],
       },
       {
-        title: 'Kommunikation',
+        title: 'Kontaktformular und Kommunikation',
         body: [
-          'Aktuell wird kein Kontaktformular eingesetzt. Kontaktaufnahmen erfolgen ausschliesslich per E-Mail an info@zhstudio.ch oder telefonisch.',
-          'Dabei werden die übermittelten Angaben zur Bearbeitung der Anfrage und für mögliche Anschlusskommunikation verwendet.',
+          'Für Anfragen über die Website steht ein Kontaktformular zur Verfügung. Dabei können Name, E-Mail-Adresse, Firma, Website, Telefonnummer und die Nachricht übermittelt werden.',
+          'Die Formularübermittlung erfolgt über den Dienst Formspree. Dabei werden die eingegebenen Daten an Formspree übermittelt und dort zur Zustellung und technischen Verarbeitung der Anfrage verarbeitet.',
+          'Zusätzlich sind Kontaktaufnahmen per E-Mail an info@zhstudio.ch oder telefonisch möglich. Die übermittelten Angaben werden zur Bearbeitung der Anfrage und für mögliche Anschlusskommunikation verwendet.',
         ],
       },
       {
@@ -167,10 +209,33 @@ const legalContent = {
   },
 }
 
-function Header({ legal = false }) {
+function Header({ legal = false, location, activeSection, onNavigate }) {
+  const currentPath = location.pathname
+  const homePrefix = currentPath === '/' ? '' : '/'
+  const activeNav = currentPath === '/kontakt' ? '/kontakt' : activeSection
+
+  const handleNavigate = (event, href) => {
+    event.preventDefault()
+    onNavigate(href)
+  }
+
+  const getNavClassName = (href, baseClassName = '') => {
+    const classes = [baseClassName].filter(Boolean)
+
+    if (activeNav === href || currentPath === href) {
+      classes.push('nav-link-active')
+    }
+
+    return classes.join(' ')
+  }
+
   return (
     <header className="topbar">
-      <a className="brand" href="/">
+      <a
+        className="brand"
+        href="/"
+        onClick={(event) => handleNavigate(event, '/')}
+      >
         <img src="/logo-mark.png" alt="ZhStudio Logo" />
         <div>
           <strong>ZhStudio</strong>
@@ -181,17 +246,57 @@ function Header({ legal = false }) {
       <nav className="nav">
         {legal ? (
           <>
-            <a href="/">Startseite</a>
-            <a href="/impressum">Impressum</a>
-            <a href="/datenschutz">Datenschutz</a>
+            <a
+              className={getNavClassName('/')}
+              href="/"
+              onClick={(event) => handleNavigate(event, '/')}
+            >
+              Startseite
+            </a>
+            <a
+              className={getNavClassName('/kontakt')}
+              href="/kontakt"
+              onClick={(event) => handleNavigate(event, '/kontakt')}
+            >
+              Kontakt
+            </a>
+            <a
+              className={getNavClassName('/impressum')}
+              href="/impressum"
+              onClick={(event) => handleNavigate(event, '/impressum')}
+            >
+              Impressum
+            </a>
+            <a
+              className={getNavClassName('/datenschutz')}
+              href="/datenschutz"
+              onClick={(event) => handleNavigate(event, '/datenschutz')}
+            >
+              Datenschutz
+            </a>
           </>
         ) : (
           <>
-            <a href="#leistungen">Leistungen</a>
-            <a href="#arbeiten">Arbeiten</a>
-            <a href="#kontakt">Kontakt</a>
-            <a className="nav-cta" href={offerMailto} onClick={triggerOfferMail}>
-              Offerte anfragen
+            <a
+              className={getNavClassName('#leistungen')}
+              href={`${homePrefix}#leistungen`}
+              onClick={(event) => handleNavigate(event, `${homePrefix}#leistungen`)}
+            >
+              Leistungen
+            </a>
+            <a
+              className={getNavClassName('#arbeiten')}
+              href={`${homePrefix}#arbeiten`}
+              onClick={(event) => handleNavigate(event, `${homePrefix}#arbeiten`)}
+            >
+              Arbeiten
+            </a>
+            <a
+              className={getNavClassName('/kontakt', 'nav-cta')}
+              href="/kontakt"
+              onClick={(event) => handleNavigate(event, '/kontakt')}
+            >
+              Kontakt
             </a>
           </>
         )}
@@ -211,6 +316,7 @@ function Footer() {
         </div>
       </div>
       <div className="footer-links">
+        <a href="/kontakt">Kontakt</a>
         <a href="mailto:info@zhstudio.ch">E-Mail</a>
         <a href="/impressum">Impressum</a>
         <a href="/datenschutz">Datenschutz</a>
@@ -240,10 +346,12 @@ function HomePage() {
             <div className="hero-actions">
               <a
                 className="button button-primary button-offer"
-                href={offerMailto}
-                onClick={triggerOfferMail}
+                href="/kontakt"
               >
                 Offerte anfragen
+              </a>
+              <a className="button button-secondary" href="/kontakt">
+                Kontakt aufnehmen
               </a>
               <a className="button button-secondary" href="#arbeiten">
                 Arbeiten ansehen
@@ -437,8 +545,7 @@ function HomePage() {
             </div>
             <a
               className="button button-primary button-offer button-large"
-              href={offerMailto}
-              onClick={triggerOfferMail}
+              href="/kontakt"
             >
               Offerte anfragen
             </a>
@@ -448,21 +555,105 @@ function HomePage() {
         <section className="section contact-section reveal" id="kontakt">
           <div className="section-heading section-heading-contact">
             <span className="eyebrow">Kontakt</span>
-            <h2>Wenn der Auftritt besser werden soll, reicht eine kurze Nachricht.</h2>
+            <h2>Wenn der Auftritt besser werden soll, startet es mit einer kurzen Anfrage.</h2>
           </div>
-          <div className="contact-panel interactive-card">
-            <div>
-              <p>
-                Für lokale Unternehmen im Kanton Zürich, die online ruhiger, klarer und stärker
-                auftreten wollen.
-              </p>
-              <a href="mailto:info@zhstudio.ch">info@zhstudio.ch</a>
+          <div className="contact-layout">
+            <div className="contact-panel interactive-card">
+              <div>
+                <p>
+                  Für lokale Unternehmen im Kanton Zürich, die online ruhiger, klarer und stärker
+                  auftreten wollen.
+                </p>
+                <a href="/kontakt">Zum Kontaktformular</a>
+              </div>
+              <div className="contact-badge interactive-card">
+                <strong>Standort</strong>
+                <span>Weberstrasse 4, Stäfa, 8712, Schweiz</span>
+                <small>Lokaler Fokus auf den Kanton Zürich und umliegende Gemeinden.</small>
+              </div>
             </div>
-            <div className="contact-badge interactive-card">
-              <strong>Standort</strong>
-              <span>Weberstrasse 4, Stäfa, 8712, Schweiz</span>
-              <small>Lokaler Fokus auf den Kanton Zürich und umliegende Gemeinden.</small>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </>
+  )
+}
+
+function ContactPage() {
+  return (
+    <>
+      <main className="contact-page-main">
+        <section className="contact-focus reveal" id="kontaktformular">
+          <div className="contact-focus-intro">
+            <span className="eyebrow">Kontakt</span>
+            <h1>Die Kontaktseite ist für eine Sache da: eure Anfrage sauber zu erfassen.</h1>
+            <p className="contact-focus-text">
+              Kein zusätzlicher Lärm, keine unnötigen Blöcke. Einfach das Formular mit allem, was
+              für eine erste Offerte oder ein Webprojekt gebraucht wird.
+            </p>
+          </div>
+
+          <div className="contact-form-shell reveal">
+            <div className="contact-form-head">
+              <div>
+                <span className="eyebrow">Anfrage senden</span>
+                <h2>Ein klarer Einstieg für Websites, Redesigns und lokale Auftritte im Kanton Zürich.</h2>
+              </div>
+              <div className="contact-mini-meta">
+                <span>info@zhstudio.ch</span>
+                <span>Stäfa, Zürich</span>
+              </div>
             </div>
+
+            <form className="contact-form contact-form-focused" action={formEndpoint} method="POST">
+              <div className="form-grid">
+                <label className="form-field">
+                  <span>Name</span>
+                  <input type="text" name="name" placeholder="Bastian Beispiel" required />
+                </label>
+
+                <label className="form-field">
+                  <span>E-Mail</span>
+                  <input type="email" name="email" placeholder="bastian@beispiel.com" required />
+                </label>
+
+                <label className="form-field">
+                  <span>Firma</span>
+                  <input type="text" name="company" placeholder="Bastians Bäckerei" required />
+                </label>
+
+                <label className="form-field">
+                  <span>Website (falls vorhanden)</span>
+                  <input type="url" name="website" placeholder="https://www.bäckerbastian.ch" />
+                </label>
+
+                <label className="form-field">
+                  <span>Telefon (optional)</span>
+                  <input type="tel" name="phone" placeholder="+41 79 123 45 67" />
+                </label>
+
+                <label className="form-field form-field-full">
+                  <span>Nachricht</span>
+                  <textarea
+                    name="message"
+                    placeholder="Erzählt kurz, worum es geht und was ihr euch für eure Website wünscht."
+                    required
+                  />
+                </label>
+              </div>
+
+              <div className="form-actions">
+                <button className="button button-primary" type="submit">
+                  Nachricht senden
+                </button>
+                <p className="form-note">
+                  Mit dem Absenden akzeptiert ihr die Verarbeitung gemäss{' '}
+                  <a href="/datenschutz">Datenschutzerklärung</a>.
+                </p>
+              </div>
+            </form>
           </div>
         </section>
       </main>
@@ -505,8 +696,107 @@ function LegalPage({ pageKey }) {
 
 export default function App() {
   const appRef = useRef(null)
-  const path = typeof window !== 'undefined' ? window.location.pathname : '/'
+  const [location, setLocation] = useState(getLocationState)
+  const [activeSection, setActiveSection] = useState('')
+  const path = location.pathname
   const isLegalPage = path === '/impressum' || path === '/datenschutz'
+  const isContactPage = path === '/kontakt'
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setLocation(getLocationState())
+    }
+
+    window.addEventListener('popstate', handleLocationChange)
+    window.addEventListener('hashchange', handleLocationChange)
+
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange)
+      window.removeEventListener('hashchange', handleLocationChange)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (path !== '/') {
+      setActiveSection('')
+      window.scrollTo({ top: 0, behavior: 'auto' })
+      return
+    }
+
+    if (!location.hash) {
+      window.scrollTo({ top: 0, behavior: 'auto' })
+      return
+    }
+
+    const scrollToTarget = () => {
+      const element = document.querySelector(location.hash)
+
+      if (!element) {
+        return
+      }
+
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+
+    requestAnimationFrame(scrollToTarget)
+  }, [path, location.hash])
+
+  useEffect(() => {
+    if (path !== '/') {
+      return undefined
+    }
+
+    const sections = ['#leistungen', '#arbeiten']
+      .map((hash) => {
+        const element = document.querySelector(hash)
+
+        if (!element) {
+          return null
+        }
+
+        return { hash, element }
+      })
+      .filter(Boolean)
+
+    if (!sections.length) {
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntries = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+
+        if (visibleEntries.length) {
+          setActiveSection(`#${visibleEntries[0].target.id}`)
+          return
+        }
+
+        if (window.scrollY < 240) {
+          setActiveSection('')
+        }
+      },
+      {
+        rootMargin: '-35% 0px -45% 0px',
+        threshold: [0.2, 0.35, 0.5, 0.7],
+      },
+    )
+
+    sections.forEach(({ element }) => observer.observe(element))
+
+    return () => observer.disconnect()
+  }, [path])
+
+  useEffect(() => {
+    if (path === '/' && location.hash) {
+      setActiveSection(location.hash)
+    }
+  }, [path, location.hash])
+
+  const handleNavigate = (href) => {
+    navigateTo(href, setLocation)
+  }
 
   useEffect(() => {
     const cleanupFns = []
@@ -636,7 +926,7 @@ export default function App() {
       cleanupFns.forEach((cleanup) => cleanup())
       ctx.revert()
     }
-  }, [isLegalPage])
+  }, [isLegalPage, isContactPage])
 
   return (
     <div className={`site-shell${isLegalPage ? ' legal-shell' : ''}`} ref={appRef}>
@@ -647,10 +937,16 @@ export default function App() {
       <div className="ambient ambient-c" />
       <div className="ambient ambient-d" />
 
-      <Header legal={isLegalPage} />
+      <Header
+        legal={isLegalPage}
+        location={location}
+        activeSection={activeSection}
+        onNavigate={handleNavigate}
+      />
       {path === '/impressum' ? <LegalPage pageKey="impressum" /> : null}
       {path === '/datenschutz' ? <LegalPage pageKey="datenschutz" /> : null}
-      {path !== '/impressum' && path !== '/datenschutz' ? <HomePage /> : null}
+      {path === '/kontakt' ? <ContactPage /> : null}
+      {path !== '/impressum' && path !== '/datenschutz' && path !== '/kontakt' ? <HomePage /> : null}
     </div>
   )
 }
