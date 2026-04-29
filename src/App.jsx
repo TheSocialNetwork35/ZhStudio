@@ -57,16 +57,52 @@ const services = [
   {
     title: 'Webdesign',
     text: 'Klare Seiten, starke Typografie, ruhiger Auftritt.',
+    icon: 'layout',
+    meta: 'Struktur & Look',
   },
   {
     title: 'SEO-Basis',
     text: 'Saubere Struktur, schnell geladen, lokal auffindbar.',
+    icon: 'search',
+    meta: 'Lokal sichtbar',
   },
   {
     title: 'Branding Light',
     text: 'Farben, Ton und Details, die zusammenpassen.',
+    icon: 'spark',
+    meta: 'Ton & Details',
   },
 ]
+
+function ServiceIcon({ type }) {
+  if (type === 'search') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="6" />
+        <path d="m16 16 4 4" />
+        <path d="M8.5 11h5" />
+      </svg>
+    )
+  }
+
+  if (type === 'spark') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3l1.8 5.1L19 10l-5.2 1.9L12 17l-1.8-5.1L5 10l5.2-1.9L12 3Z" />
+        <path d="M18.5 15.5 20 18l-2.5 1.5L16 22l-1.5-2.5L12 18l2.5-1.5L16 14l1.5 2.5Z" />
+      </svg>
+    )
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="4" y="5" width="16" height="14" rx="3" />
+      <path d="M4 10h16" />
+      <path d="M9 14h6" />
+      <path d="M9 17h3" />
+    </svg>
+  )
+}
 
 const steps = [
   'Kurz sprechen',
@@ -475,15 +511,31 @@ function HomePage() {
             <div className="service-grid">
               {services.map((service) => (
                 <article className="service-card interactive-card parallax-card" key={service.title}>
-                  <h3>{service.title}</h3>
-                  <p>{service.text}</p>
+                  <div className="service-card-head">
+                    <span className="service-icon">
+                      <ServiceIcon type={service.icon} />
+                    </span>
+                    <span className="service-meta">{service.meta}</span>
+                  </div>
+                  <div>
+                    <h3>{service.title}</h3>
+                    <p>{service.text}</p>
+                  </div>
                 </article>
               ))}
             </div>
             <aside className="service-side interactive-card parallax-card">
-              <span className="eyebrow">Was man spürt</span>
+              <div className="service-side-kicker">
+                <span className="eyebrow">Was man spürt</span>
+                <span className="service-side-mark" aria-hidden="true">01</span>
+              </div>
               <h3>Ordnung, Tempo und ein Auftritt mit Gewicht.</h3>
               <p>Eine gute Website ordnet, beruhigt und macht Vertrauen sofort leichter.</p>
+              <div className="service-proof">
+                <span>Ruhiger erster Eindruck</span>
+                <span>Schneller Weg zur Anfrage</span>
+                <span>Klare Basis für Wachstum</span>
+              </div>
             </aside>
           </div>
         </section>
