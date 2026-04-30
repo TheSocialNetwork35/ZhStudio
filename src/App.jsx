@@ -7,6 +7,15 @@ gsap.registerPlugin(ScrollTrigger)
 const offerMailto =
   'mailto:info@zhstudio.ch?subject=Offerte%20f%C3%BCr%20eine%20Website'
 const formEndpoint = 'https://formspree.io/f/xvzdeqvn'
+const formRedirectPath = '/danke'
+
+function getFormRedirectUrl() {
+  if (typeof window === 'undefined') {
+    return formRedirectPath
+  }
+
+  return `${window.location.origin}${formRedirectPath}`
+}
 
 function triggerOfferMail(event) {
   event.preventDefault()
@@ -59,18 +68,21 @@ const services = [
     text: 'Klare Seiten, starke Typografie, ruhiger Auftritt.',
     icon: 'layout',
     meta: 'Struktur & Look',
+    points: ['Startseite und Unterseiten', 'Mobile sauber aufgebaut', 'Kontaktwege klar geführt'],
   },
   {
     title: 'SEO-Basis',
     text: 'Saubere Struktur, schnell geladen, lokal auffindbar.',
     icon: 'search',
     meta: 'Lokal sichtbar',
+    points: ['Seitentitel und Texte', 'Technische Grundstruktur', 'Lokale Suchbegriffe'],
   },
   {
     title: 'Branding Light',
     text: 'Farben, Ton und Details, die zusammenpassen.',
     icon: 'spark',
     meta: 'Ton & Details',
+    points: ['Farbwelt und Typografie', 'Bildsprache abstimmen', 'Ruhiger Gesamtauftritt'],
   },
 ]
 
@@ -119,6 +131,8 @@ const showcases = [
     detail:
       'Warme Bildsprache, klare Menüführung und ein schneller Weg zu Tischreservation, Karte und Öffnungszeiten.',
     tags: ['Mobile zuerst', 'Google-ready', 'Mehr Reservierungen'],
+    image: '/showcase-seegarten.jpeg',
+    imageAlt: 'Terrasse am See mit Tischen, Sonnenschirmen und Bootssteg',
   },
   {
     name: 'Baur Sanitär',
@@ -127,6 +141,8 @@ const showcases = [
     detail:
       'Vertrauensvoller Auftritt mit Leistungen, Referenzen und Kontaktstruktur, die Anfragen ohne Reibung möglich macht.',
     tags: ['KMU-Auftritt', 'Lokales SEO', 'Saubere Struktur'],
+    image: '/showcase-sanitaer.jpeg',
+    imageAlt: 'Sanitärinstallation mit Rohren, Boiler und Werkzeug',
   },
   {
     name: 'Praxis am See',
@@ -135,6 +151,8 @@ const showcases = [
     detail:
       'Ruhiges Design, klare Informationen und eine Sprache, die Kompetenz und persönliche Nähe gleichzeitig vermittelt.',
     tags: ['Seriös', 'Barrierearm', 'Professionell'],
+    image: '/showcase-praxis.jpeg',
+    imageAlt: 'Moderner Empfangsbereich einer Praxis',
   },
 ]
 
@@ -245,10 +263,8 @@ const legalContent = {
   },
 }
 
-function Header({ legal = false, location, activeSection, onNavigate }) {
+function Header({ hidden = false, location, onNavigate }) {
   const currentPath = location.pathname
-  const homePrefix = currentPath === '/' ? '' : '/'
-  const activeNav = currentPath === '/kontakt' ? '/kontakt' : activeSection
 
   const handleNavigate = (event, href) => {
     event.preventDefault()
@@ -258,7 +274,7 @@ function Header({ legal = false, location, activeSection, onNavigate }) {
   const getNavClassName = (href, baseClassName = '') => {
     const classes = [baseClassName].filter(Boolean)
 
-    if (activeNav === href || currentPath === href) {
+    if (currentPath === href) {
       classes.push('nav-link-active')
     }
 
@@ -266,7 +282,7 @@ function Header({ legal = false, location, activeSection, onNavigate }) {
   }
 
   return (
-    <header className="topbar">
+    <header className={`topbar${hidden ? ' topbar-hidden' : ''}`}>
       <a
         className="brand"
         href="/"
@@ -280,62 +296,30 @@ function Header({ legal = false, location, activeSection, onNavigate }) {
       </a>
 
       <nav className="nav">
-        {legal ? (
-          <>
-            <a
-              className={getNavClassName('/')}
-              href="/"
-              onClick={(event) => handleNavigate(event, '/')}
-            >
-              Startseite
-            </a>
-            <a
-              className={getNavClassName('/kontakt')}
-              href="/kontakt"
-              onClick={(event) => handleNavigate(event, '/kontakt')}
-            >
-              Kontakt
-            </a>
-            <a
-              className={getNavClassName('/impressum')}
-              href="/impressum"
-              onClick={(event) => handleNavigate(event, '/impressum')}
-            >
-              Impressum
-            </a>
-            <a
-              className={getNavClassName('/datenschutz')}
-              href="/datenschutz"
-              onClick={(event) => handleNavigate(event, '/datenschutz')}
-            >
-              Datenschutz
-            </a>
-          </>
-        ) : (
-          <>
-            <a
-              className={getNavClassName('#leistungen')}
-              href={`${homePrefix}#leistungen`}
-              onClick={(event) => handleNavigate(event, `${homePrefix}#leistungen`)}
-            >
-              Leistungen
-            </a>
-            <a
-              className={getNavClassName('#arbeiten')}
-              href={`${homePrefix}#arbeiten`}
-              onClick={(event) => handleNavigate(event, `${homePrefix}#arbeiten`)}
-            >
-              Arbeiten
-            </a>
-            <a
-              className={getNavClassName('/kontakt', 'nav-cta')}
-              href="/kontakt"
-              onClick={(event) => handleNavigate(event, '/kontakt')}
-            >
-              Kontakt
-            </a>
-          </>
-        )}
+        <a
+          className={getNavClassName('/')}
+          href="/"
+          onClick={(event) => handleNavigate(event, '/')}
+          aria-current={currentPath === '/' ? 'page' : undefined}
+        >
+          Start
+        </a>
+        <a
+          className={getNavClassName('/leistungen')}
+          href="/leistungen"
+          onClick={(event) => handleNavigate(event, '/leistungen')}
+          aria-current={currentPath === '/leistungen' ? 'page' : undefined}
+        >
+          Leistungen
+        </a>
+        <a
+          className={getNavClassName('/kontakt')}
+          href="/kontakt"
+          onClick={(event) => handleNavigate(event, '/kontakt')}
+          aria-current={currentPath === '/kontakt' ? 'page' : undefined}
+        >
+          Kontakt
+        </a>
       </nav>
     </header>
   )
@@ -352,6 +336,7 @@ function Footer() {
         </div>
       </div>
       <div className="footer-links">
+        <a href="/leistungen">Leistungen</a>
         <a href="/kontakt">Kontakt</a>
         <a href="mailto:info@zhstudio.ch">E-Mail</a>
         <a href="/impressum">Impressum</a>
@@ -386,11 +371,8 @@ function HomePage() {
               >
                 Offerte anfragen
               </a>
-              <a className="button button-secondary" href="/kontakt">
-                Kontakt aufnehmen
-              </a>
-              <a className="button button-secondary" href="#arbeiten">
-                Arbeiten ansehen
+              <a className="button button-secondary" href="/leistungen">
+                Leistungen ansehen
               </a>
             </div>
             <div className="hero-meta">
@@ -516,10 +498,40 @@ function HomePage() {
           </div>
         </section>
 
-        <section className="section reveal" id="leistungen">
+        <section className="section home-contact-goal reveal">
+          <div className="price-card interactive-card">
+            <div>
+              <span className="eyebrow">Nächster Schritt</span>
+              <h2>Die Startseite ist nur der Einstieg. Das Ziel ist eure Anfrage.</h2>
+              <p>
+                Wer Details sehen möchte, findet sie auf der Leistungsseite. Wer schon weiss, dass
+                der Auftritt besser werden soll, kommt direkt zum Kontaktformular.
+              </p>
+            </div>
+            <a className="button button-primary button-offer button-large" href="/kontakt">
+              Anfragen
+            </a>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </>
+  )
+}
+
+function ServicesPage() {
+  return (
+    <>
+      <main id="leistungen" className="services-page-main">
+        <section className="services-hero reveal">
           <div className="section-heading section-heading-compact">
             <span className="eyebrow">Leistungen</span>
             <h2>Design, Technik und ein sauberer Start.</h2>
+            <p className="section-lead">
+              Die Leistungsseite sammelt alles, was vor der Anfrage wichtig ist: Angebot, typische
+              Projekte, Ablauf und Einstiegspreis.
+            </p>
           </div>
           <div className="service-layout">
             <div className="service-grid">
@@ -535,6 +547,11 @@ function HomePage() {
                     <h3>{service.title}</h3>
                     <p>{service.text}</p>
                   </div>
+                  <ul className="service-points">
+                    {service.points.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
                 </article>
               ))}
             </div>
@@ -554,7 +571,7 @@ function HomePage() {
           </div>
         </section>
 
-        <section className="section reveal" id="arbeiten">
+        <section className="section reveal" id="projekte">
           <div className="section-heading-row section-heading-row-projects">
             <div className="section-heading section-heading-quote">
               <span className="eyebrow">Typische Projekte aus der Region</span>
@@ -569,11 +586,6 @@ function HomePage() {
                 <span>SEO</span>
                 <strong>Google-ready</strong>
               </div>
-              <div className="project-lines">
-                <span />
-                <span />
-                <span />
-              </div>
             </div>
           </div>
           <div className="showcase-grid showcase-grid-alt">
@@ -582,6 +594,9 @@ function HomePage() {
                 className={`showcase-card interactive-card parallax-card showcase-card-${index + 1}`}
                 key={item.name}
               >
+                <figure className="showcase-image">
+                  <img src={item.image} alt={item.imageAlt} loading="lazy" />
+                </figure>
                 <div className="showcase-topline">
                   <span>{item.location}</span>
                   <strong>{item.type}</strong>
@@ -635,7 +650,7 @@ function HomePage() {
           </div>
         </section>
 
-        <section className="section contact-section reveal" id="kontakt">
+        <section className="section contact-section reveal">
           <div className="section-heading section-heading-contact">
             <span className="eyebrow">Kontakt</span>
             <h2>Wenn der Auftritt besser werden soll, startet es mit einer kurzen Anfrage.</h2>
@@ -691,6 +706,8 @@ function ContactPage() {
             </div>
 
             <form className="contact-form contact-form-focused" action={formEndpoint} method="POST">
+              <input type="hidden" name="_next" value={getFormRedirectUrl()} />
+              <input type="hidden" name="_subject" value="Neue Anfrage über zhstudio.ch" />
               <div className="form-grid">
                 <label className="form-field">
                   <span>Name</span>
@@ -746,6 +763,36 @@ function ContactPage() {
   )
 }
 
+function ThankYouPage() {
+  return (
+    <>
+      <main className="thank-you-main">
+        <section className="thank-you-focus reveal">
+          <div className="thank-you-card interactive-card">
+            <span className="eyebrow">Anfrage erhalten</span>
+            <h1>Danke. Eure Nachricht ist angekommen.</h1>
+            <p>
+              Wir prüfen die Angaben und melden uns so bald wie möglich persönlich zurück. Falls
+              noch etwas Wichtiges fehlt, könnt ihr direkt per E-Mail nachreichen.
+            </p>
+
+            <div className="thank-you-actions">
+              <a className="button button-primary" href="/">
+                Zur Startseite
+              </a>
+              <a className="button button-secondary" href="mailto:info@zhstudio.ch">
+                info@zhstudio.ch
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </>
+  )
+}
+
 function LegalPage({ pageKey }) {
   const page = legalContent[pageKey]
 
@@ -779,11 +826,14 @@ function LegalPage({ pageKey }) {
 
 export default function App() {
   const appRef = useRef(null)
+  const lastScrollYRef = useRef(0)
   const [location, setLocation] = useState(getLocationState)
-  const [activeSection, setActiveSection] = useState('')
+  const [isNavHidden, setIsNavHidden] = useState(false)
   const path = location.pathname
   const isLegalPage = path === '/impressum' || path === '/datenschutz'
+  const isServicesPage = path === '/leistungen'
   const isContactPage = path === '/kontakt'
+  const isThankYouPage = path === formRedirectPath
 
   useEffect(() => {
     const handleLocationChange = () => {
@@ -800,8 +850,33 @@ export default function App() {
   }, [])
 
   useEffect(() => {
+    lastScrollYRef.current = window.scrollY || 0
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY || 0
+      const previousScrollY = lastScrollYRef.current
+      const scrollDelta = currentScrollY - previousScrollY
+
+      if (currentScrollY < 80) {
+        setIsNavHidden(false)
+      } else if (scrollDelta > 8) {
+        setIsNavHidden(true)
+      } else if (scrollDelta < -8) {
+        setIsNavHidden(false)
+      }
+
+      lastScrollYRef.current = currentScrollY
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+  useEffect(() => {
     if (path !== '/') {
-      setActiveSection('')
       window.scrollTo({ top: 0, behavior: 'auto' })
       return
     }
@@ -822,59 +897,6 @@ export default function App() {
     }
 
     requestAnimationFrame(scrollToTarget)
-  }, [path, location.hash])
-
-  useEffect(() => {
-    if (path !== '/') {
-      return undefined
-    }
-
-    const sections = ['#leistungen', '#arbeiten']
-      .map((hash) => {
-        const element = document.querySelector(hash)
-
-        if (!element) {
-          return null
-        }
-
-        return { hash, element }
-      })
-      .filter(Boolean)
-
-    if (!sections.length) {
-      return undefined
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntries = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
-
-        if (visibleEntries.length) {
-          setActiveSection(`#${visibleEntries[0].target.id}`)
-          return
-        }
-
-        if (window.scrollY < 240) {
-          setActiveSection('')
-        }
-      },
-      {
-        rootMargin: '-35% 0px -45% 0px',
-        threshold: [0.2, 0.35, 0.5, 0.7],
-      },
-    )
-
-    sections.forEach(({ element }) => observer.observe(element))
-
-    return () => observer.disconnect()
-  }, [path])
-
-  useEffect(() => {
-    if (path === '/' && location.hash) {
-      setActiveSection(location.hash)
-    }
   }, [path, location.hash])
 
   const handleNavigate = (href) => {
@@ -1019,7 +1041,7 @@ export default function App() {
       cleanupFns.forEach((cleanup) => cleanup())
       ctx.revert()
     }
-  }, [isLegalPage, isContactPage])
+  }, [isLegalPage, isServicesPage, isContactPage, isThankYouPage])
 
   return (
       <div className={`site-shell${isLegalPage ? ' legal-shell' : ''}`} ref={appRef}>
@@ -1033,16 +1055,19 @@ export default function App() {
         <span className="background-bubble bubble-e" />
       </div>
 
-      <Header
-        legal={isLegalPage}
-        location={location}
-        activeSection={activeSection}
-        onNavigate={handleNavigate}
-      />
+      <Header hidden={isNavHidden} location={location} onNavigate={handleNavigate} />
       {path === '/impressum' ? <LegalPage pageKey="impressum" /> : null}
       {path === '/datenschutz' ? <LegalPage pageKey="datenschutz" /> : null}
+      {path === '/leistungen' ? <ServicesPage /> : null}
       {path === '/kontakt' ? <ContactPage /> : null}
-      {path !== '/impressum' && path !== '/datenschutz' && path !== '/kontakt' ? <HomePage /> : null}
+      {path === formRedirectPath ? <ThankYouPage /> : null}
+      {path !== '/impressum' &&
+      path !== '/datenschutz' &&
+      path !== '/leistungen' &&
+      path !== '/kontakt' &&
+      path !== formRedirectPath ? (
+        <HomePage />
+      ) : null}
     </div>
   )
 }
