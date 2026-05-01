@@ -525,7 +525,7 @@ function ServicesPage() {
     <>
       <main id="leistungen" className="services-page-main">
         <section className="services-hero reveal">
-          <div className="section-heading section-heading-compact">
+          <div className="section-heading section-heading-compact services-heading">
             <span className="eyebrow">Leistungen</span>
             <h2>Design, Technik und ein sauberer Start.</h2>
             <p className="section-lead">
