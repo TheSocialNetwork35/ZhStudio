@@ -813,7 +813,7 @@ function LegalPage({ pageKey }) {
 export default function App() {
   const appRef = useRef(null)
   const [location, setLocation] = useState(getLocationState)
-  const [isMobileTopbarHidden, setIsMobileTopbarHidden] = useState(false)
+  const [isTopbarHidden, setIsTopbarHidden] = useState(false)
   const path = location.pathname
   const isLegalPage = path === '/impressum' || path === '/datenschutz'
   const isServicesPage = path === '/leistungen'
@@ -863,47 +863,34 @@ export default function App() {
   }
 
   useEffect(() => {
-    const mobileMedia = window.matchMedia('(max-width: 1024px)')
     let lastScrollY = window.scrollY
 
     const updateTopbarVisibility = () => {
-      if (!mobileMedia.matches) {
-        setIsMobileTopbarHidden(false)
-        lastScrollY = window.scrollY
-        return
-      }
-
       const currentScrollY = window.scrollY
       const delta = currentScrollY - lastScrollY
 
       if (currentScrollY <= 32) {
-        setIsMobileTopbarHidden(false)
+        setIsTopbarHidden(false)
       } else if (delta > 8) {
-        setIsMobileTopbarHidden(true)
+        setIsTopbarHidden(true)
       } else if (delta < -8) {
-        setIsMobileTopbarHidden(false)
+        setIsTopbarHidden(false)
       }
 
       lastScrollY = currentScrollY
     }
 
-    const handleViewportChange = () => {
-      updateTopbarVisibility()
-    }
-
     updateTopbarVisibility()
 
     window.addEventListener('scroll', updateTopbarVisibility, { passive: true })
-    mobileMedia.addEventListener('change', handleViewportChange)
 
     return () => {
       window.removeEventListener('scroll', updateTopbarVisibility)
-      mobileMedia.removeEventListener('change', handleViewportChange)
     }
   }, [])
 
   useEffect(() => {
-    setIsMobileTopbarHidden(false)
+    setIsTopbarHidden(false)
   }, [path])
 
   useEffect(() => {
@@ -1061,7 +1048,7 @@ export default function App() {
       </div>
 
       <Header
-        hidden={isMobileTopbarHidden}
+        hidden={isTopbarHidden}
         location={location}
         onNavigate={handleNavigate}
       />

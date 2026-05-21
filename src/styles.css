@@ -206,11 +206,31 @@ img {
   transform: translateY(-130%);
 }
 
+@media (min-width: 1025px) {
+  .topbar-hidden {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  .topbar-hidden .brand {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-130%);
+  }
+}
+
 .brand,
 .footer-brand {
   display: inline-flex;
   align-items: center;
   gap: 14px;
+}
+
+.brand {
+  transition:
+    opacity 220ms ease,
+    transform 260ms ease;
 }
 
 .brand img,
