@@ -2039,6 +2039,13 @@ img {
   }
 }
 
+@media (min-width: 821px) and (max-width: 1024px) {
+  .topbar .nav {
+    justify-content: center;
+    width: auto;
+  }
+}
+
 @media (max-width: 640px) {
   .nav {
     flex-wrap: wrap;
