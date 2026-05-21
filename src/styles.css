@@ -233,6 +233,17 @@ img {
     transform 260ms ease;
 }
 
+.brand > div {
+  padding: 7px 12px 8px;
+  border: 1px solid rgba(17, 20, 18, 0.12);
+  border-radius: 16px;
+  background: rgba(246, 243, 236, 0.78);
+  backdrop-filter: blur(18px) saturate(135%);
+  box-shadow:
+    0 14px 28px rgba(17, 20, 18, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.56);
+}
+
 .brand img,
 .footer-brand img {
   width: 46px;
