@@ -1,23 +1,23 @@
 # ZhStudio
 
-ZhStudio ist ein Webdesign-Studio aus Stäfa im Kanton Zürich.
-Der Fokus liegt auf eleganten, schnellen und vertrauenswürdigen Websites für lokale Firmen,
-Restaurants, Vereine, Praxen und kleinere Unternehmen in der Region.
+ZhStudio ist ein Social-Media-Studio aus Stäfa im Kanton Zürich.
+Der Fokus liegt auf Instagram- und TikTok-Marketing für lokale Firmen, Restaurants,
+Vereine, Praxen und kleinere Unternehmen in der Region.
 
 ## Positionierung
 
 - Lokal in Stäfa und im Kanton Zürich verankert
-- Fokus auf hochwertige visuelle Auftritte mit klarer Typografie
-- Schnelle und faire Webauftritte ab CHF 380 für einfache Projekte
-- Spezialisierung auf moderne, ruhige, vertrauensbildende Websites
+- Fokus auf klare Social-Media-Strategie, Content-Serien und Kampagnen
+- Faire Einstiegslösungen ab CHF 380 für erste Social-Media-Projekte
+- Spezialisierung auf Reels, TikToks und wiedererkennbare Markenkommunikation
 
 ## Leistungen
 
-- Webdesign
-- Frontend-Umsetzung
-- SEO-Basis für lokale Sichtbarkeit
-- Branding Light
-- Struktur und Textführung für mehr Vertrauen
+- Content-Strategie für Instagram und TikTok
+- Reels, TikToks, Hooks, Skripte und Schnitt
+- Profil-Optimierung und Social Branding
+- Redaktionspläne und Kampagnenideen
+- Content-Struktur für mehr Sichtbarkeit und Anfragen
 
 ## Kontakt
 
@@ -38,12 +38,14 @@ Restaurants, Vereine, Praxen und kleinere Unternehmen in der Region.
 
 ## Stil und Qualitätsanspruch
 
-ZhStudio steht für elegante, saubere, performante und lokal glaubwürdige Websites.
-Die Marke setzt auf eine warme orange Farbwelt, Glass-Design, hochwertige Animationen und
-eine ruhige, professionelle Benutzerführung statt austauschbarer Standard-Templates.
+ZhStudio steht für Social Content mit klarer Haltung, guter Dramaturgie und lokaler Glaubwürdigkeit.
+Die Marke setzt auf markante Typografie, reduzierte Editorial-Flächen, Bewegung und ein
+prägnantes visuelles System statt austauschbarer Standard-Posts.
 
 ## Wichtige Seiten
 
 - / : Startseite
+- /leistungen : Leistungen
+- /kontakt : Kontakt
 - /impressum : Impressum
 - /datenschutz : Datenschutzerklärung
