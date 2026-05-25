@@ -293,7 +293,7 @@ const siteContent = {
       intro: [
         ['Lokale Nähe', 'Aus Stäfa, nah an lokalen Unternehmen und ihren Kunden.'],
         ['Apple-inspirierte Ruhe', 'Helles Layout, viel Ruhe, kontrollierte Bewegung.'],
-        ['Faire Einstiegslösung', 'Ab CHF 380 für einen sauberen ersten Auftritt.'],
+        ['Faire Einstiegslösung', 'Ab CHF 480 für einen sauberen ersten Auftritt.'],
       ],
       nextTitle: 'Die Startseite ist nur der Einstieg. Das Ziel ist eure Anfrage.',
       nextText:
@@ -314,7 +314,7 @@ const siteContent = {
       projectSoft: 'Google-ready',
       processTitle: 'Kein Agenturtheater.',
       processLead: 'Vier klare Schritte. Dann ist die Seite live.',
-      priceTitle: 'Ein sauberer Einstieg ab CHF 380',
+      priceTitle: 'Ein sauberer Einstieg ab CHF 480',
       priceText:
         'Für kleine Webauftritte, Landingpages oder lokale Erstpräsenz. Grössere Projekte, Zusatzseiten oder Branding werden individuell offeriert.',
       contactTitle: 'Wenn der Auftritt besser werden soll, startet es mit einer kurzen Anfrage.',
@@ -372,7 +372,7 @@ const siteContent = {
       intro: [
         ['Lokale Nähe', 'Aus Stäfa, nah an lokalen Unternehmen, ihrem Alltag und ihrer Zielgruppe.'],
         ['Reduzierte Gestaltung', 'Klare Formate, wiedererkennbare Serien und bewusst eingesetzte Bewegung.'],
-        ['Faire Einstiegslösung', 'Ab CHF 380 für einen klaren Start auf Instagram und TikTok.'],
+        ['Faire Einstiegslösung', 'Ab CHF 480 für einen klaren Start auf Instagram und TikTok.'],
       ],
       nextTitle: 'Der erste Post ist nur der Einstieg. Das Ziel ist echte Nachfrage.',
       nextText:
@@ -393,7 +393,7 @@ const siteContent = {
       projectSoft: 'Reels-ready',
       processTitle: 'Kein Content-Chaos.',
       processLead: 'Vier klare Schritte. Dann läuft euer Social-Media-System.',
-      priceTitle: 'Ein klarer Social-Media-Start ab CHF 380',
+      priceTitle: 'Ein klarer Social-Media-Start ab CHF 480',
       priceText:
         'Für Profil-Optimierung, erste Content-Ideen, Reels oder TikTok-Kampagnen. Laufende Betreuung, Drehtage und grössere Kampagnen werden individuell offeriert.',
       contactTitle: 'Wenn Instagram oder TikTok mehr bringen soll, startet es mit einer kurzen Anfrage.',
@@ -642,7 +642,7 @@ function HomePage({ content }) {
             </div>
             <div className="hero-meta">
               <div>
-                <strong>ab CHF 380</strong>
+                <strong>ab CHF 480</strong>
                 <span>{home.metricOne}</span>
               </div>
               <div>
