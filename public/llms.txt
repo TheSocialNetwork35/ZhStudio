@@ -1,28 +1,33 @@
 # ZhStudio
 
-ZhStudio ist ein Social-Media-Studio aus Stäfa im Kanton Zürich.
-Der Fokus liegt auf Instagram- und TikTok-Marketing für lokale Firmen, Restaurants,
-Vereine, Praxen und kleinere Unternehmen in der Region.
+ZhStudio ist ein Webdesign-Studio aus Staefa im Kanton Zuerich.
+Der Fokus liegt auf eleganten, schnellen und vertrauenswuerdigen Websites fuer lokale Firmen,
+Restaurants, Vereine, Praxen und kleinere Unternehmen in der Region.
 
 ## Positionierung
 
-- Lokal in Stäfa und im Kanton Zürich verankert
-- Fokus auf klare Social-Media-Strategie, Content-Serien und Kampagnen
-- Faire Einstiegslösungen ab CHF 380 für erste Social-Media-Projekte
-- Spezialisierung auf Reels, TikToks und wiedererkennbare Markenkommunikation
+- Lokal in Staefa und im Kanton Zuerich verankert
+- Fokus auf hochwertige visuelle Auftritte mit klarer Typografie
+- Schnelle und faire Webauftritte ab CHF 380 fuer einfache Projekte
+- Spezialisierung auf moderne, ruhige, vertrauensbildende Websites
 
 ## Leistungen
 
-- Content-Strategie für Instagram und TikTok
-- Reels, TikToks, Hooks, Skripte und Schnitt
-- Profil-Optimierung und Social Branding
-- Redaktionspläne und Kampagnenideen
-- Content-Struktur für mehr Sichtbarkeit und Anfragen
+- Webdesign
+- Frontend-Umsetzung
+- SEO-Basis fuer lokale Sichtbarkeit
+- Branding Light
+- Struktur und Textfuehrung fuer mehr Vertrauen
+
+## Marketing-Seite
+
+Die bisherige Social-Media-Marketing-Version bleibt unter /marketing erreichbar.
+Die dazugehoerigen Unterseiten sind /marketing/leistungen und /marketing/kontakt.
 
 ## Kontakt
 
 - Name: ZhStudio
-- Standort: Weberstrasse 4, 8712 Stäfa, Schweiz
+- Standort: Weberstrasse 4, 8712 Staefa, Schweiz
 - Website: zhstudio.ch
 - E-Mail: info@zhstudio.ch
 - Telefon: +41 78 251 20 23
@@ -36,16 +41,19 @@ Vereine, Praxen und kleinere Unternehmen in der Region.
 - Praxen und Dienstleistungsbetriebe
 - Handwerksbetriebe
 
-## Stil und Qualitätsanspruch
+## Stil und Qualitaetsanspruch
 
-ZhStudio steht für Social Content mit klarer Haltung, guter Dramaturgie und lokaler Glaubwürdigkeit.
-Die Marke setzt auf markante Typografie, reduzierte Editorial-Flächen, Bewegung und ein
-prägnantes visuelles System statt austauschbarer Standard-Posts.
+ZhStudio steht fuer elegante, saubere, performante und lokal glaubwuerdige Websites.
+Die Marke setzt auf markante Typografie, reduzierte Editorial-Flaechen, Bewegung und
+ein praegnantes visuelles System statt austauschbarer Standard-Templates.
 
 ## Wichtige Seiten
 
 - / : Startseite
 - /leistungen : Leistungen
 - /kontakt : Kontakt
+- /marketing : bisherige Marketing-Version
+- /marketing/leistungen : Marketing-Leistungen
+- /marketing/kontakt : Marketing-Kontakt
 - /impressum : Impressum
-- /datenschutz : Datenschutzerklärung
+- /datenschutz : Datenschutzerklaerung

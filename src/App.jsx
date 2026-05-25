@@ -4,22 +4,21 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const offerMailto =
-  'mailto:info@zhstudio.ch?subject=Offerte%20f%C3%BCr%20Instagram%20und%20TikTok%20Marketing'
 const formEndpoint = 'https://formspree.io/f/xvzdeqvn'
 const formRedirectPath = '/danke'
+const marketingBasePath = '/marketing'
 
-function getFormRedirectUrl() {
+function getFormRedirectUrl(basePath = '') {
   if (typeof window === 'undefined') {
-    return formRedirectPath
+    return `${basePath}${formRedirectPath}`
   }
 
-  return `${window.location.origin}${formRedirectPath}`
+  return `${window.location.origin}${basePath}${formRedirectPath}`
 }
 
-function triggerOfferMail(event) {
+function triggerOfferMail(event, mailto) {
   event.preventDefault()
-  window.location.href = offerMailto
+  window.location.href = mailto
 }
 
 function getLocationState() {
@@ -62,7 +61,51 @@ function navigateTo(href, updateLocation) {
   updateLocation(nextLocation)
 }
 
-const services = [
+function stripMarketingPath(pathname) {
+  if (pathname === marketingBasePath) {
+    return '/'
+  }
+
+  if (pathname.startsWith(`${marketingBasePath}/`)) {
+    return pathname.slice(marketingBasePath.length) || '/'
+  }
+
+  return pathname
+}
+
+function withBasePath(basePath, path) {
+  if (!basePath) {
+    return path
+  }
+
+  return path === '/' ? basePath : `${basePath}${path}`
+}
+
+const webServices = [
+  {
+    title: 'Webdesign',
+    text: 'Klare Seiten, starke Typografie, ruhiger Auftritt.',
+    icon: 'layout',
+    meta: 'Struktur & Look',
+    points: ['Startseite und Unterseiten', 'Mobile sauber aufgebaut', 'Kontaktwege klar geführt'],
+  },
+  {
+    title: 'SEO-Basis',
+    text: 'Saubere Struktur, schnell geladen, lokal auffindbar.',
+    icon: 'search',
+    meta: 'Lokal sichtbar',
+    points: ['Seitentitel und Texte', 'Technische Grundstruktur', 'Lokale Suchbegriffe'],
+  },
+  {
+    title: 'Branding Light',
+    text: 'Farben, Ton und Details, die zusammenpassen.',
+    icon: 'spark',
+    meta: 'Ton & Details',
+    points: ['Farbwelt und Typografie', 'Bildsprache abstimmen', 'Ruhiger Gesamtauftritt'],
+  },
+]
+
+const marketingServices = [
   {
     title: 'Content-Strategie',
     text: 'Klare Themen, starke Formate, ein Auftritt mit Wiedererkennung.',
@@ -116,14 +159,30 @@ function ServiceIcon({ type }) {
   )
 }
 
-const steps = [
+const webSteps = [
+  'Kurz sprechen',
+  'Look festlegen',
+  'Sauber umsetzen',
+  'Live schalten',
+]
+
+const marketingSteps = [
   'Kurz sprechen',
   'Formate festlegen',
   'Content produzieren',
   'Posten & lernen',
 ]
 
-const studioSignals = [
+const webStudioSignals = [
+  'klar',
+  'schnell',
+  'vertrauensvoll',
+  'lokal',
+  'Webdesign',
+  'SEO',
+]
+
+const marketingStudioSignals = [
   'Strategie',
   'Instagram',
   'Kampagne',
@@ -132,7 +191,40 @@ const studioSignals = [
   'Branding',
 ]
 
-const showcases = [
+const webShowcases = [
+  {
+    name: 'Seegarten Bistro',
+    location: 'Meilen',
+    type: 'Restaurant & Reservierungen',
+    detail:
+      'Warme Bildsprache, klare Menüführung und ein schneller Weg zu Tischreservation, Karte und Öffnungszeiten.',
+    tags: ['Mobile zuerst', 'Google-ready', 'Mehr Reservierungen'],
+    image: '/showcase-seegarten.jpeg',
+    imageAlt: 'Terrasse am See mit Tischen, Sonnenschirmen und Bootssteg',
+  },
+  {
+    name: 'Baur Sanitär',
+    location: 'Stäfa',
+    type: 'Handwerksbetrieb',
+    detail:
+      'Vertrauensvoller Auftritt mit Leistungen, Referenzen und Kontaktstruktur, die Anfragen ohne Reibung möglich macht.',
+    tags: ['KMU-Auftritt', 'Lokales SEO', 'Saubere Struktur'],
+    image: '/showcase-sanitaer.jpeg',
+    imageAlt: 'Sanitärinstallation mit Rohren, Boiler und Werkzeug',
+  },
+  {
+    name: 'Praxis am See',
+    location: 'Männedorf',
+    type: 'Praxis & Dienstleistungen',
+    detail:
+      'Ruhiges Design, klare Informationen und eine Sprache, die Kompetenz und persönliche Nähe gleichzeitig vermittelt.',
+    tags: ['Seriös', 'Barrierearm', 'Professionell'],
+    image: '/showcase-praxis.jpeg',
+    imageAlt: 'Moderner Empfangsbereich einer Praxis',
+  },
+]
+
+const marketingShowcases = [
   {
     name: 'Seegarten Bistro',
     location: 'Meilen',
@@ -164,6 +256,167 @@ const showcases = [
     imageAlt: 'Moderner Empfangsbereich einer Praxis',
   },
 ]
+
+const siteContent = {
+  web: {
+    basePath: '',
+    mailto: 'mailto:info@zhstudio.ch?subject=Offerte%20f%C3%BCr%20eine%20Website',
+    title: 'ZhStudio | Webdesign aus Stäfa',
+    description:
+      'ZhStudio aus Stäfa gestaltet elegante, schnelle und lokale Webseiten für Unternehmen, Restaurants und Vereine im Kanton Zürich.',
+    services: webServices,
+    steps: webSteps,
+    studioSignals: webStudioSignals,
+    showcases: webShowcases,
+    footerSubtitle: 'Webdesign aus Stäfa im Kanton Zürich',
+    footerNote: 'Starke lokale Webauftritte für Unternehmen rund um Stäfa, die Goldküste und Zürich.',
+    home: {
+      eyebrow: 'Webdesign aus Stäfa an der Goldküste',
+      titleStart: 'Schöne Websites, die',
+      titleHighlight: 'Vertrauen schaffen',
+      text:
+        'ZhStudio gestaltet elegante, schnelle und moderne Webseiten für lokale Firmen, Restaurants und Vereine im Kanton Zürich. Klar, hochwertig und mit einem Auftritt, der zeigt, dass man euch ernst nehmen kann.',
+      metricOne: 'für einfache Webauftritte',
+      metricTwo: 'für Unternehmen rund um Zürich',
+      kineticLabel: 'Studio für Wirkung',
+      kineticWords: ['Design', 'Lokal', 'Website', 'SEO'],
+      kineticText: 'Für Firmen, Restaurants und Vereine, die online nicht durchschnittlich wirken wollen.',
+      trust: 'Für lokale Firmen, Restaurants, Praxen, Studios und Vereine im Kanton Zürich.',
+      spotlightSubline: 'mit einem Auftritt, der nicht austauschbar wirkt.',
+      spotlightText: 'Edles Webdesign mit lokaler Klarheit. Weniger Lärm, mehr Wirkung.',
+      lookTitle: 'Look & Feel',
+      lookText: 'Warme Flächen, Glaslayer, präzise Typografie.',
+      audienceTitle: 'Für wen',
+      audienceText: 'Für Firmen, die sofort besser wirken wollen.',
+      whyTitle: 'Eine Website darf ruhig wirken.',
+      whyLead: 'Aber sie muss im richtigen Moment überzeugen.',
+      intro: [
+        ['Lokale Nähe', 'Aus Stäfa, nah an lokalen Unternehmen und ihren Kunden.'],
+        ['Apple-inspirierte Ruhe', 'Helles Layout, viel Ruhe, kontrollierte Bewegung.'],
+        ['Faire Einstiegslösung', 'Ab CHF 380 für einen sauberen ersten Auftritt.'],
+      ],
+      nextTitle: 'Die Startseite ist nur der Einstieg. Das Ziel ist eure Anfrage.',
+      nextText:
+        'Wer Details sehen möchte, findet sie auf der Leistungsseite. Wer schon weiss, dass der Auftritt besser werden soll, kommt direkt zum Kontaktformular.',
+    },
+    servicesPage: {
+      title: 'Design, Technik und ein sauberer Start.',
+      lead:
+        'Die Leistungsseite sammelt alles, was vor der Anfrage wichtig ist: Angebot, typische Projekte, Ablauf und Einstiegspreis.',
+      sideEyebrow: 'Was man spürt',
+      sideTitle: 'Ordnung, Tempo und ein Auftritt mit Gewicht.',
+      sideText: 'Eine gute Website ordnet, beruhigt und macht Vertrauen sofort leichter.',
+      proof: ['Ruhiger erster Eindruck', 'Schneller Weg zur Anfrage', 'Klare Basis für Wachstum'],
+      projectsEyebrow: 'Typische Projekte aus der Region',
+      projectsTitle: 'Websites für Betriebe, die online so gut aussehen sollen wie ihre Arbeit vor Ort.',
+      projectMain: 'Local Site',
+      projectSoftLabel: 'SEO',
+      projectSoft: 'Google-ready',
+      processTitle: 'Kein Agenturtheater.',
+      processLead: 'Vier klare Schritte. Dann ist die Seite live.',
+      priceTitle: 'Ein sauberer Einstieg ab CHF 380',
+      priceText:
+        'Für kleine Webauftritte, Landingpages oder lokale Erstpräsenz. Grössere Projekte, Zusatzseiten oder Branding werden individuell offeriert.',
+      contactTitle: 'Wenn der Auftritt besser werden soll, startet es mit einer kurzen Anfrage.',
+      contactText:
+        'Für lokale Unternehmen im Kanton Zürich, die online ruhiger, klarer und stärker auftreten wollen.',
+      contactSmall: 'Lokaler Fokus auf den Kanton Zürich und umliegende Gemeinden.',
+    },
+    contact: {
+      title: 'Die Kontaktseite ist für eine Sache da: eure Anfrage sauber zu erfassen.',
+      lead:
+        'Kein zusätzlicher Lärm, keine unnötigen Blöcke. Einfach das Formular mit allem, was für eine erste Offerte oder ein Webprojekt gebraucht wird.',
+      formTitle: 'Ein klarer Einstieg für Websites, Redesigns und lokale Auftritte im Kanton Zürich.',
+      subject: 'Neue Anfrage über zhstudio.ch',
+      fourthLabel: 'Website (falls vorhanden)',
+      fourthType: 'url',
+      fourthName: 'website',
+      fourthPlaceholder: 'https://www.bäckerbastian.ch',
+      messagePlaceholder: 'Erzählt kurz, worum es geht und was ihr euch für eure Website wünscht.',
+      thankYouText:
+        'Wir prüfen die Angaben und melden uns so bald wie möglich persönlich zurück. Falls noch etwas Wichtiges fehlt, könnt ihr direkt per E-Mail nachreichen.',
+    },
+  },
+  marketing: {
+    basePath: marketingBasePath,
+    mailto: 'mailto:info@zhstudio.ch?subject=Offerte%20f%C3%BCr%20Instagram%20und%20TikTok%20Marketing',
+    title: 'ZhStudio | Instagram & TikTok Marketing aus Stäfa',
+    description:
+      'Social-Media-Strategie, Reels, TikToks und Kampagnen für lokale Unternehmen im Kanton Zürich.',
+    services: marketingServices,
+    steps: marketingSteps,
+    studioSignals: marketingStudioSignals,
+    showcases: marketingShowcases,
+    footerSubtitle: 'Social Media Marketing aus Stäfa im Kanton Zürich',
+    footerNote: 'Instagram- und TikTok-Marketing für Unternehmen rund um Stäfa, die Goldküste und Zürich.',
+    home: {
+      eyebrow: 'Instagram & TikTok Marketing aus Stäfa',
+      titleStart: 'Content, der',
+      titleHighlight: 'im Kopf bleibt',
+      text:
+        'ZhStudio plant und produziert Social-Media-Marketing für lokale Firmen, Restaurants, Praxen und Vereine im Kanton Zürich. Mit Reels, TikToks und Kampagnen, die nicht nur posten, sondern Aufmerksamkeit in echte Anfragen verwandeln.',
+      metricOne: 'für Social-Media-Starts',
+      metricTwo: 'für Marken rund um Zürich',
+      kineticLabel: 'Studio für Wirkung',
+      kineticWords: ['Marke', 'Reels', 'Content', 'TikTok'],
+      kineticText: 'Für Unternehmen, die nicht nur posten wollen, sondern wiedererkannt werden.',
+      trust: 'Für lokale Firmen, Restaurants, Praxen, Studios und Vereine, die auf Instagram und TikTok sichtbar werden wollen.',
+      spotlightSubline: 'mit Content, der nicht austauschbar wirkt.',
+      spotlightText: 'Social Content mit klarer Haltung. Weniger Zufall, mehr Wiedererkennung.',
+      lookTitle: 'Look & Feel',
+      lookText: 'Markante Typografie, klare Schnitte, visuelle Haltung.',
+      audienceTitle: 'Für wen',
+      audienceText: 'Für Firmen, die nicht austauschbar auftreten wollen.',
+      whyTitle: 'Social Media braucht mehr als Aktivität.',
+      whyLead: 'Es braucht einen Grund, warum Menschen euch folgen, speichern und anfragen.',
+      intro: [
+        ['Lokale Nähe', 'Aus Stäfa, nah an lokalen Unternehmen, ihrem Alltag und ihrer Zielgruppe.'],
+        ['Reduzierte Gestaltung', 'Klare Formate, wiedererkennbare Serien und bewusst eingesetzte Bewegung.'],
+        ['Faire Einstiegslösung', 'Ab CHF 380 für einen klaren Start auf Instagram und TikTok.'],
+      ],
+      nextTitle: 'Der erste Post ist nur der Einstieg. Das Ziel ist echte Nachfrage.',
+      nextText:
+        'Wer Details sehen möchte, findet sie auf der Leistungsseite. Wer schon weiss, dass Instagram oder TikTok endlich professioneller laufen soll, kommt direkt zum Kontaktformular.',
+    },
+    servicesPage: {
+      title: 'Strategie, Content und sichtbare Kampagnen.',
+      lead:
+        'Hier steht, wie ZhStudio Instagram und TikTok für lokale Marken aufbaut: von Idee und Drehplan bis zu Reels, TikToks, Captions und laufender Content-Struktur.',
+      sideEyebrow: 'Was man merkt',
+      sideTitle: 'Ein Profil, das wirkt, bevor jemand lange nachdenkt.',
+      sideText: 'Guter Social Content macht sofort klar, wer ihr seid, warum ihr relevant seid und was als Nächstes passieren soll.',
+      proof: ['Mehr Wiedererkennung im Feed', 'Bessere Ideen für Reels und TikToks', 'Klare Basis für laufende Kampagnen'],
+      projectsEyebrow: 'Typische Social-Projekte aus der Region',
+      projectsTitle: 'Content für Betriebe, die im Feed so gut wirken sollen wie vor Ort.',
+      projectMain: 'Local Content',
+      projectSoftLabel: 'Social',
+      projectSoft: 'Reels-ready',
+      processTitle: 'Kein Content-Chaos.',
+      processLead: 'Vier klare Schritte. Dann läuft euer Social-Media-System.',
+      priceTitle: 'Ein klarer Social-Media-Start ab CHF 380',
+      priceText:
+        'Für Profil-Optimierung, erste Content-Ideen, Reels oder TikTok-Kampagnen. Laufende Betreuung, Drehtage und grössere Kampagnen werden individuell offeriert.',
+      contactTitle: 'Wenn Instagram oder TikTok mehr bringen soll, startet es mit einer kurzen Anfrage.',
+      contactText:
+        'Für lokale Unternehmen im Kanton Zürich, die auf Social Media sichtbarer, relevanter und professioneller auftreten wollen.',
+      contactSmall: 'Lokaler Fokus auf Content, Kampagnen und Social Media für Zürich und umliegende Gemeinden.',
+    },
+    contact: {
+      title: 'Erzählt kurz, was Instagram oder TikTok für euch leisten soll.',
+      lead:
+        'Kein langer Fragebogen. Ein paar Angaben reichen, damit wir einschätzen können, welche Content-Formate, Plattformen und Kampagnen zu euch passen.',
+      formTitle: 'Ein klarer Einstieg für Instagram, TikTok und lokale Social-Kampagnen.',
+      subject: 'Neue Social-Media-Anfrage über zhstudio.ch',
+      fourthLabel: 'Instagram oder TikTok (falls vorhanden)',
+      fourthType: 'text',
+      fourthName: 'social_channel',
+      fourthPlaceholder: '@bastiansbaeckerei',
+      messagePlaceholder: 'Erzählt kurz, worum es geht, welche Plattform wichtig ist und welche Art Content ihr euch wünscht.',
+      thankYouText:
+        'Wir prüfen die Angaben und melden uns so bald wie möglich persönlich zurück. Falls ihr bereits Profile, Videos oder Kampagnenideen habt, könnt ihr sie direkt per E-Mail nachreichen.',
+    },
+  },
+}
 
 const legalContent = {
   impressum: {
@@ -272,8 +525,8 @@ const legalContent = {
   },
 }
 
-function Header({ hidden = false, location, onNavigate }) {
-  const currentPath = location.pathname
+function Header({ basePath = '', hidden = false, location, onNavigate, routePath }) {
+  const currentPath = routePath
 
   const handleNavigate = (event, href) => {
     event.preventDefault()
@@ -294,8 +547,8 @@ function Header({ hidden = false, location, onNavigate }) {
     <header className={`topbar${hidden ? ' topbar-hidden' : ''}`}>
       <a
         className="brand"
-        href="/"
-        onClick={(event) => handleNavigate(event, '/')}
+        href={withBasePath(basePath, '/')}
+        onClick={(event) => handleNavigate(event, withBasePath(basePath, '/'))}
       >
         <img src="/logo-mark.png" alt="ZhStudio Logo" />
         <div>
@@ -307,24 +560,24 @@ function Header({ hidden = false, location, onNavigate }) {
       <nav className="nav">
         <a
           className={getNavClassName('/')}
-          href="/"
-          onClick={(event) => handleNavigate(event, '/')}
+          href={withBasePath(basePath, '/')}
+          onClick={(event) => handleNavigate(event, withBasePath(basePath, '/'))}
           aria-current={currentPath === '/' ? 'page' : undefined}
         >
           Start
         </a>
         <a
           className={getNavClassName('/leistungen')}
-          href="/leistungen"
-          onClick={(event) => handleNavigate(event, '/leistungen')}
+          href={withBasePath(basePath, '/leistungen')}
+          onClick={(event) => handleNavigate(event, withBasePath(basePath, '/leistungen'))}
           aria-current={currentPath === '/leistungen' ? 'page' : undefined}
         >
           Leistungen
         </a>
         <a
           className={getNavClassName('/kontakt')}
-          href="/kontakt"
-          onClick={(event) => handleNavigate(event, '/kontakt')}
+          href={withBasePath(basePath, '/kontakt')}
+          onClick={(event) => handleNavigate(event, withBasePath(basePath, '/kontakt'))}
           aria-current={currentPath === '/kontakt' ? 'page' : undefined}
         >
           Kontakt
@@ -334,64 +587,67 @@ function Header({ hidden = false, location, onNavigate }) {
   )
 }
 
-function Footer() {
+function Footer({ content }) {
+  const basePath = content.basePath
+
   return (
     <footer className="footer">
       <div className="footer-brand">
         <img src="/logo-mark.png" alt="" aria-hidden="true" />
         <div>
           <strong>ZhStudio</strong>
-          <span>Social Media Marketing aus Stäfa im Kanton Zürich</span>
+          <span>{content.footerSubtitle}</span>
         </div>
       </div>
       <div className="footer-links">
-        <a href="/leistungen">Leistungen</a>
-        <a href="/kontakt">Kontakt</a>
+        <a href={withBasePath(basePath, '/leistungen')}>Leistungen</a>
+        <a href={withBasePath(basePath, '/kontakt')}>Kontakt</a>
         <a href="mailto:info@zhstudio.ch">E-Mail</a>
         <a href="/impressum">Impressum</a>
         <a href="/datenschutz">Datenschutz</a>
       </div>
       <p className="footer-note">
-        Instagram- und TikTok-Marketing für Unternehmen rund um Stäfa, die Goldküste und Zürich.
+        {content.footerNote}
       </p>
     </footer>
   )
 }
 
-function HomePage() {
+function HomePage({ content }) {
+  const basePath = content.basePath
+  const home = content.home
+
   return (
     <>
       <main id="top">
         <section className="hero">
           <div className="hero-copy">
-            <div className="eyebrow">Instagram & TikTok Marketing aus Stäfa</div>
+            <div className="eyebrow">{home.eyebrow}</div>
             <h1>
-              Content, der <span>im Kopf bleibt</span>.
+              {home.titleStart} <span>{home.titleHighlight}</span>.
             </h1>
             <p className="hero-text">
-              ZhStudio plant und produziert Social-Media-Marketing für lokale Firmen,
-              Restaurants, Praxen und Vereine im Kanton Zürich. Mit Reels, TikToks und Kampagnen,
-              die nicht nur posten, sondern Aufmerksamkeit in echte Anfragen verwandeln.
+              {home.text}
             </p>
             <div className="hero-actions">
               <a
                 className="button button-primary button-offer"
-                href="/kontakt"
+                href={withBasePath(basePath, '/kontakt')}
               >
                 Offerte anfragen
               </a>
-              <a className="button button-secondary" href="/leistungen">
+              <a className="button button-secondary" href={withBasePath(basePath, '/leistungen')}>
                 Leistungen ansehen
               </a>
             </div>
             <div className="hero-meta">
               <div>
                 <strong>ab CHF 380</strong>
-                <span>für Social-Media-Starts</span>
+                <span>{home.metricOne}</span>
               </div>
               <div>
                 <strong>lokal & schnell</strong>
-                <span>für Marken rund um Zürich</span>
+                <span>{home.metricTwo}</span>
               </div>
             </div>
           </div>
@@ -399,14 +655,14 @@ function HomePage() {
           <div className="hero-orb">
             <div className="glow-ring" />
             <div className="device-card device-main kinetic-board interactive-card">
-              <span className="kinetic-label">Studio für Wirkung</span>
-              <div className="kinetic-word kinetic-word-a">Marke</div>
-              <div className="kinetic-word kinetic-word-b">Reels</div>
-              <div className="kinetic-word kinetic-word-c">Content</div>
-              <div className="kinetic-word kinetic-word-d">TikTok</div>
+              <span className="kinetic-label">{home.kineticLabel}</span>
+              <div className="kinetic-word kinetic-word-a">{home.kineticWords[0]}</div>
+              <div className="kinetic-word kinetic-word-b">{home.kineticWords[1]}</div>
+              <div className="kinetic-word kinetic-word-c">{home.kineticWords[2]}</div>
+              <div className="kinetic-word kinetic-word-d">{home.kineticWords[3]}</div>
               <div className="kinetic-line" />
               <p>
-                Für Unternehmen, die nicht nur posten wollen, sondern wiedererkannt werden.
+                {home.kineticText}
               </p>
             </div>
             <div className="floating-card floating-b interactive-card">
@@ -417,12 +673,12 @@ function HomePage() {
         </section>
 
         <section className="trust-strip reveal">
-          <p>Für lokale Firmen, Restaurants, Praxen, Studios und Vereine, die auf Instagram und TikTok sichtbar werden wollen.</p>
+          <p>{home.trust}</p>
         </section>
 
         <section className="studio-marquee reveal" aria-label="Studio-Schwerpunkte">
           <div className="marquee-track">
-            {[...studioSignals, ...studioSignals].map((signal, index) => (
+            {[...content.studioSignals, ...content.studioSignals].map((signal, index) => (
               <span key={`${signal}-${index}`}>{signal}</span>
             ))}
           </div>
@@ -434,10 +690,10 @@ function HomePage() {
               <span className="eyebrow">Design-Richtung</span>
               <h2 className="editorial-title">
                 Ruhige Präzision
-                <span className="editorial-subline">mit Content, der nicht austauschbar wirkt.</span>
+                <span className="editorial-subline">{home.spotlightSubline}</span>
               </h2>
               <p>
-                Social Content mit klarer Haltung. Weniger Zufall, mehr Wiedererkennung.
+                {home.spotlightText}
               </p>
             </article>
 
@@ -446,15 +702,15 @@ function HomePage() {
                 <div className="spotlight-icon" aria-hidden="true">
                   ✦
                 </div>
-                <strong>Look & Feel</strong>
-                <p>Markante Typografie, klare Schnitte, visuelle Haltung.</p>
+                <strong>{home.lookTitle}</strong>
+                <p>{home.lookText}</p>
               </article>
               <article className="spotlight-panel spotlight-small interactive-card parallax-card">
                 <div className="spotlight-icon" aria-hidden="true">
                   ◎
                 </div>
-                <strong>Für wen</strong>
-                <p>Für Firmen, die nicht austauschbar auftreten wollen.</p>
+                <strong>{home.audienceTitle}</strong>
+                <p>{home.audienceText}</p>
               </article>
             </div>
           </div>
@@ -464,23 +720,17 @@ function HomePage() {
           <div className="section-heading-row">
             <div className="section-heading section-heading-stacked">
               <span className="eyebrow">Warum ZhStudio</span>
-              <h2>Social Media braucht mehr als Aktivität.</h2>
-              <p className="section-lead">Es braucht einen Grund, warum Menschen euch folgen, speichern und anfragen.</p>
+              <h2>{home.whyTitle}</h2>
+              <p className="section-lead">{home.whyLead}</p>
             </div>
           </div>
           <div className="intro-grid">
-            <article className="interactive-card">
-              <strong>Lokale Nähe</strong>
-              <p>Aus Stäfa, nah an lokalen Unternehmen, ihrem Alltag und ihrer Zielgruppe.</p>
-            </article>
-            <article className="interactive-card">
-              <strong>Reduzierte Gestaltung</strong>
-              <p>Klare Formate, wiedererkennbare Serien und bewusst eingesetzte Bewegung.</p>
-            </article>
-            <article className="interactive-card">
-              <strong>Faire Einstiegslösung</strong>
-              <p>Ab CHF 380 für einen klaren Start auf Instagram und TikTok.</p>
-            </article>
+            {home.intro.map(([title, text]) => (
+              <article className="interactive-card" key={title}>
+                <strong>{title}</strong>
+                <p>{text}</p>
+              </article>
+            ))}
           </div>
         </section>
 
@@ -488,40 +738,41 @@ function HomePage() {
           <div className="price-card interactive-card">
             <div>
               <span className="eyebrow">Nächster Schritt</span>
-              <h2>Der erste Post ist nur der Einstieg. Das Ziel ist echte Nachfrage.</h2>
+              <h2>{home.nextTitle}</h2>
               <p>
-                Wer Details sehen möchte, findet sie auf der Leistungsseite. Wer schon weiss, dass
-                Instagram oder TikTok endlich professioneller laufen soll, kommt direkt zum Kontaktformular.
+                {home.nextText}
               </p>
             </div>
-            <a className="button button-primary button-offer button-large" href="/kontakt">
+            <a className="button button-primary button-offer button-large" href={withBasePath(basePath, '/kontakt')}>
               Anfragen
             </a>
           </div>
         </section>
       </main>
 
-      <Footer />
+      <Footer content={content} />
     </>
   )
 }
 
-function ServicesPage() {
+function ServicesPage({ content }) {
+  const basePath = content.basePath
+  const page = content.servicesPage
+
   return (
     <>
       <main id="leistungen" className="services-page-main">
         <section className="services-hero reveal">
           <div className="section-heading section-heading-compact services-heading">
             <span className="eyebrow">Leistungen</span>
-            <h2>Strategie, Content und sichtbare Kampagnen.</h2>
+            <h2>{page.title}</h2>
             <p className="section-lead">
-              Hier steht, wie ZhStudio Instagram und TikTok für lokale Marken aufbaut: von Idee
-              und Drehplan bis zu Reels, TikToks, Captions und laufender Content-Struktur.
+              {page.lead}
             </p>
           </div>
           <div className="service-layout">
             <div className="service-grid">
-              {services.map((service) => (
+              {content.services.map((service) => (
                 <article className="service-card interactive-card parallax-card" key={service.title}>
                   <div className="service-card-head">
                     <span className="service-icon">
@@ -543,15 +794,15 @@ function ServicesPage() {
             </div>
             <aside className="service-side interactive-card parallax-card">
               <div className="service-side-kicker">
-                <span className="eyebrow">Was man merkt</span>
+                <span className="eyebrow">{page.sideEyebrow}</span>
                 <span className="service-side-mark" aria-hidden="true">01</span>
               </div>
-              <h3>Ein Profil, das wirkt, bevor jemand lange nachdenkt.</h3>
-              <p>Guter Social Content macht sofort klar, wer ihr seid, warum ihr relevant seid und was als Nächstes passieren soll.</p>
+              <h3>{page.sideTitle}</h3>
+              <p>{page.sideText}</p>
               <div className="service-proof">
-                <span>Mehr Wiedererkennung im Feed</span>
-                <span>Bessere Ideen für Reels und TikToks</span>
-                <span>Klare Basis für laufende Kampagnen</span>
+                {page.proof.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
               </div>
             </aside>
           </div>
@@ -560,22 +811,22 @@ function ServicesPage() {
         <section className="section reveal" id="projekte">
           <div className="section-heading-row section-heading-row-projects">
             <div className="section-heading section-heading-quote">
-              <span className="eyebrow">Typische Social-Projekte aus der Region</span>
-              <h2>Content für Betriebe, die im Feed so gut wirken sollen wie vor Ort.</h2>
+              <span className="eyebrow">{page.projectsEyebrow}</span>
+              <h2>{page.projectsTitle}</h2>
             </div>
             <div className="heading-visual heading-visual-projects interactive-card parallax-card" aria-hidden="true">
               <div className="project-preview project-preview-main">
                 <span>Stäfa</span>
-                <strong>Local Content</strong>
+                <strong>{page.projectMain}</strong>
               </div>
               <div className="project-preview project-preview-soft">
-                <span>Social</span>
-                <strong>Reels-ready</strong>
+                <span>{page.projectSoftLabel}</span>
+                <strong>{page.projectSoft}</strong>
               </div>
             </div>
           </div>
           <div className="showcase-grid showcase-grid-alt">
-            {showcases.map((item, index) => (
+            {content.showcases.map((item, index) => (
               <article
                 className={`showcase-card interactive-card parallax-card showcase-card-${index + 1}`}
                 key={item.name}
@@ -603,11 +854,11 @@ function ServicesPage() {
           <div className="process-layout">
             <div className="section-heading section-heading-aside">
               <span className="eyebrow">Ablauf</span>
-              <h2>Kein Content-Chaos.</h2>
-              <p className="section-lead">Vier klare Schritte. Dann läuft euer Social-Media-System.</p>
+              <h2>{page.processTitle}</h2>
+              <p className="section-lead">{page.processLead}</p>
             </div>
             <div className="steps">
-              {steps.map((step, index) => (
+              {content.steps.map((step, index) => (
                 <div className="step interactive-card parallax-card" key={step}>
                   <span>{index + 1}</span>
                   <p>{step}</p>
@@ -621,15 +872,14 @@ function ServicesPage() {
           <div className="price-card interactive-card">
             <div>
               <span className="eyebrow">Offerte</span>
-              <h2>Ein klarer Social-Media-Start ab CHF 380</h2>
+              <h2>{page.priceTitle}</h2>
               <p>
-                Für Profil-Optimierung, erste Content-Ideen, Reels oder TikTok-Kampagnen. Laufende
-                Betreuung, Drehtage und grössere Kampagnen werden individuell offeriert.
+                {page.priceText}
               </p>
             </div>
             <a
               className="button button-primary button-offer button-large"
-              href="/kontakt"
+              href={withBasePath(basePath, '/kontakt')}
             >
               Offerte anfragen
             </a>
@@ -639,43 +889,44 @@ function ServicesPage() {
         <section className="section contact-section reveal">
           <div className="section-heading section-heading-contact">
             <span className="eyebrow">Kontakt</span>
-            <h2>Wenn Instagram oder TikTok mehr bringen soll, startet es mit einer kurzen Anfrage.</h2>
+            <h2>{page.contactTitle}</h2>
           </div>
           <div className="contact-layout">
             <div className="contact-panel interactive-card">
               <div>
                 <p>
-                  Für lokale Unternehmen im Kanton Zürich, die auf Social Media sichtbarer,
-                  relevanter und professioneller auftreten wollen.
+                  {page.contactText}
                 </p>
-                <a href="/kontakt">Zum Kontaktformular</a>
+                <a href={withBasePath(basePath, '/kontakt')}>Zum Kontaktformular</a>
               </div>
               <div className="contact-badge interactive-card">
                 <strong>Standort</strong>
                 <span>Weberstrasse 4, Stäfa, 8712, Schweiz</span>
-                <small>Lokaler Fokus auf Content, Kampagnen und Social Media für Zürich und umliegende Gemeinden.</small>
+                <small>{page.contactSmall}</small>
               </div>
             </div>
           </div>
         </section>
       </main>
 
-      <Footer />
+      <Footer content={content} />
     </>
   )
 }
 
-function ContactPage() {
+function ContactPage({ content }) {
+  const basePath = content.basePath
+  const contact = content.contact
+
   return (
     <>
       <main className="contact-page-main">
         <section className="contact-focus reveal" id="kontaktformular">
           <div className="contact-focus-intro">
             <span className="eyebrow">Kontakt</span>
-            <h1>Erzählt kurz, was Instagram oder TikTok für euch leisten soll.</h1>
+            <h1>{contact.title}</h1>
             <p className="contact-focus-text">
-              Kein langer Fragebogen. Ein paar Angaben reichen, damit wir einschätzen können,
-              welche Content-Formate, Plattformen und Kampagnen zu euch passen.
+              {contact.lead}
             </p>
           </div>
 
@@ -683,7 +934,7 @@ function ContactPage() {
             <div className="contact-form-head">
               <div>
                 <span className="eyebrow">Anfrage senden</span>
-                <h2>Ein klarer Einstieg für Instagram, TikTok und lokale Social-Kampagnen.</h2>
+                <h2>{contact.formTitle}</h2>
               </div>
               <div className="contact-mini-meta">
                 <span>info@zhstudio.ch</span>
@@ -692,8 +943,8 @@ function ContactPage() {
             </div>
 
             <form className="contact-form contact-form-focused" action={formEndpoint} method="POST">
-              <input type="hidden" name="_next" value={getFormRedirectUrl()} />
-              <input type="hidden" name="_subject" value="Neue Social-Media-Anfrage über zhstudio.ch" />
+              <input type="hidden" name="_next" value={getFormRedirectUrl(basePath)} />
+              <input type="hidden" name="_subject" value={contact.subject} />
               <div className="form-grid">
                 <label className="form-field">
                   <span>Name</span>
@@ -711,8 +962,8 @@ function ContactPage() {
                 </label>
 
                 <label className="form-field">
-                  <span>Instagram oder TikTok (falls vorhanden)</span>
-                  <input type="text" name="social_channel" placeholder="@bastiansbaeckerei" />
+                  <span>{contact.fourthLabel}</span>
+                  <input type={contact.fourthType} name={contact.fourthName} placeholder={contact.fourthPlaceholder} />
                 </label>
 
                 <label className="form-field">
@@ -724,7 +975,7 @@ function ContactPage() {
                   <span>Nachricht</span>
                   <textarea
                     name="message"
-                    placeholder="Erzählt kurz, worum es geht, welche Plattform wichtig ist und welche Art Content ihr euch wünscht."
+                    placeholder={contact.messagePlaceholder}
                     required
                   />
                 </label>
@@ -744,12 +995,14 @@ function ContactPage() {
         </section>
       </main>
 
-      <Footer />
+      <Footer content={content} />
     </>
   )
 }
 
-function ThankYouPage() {
+function ThankYouPage({ content }) {
+  const basePath = content.basePath
+
   return (
     <>
       <main className="thank-you-main">
@@ -758,12 +1011,11 @@ function ThankYouPage() {
             <span className="eyebrow">Anfrage erhalten</span>
             <h1>Danke. Eure Nachricht ist angekommen.</h1>
             <p>
-              Wir prüfen die Angaben und melden uns so bald wie möglich persönlich zurück. Falls
-              ihr bereits Profile, Videos oder Kampagnenideen habt, könnt ihr sie direkt per E-Mail nachreichen.
+              {content.contact.thankYouText}
             </p>
 
             <div className="thank-you-actions">
-              <a className="button button-primary" href="/">
+              <a className="button button-primary" href={withBasePath(basePath, '/')}>
                 Zur Startseite
               </a>
               <a className="button button-secondary" href="mailto:info@zhstudio.ch">
@@ -774,12 +1026,12 @@ function ThankYouPage() {
         </section>
       </main>
 
-      <Footer />
+      <Footer content={content} />
     </>
   )
 }
 
-function LegalPage({ pageKey }) {
+function LegalPage({ content, pageKey }) {
   const page = legalContent[pageKey]
 
   return (
@@ -805,7 +1057,7 @@ function LegalPage({ pageKey }) {
         </section>
       </main>
 
-      <Footer />
+      <Footer content={content} />
     </>
   )
 }
@@ -815,10 +1067,13 @@ export default function App() {
   const [location, setLocation] = useState(getLocationState)
   const [isTopbarHidden, setIsTopbarHidden] = useState(false)
   const path = location.pathname
-  const isLegalPage = path === '/impressum' || path === '/datenschutz'
-  const isServicesPage = path === '/leistungen'
-  const isContactPage = path === '/kontakt'
-  const isThankYouPage = path === formRedirectPath
+  const isMarketingPage = path === marketingBasePath || path.startsWith(`${marketingBasePath}/`)
+  const content = isMarketingPage ? siteContent.marketing : siteContent.web
+  const routePath = stripMarketingPath(path)
+  const isLegalPage = routePath === '/impressum' || routePath === '/datenschutz'
+  const isServicesPage = routePath === '/leistungen'
+  const isContactPage = routePath === '/kontakt'
+  const isThankYouPage = routePath === formRedirectPath
 
   useEffect(() => {
     const handleLocationChange = () => {
@@ -835,7 +1090,19 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    if (path !== '/') {
+    document.title = content.title
+
+    const description = document.querySelector('meta[name="description"]')
+    const ogTitle = document.querySelector('meta[property="og:title"]')
+    const ogDescription = document.querySelector('meta[property="og:description"]')
+
+    description?.setAttribute('content', content.description)
+    ogTitle?.setAttribute('content', content.title)
+    ogDescription?.setAttribute('content', content.description)
+  }, [content])
+
+  useEffect(() => {
+    if (routePath !== '/') {
       window.scrollTo({ top: 0, behavior: 'auto' })
       return
     }
@@ -856,7 +1123,7 @@ export default function App() {
     }
 
     requestAnimationFrame(scrollToTarget)
-  }, [path, location.hash])
+  }, [routePath, location.hash])
 
   const handleNavigate = (href) => {
     navigateTo(href, setLocation)
@@ -1033,7 +1300,7 @@ export default function App() {
       cleanupFns.forEach((cleanup) => cleanup())
       ctx.revert()
     }
-  }, [isLegalPage, isServicesPage, isContactPage, isThankYouPage])
+  }, [isLegalPage, isServicesPage, isContactPage, isThankYouPage, isMarketingPage])
 
   return (
       <div className={`site-shell${isLegalPage ? ' legal-shell' : ''}`} ref={appRef}>
@@ -1049,20 +1316,22 @@ export default function App() {
 
       <Header
         hidden={isTopbarHidden}
+        basePath={content.basePath}
         location={location}
         onNavigate={handleNavigate}
+        routePath={routePath}
       />
-      {path === '/impressum' ? <LegalPage pageKey="impressum" /> : null}
-      {path === '/datenschutz' ? <LegalPage pageKey="datenschutz" /> : null}
-      {path === '/leistungen' ? <ServicesPage /> : null}
-      {path === '/kontakt' ? <ContactPage /> : null}
-      {path === formRedirectPath ? <ThankYouPage /> : null}
-      {path !== '/impressum' &&
-      path !== '/datenschutz' &&
-      path !== '/leistungen' &&
-      path !== '/kontakt' &&
-      path !== formRedirectPath ? (
-        <HomePage />
+      {routePath === '/impressum' ? <LegalPage content={siteContent.web} pageKey="impressum" /> : null}
+      {routePath === '/datenschutz' ? <LegalPage content={siteContent.web} pageKey="datenschutz" /> : null}
+      {routePath === '/leistungen' ? <ServicesPage content={content} /> : null}
+      {routePath === '/kontakt' ? <ContactPage content={content} /> : null}
+      {routePath === formRedirectPath ? <ThankYouPage content={content} /> : null}
+      {routePath !== '/impressum' &&
+      routePath !== '/datenschutz' &&
+      routePath !== '/leistungen' &&
+      routePath !== '/kontakt' &&
+      routePath !== formRedirectPath ? (
+        <HomePage content={content} />
       ) : null}
     </div>
   )
