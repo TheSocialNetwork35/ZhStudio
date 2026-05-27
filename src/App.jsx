@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger)
 const formEndpoint = 'https://formspree.io/f/xvzdeqvn'
 const formRedirectPath = '/danke'
 const marketingBasePath = '/marketing'
+const canonicalOrigin = 'https://www.zhstudio.ch'
 
 function getFormRedirectUrl(basePath = '') {
   if (typeof window === 'undefined') {
@@ -79,6 +80,10 @@ function withBasePath(basePath, path) {
   }
 
   return path === '/' ? basePath : `${basePath}${path}`
+}
+
+function getCanonicalUrl(pathname) {
+  return `${canonicalOrigin}${pathname === '/' ? '/' : pathname}`
 }
 
 const webServices = [
@@ -1095,11 +1100,16 @@ export default function App() {
     const description = document.querySelector('meta[name="description"]')
     const ogTitle = document.querySelector('meta[property="og:title"]')
     const ogDescription = document.querySelector('meta[property="og:description"]')
+    const ogUrl = document.querySelector('meta[property="og:url"]')
+    const canonical = document.querySelector('link[rel="canonical"]')
+    const canonicalUrl = getCanonicalUrl(path)
 
     description?.setAttribute('content', content.description)
     ogTitle?.setAttribute('content', content.title)
     ogDescription?.setAttribute('content', content.description)
-  }, [content])
+    ogUrl?.setAttribute('content', canonicalUrl)
+    canonical?.setAttribute('href', canonicalUrl)
+  }, [content, path])
 
   useEffect(() => {
     if (routePath !== '/') {
