@@ -6,6 +6,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const formEndpoint = 'https://formspree.io/f/xvzdeqvn'
 const formRedirectPath = '/danke'
+const websiteBasePath = '/website'
 const marketingBasePath = '/marketing'
 const canonicalOrigin = 'https://www.zhstudio.ch'
 
@@ -62,13 +63,13 @@ function navigateTo(href, updateLocation) {
   updateLocation(nextLocation)
 }
 
-function stripMarketingPath(pathname) {
-  if (pathname === marketingBasePath) {
+function stripBasePath(pathname, basePath) {
+  if (pathname === basePath) {
     return '/'
   }
 
-  if (pathname.startsWith(`${marketingBasePath}/`)) {
-    return pathname.slice(marketingBasePath.length) || '/'
+  if (pathname.startsWith(`${basePath}/`)) {
+    return pathname.slice(basePath.length) || '/'
   }
 
   return pathname
@@ -264,7 +265,7 @@ const marketingShowcases = [
 
 const siteContent = {
   web: {
-    basePath: '',
+    basePath: websiteBasePath,
     mailto: 'mailto:info@zhstudio.ch?subject=Offerte%20f%C3%BCr%20eine%20Website',
     title: 'ZhStudio | Webdesign aus Stäfa',
     description:
@@ -423,6 +424,32 @@ const siteContent = {
   },
 }
 
+const selectorContent = {
+  title: 'ZhStudio | Webdesign und Marketing aus Stäfa',
+  description:
+    'ZhStudio aus Stäfa bietet Websites, Webdesign, Instagram Marketing und TikTok Marketing für lokale Unternehmen im Kanton Zürich.',
+  choices: [
+    {
+      key: 'website',
+      eyebrow: 'Websites',
+      title: 'Website ansehen',
+      text: 'Webdesign, schnelle Seiten, SEO-Basis und lokale Auftritte für Unternehmen rund um Zürich.',
+      href: websiteBasePath,
+      action: 'Zu Website',
+      tags: ['Webdesign', 'SEO', 'Auftritt'],
+    },
+    {
+      key: 'marketing',
+      eyebrow: 'Marketing',
+      title: 'Marketing ansehen',
+      text: 'Instagram, TikTok, Reels und Content-Strukturen für Marken, die sichtbarer werden wollen.',
+      href: marketingBasePath,
+      action: 'Zu Marketing',
+      tags: ['Instagram', 'TikTok', 'Content'],
+    },
+  ],
+}
+
 const legalContent = {
   impressum: {
     eyebrow: 'Impressum',
@@ -552,8 +579,8 @@ function Header({ basePath = '', hidden = false, location, onNavigate, routePath
     <header className={`topbar${hidden ? ' topbar-hidden' : ''}`}>
       <a
         className="brand"
-        href={withBasePath(basePath, '/')}
-        onClick={(event) => handleNavigate(event, withBasePath(basePath, '/'))}
+        href="/"
+        onClick={(event) => handleNavigate(event, '/')}
       >
         <img src="/logo-mark.png" alt="ZhStudio Logo" />
         <div>
@@ -605,6 +632,7 @@ function Footer({ content }) {
         </div>
       </div>
       <div className="footer-links">
+        <a href="/">Auswahl</a>
         <a href={withBasePath(basePath, '/leistungen')}>Leistungen</a>
         <a href={withBasePath(basePath, '/kontakt')}>Kontakt</a>
         <a href="mailto:info@zhstudio.ch">E-Mail</a>
@@ -618,18 +646,115 @@ function Footer({ content }) {
   )
 }
 
+function SelectorPage({ onNavigate }) {
+  const handleNavigate = (event, href) => {
+    event.preventDefault()
+    onNavigate(href)
+  }
+
+  return (
+    <main className="selector-page">
+      <section className="selector-hero">
+        <a className="selector-brand" href="/" onClick={(event) => handleNavigate(event, '/')}>
+          <img src="/logo-mark.png" alt="ZhStudio Logo" />
+          <span>ZhStudio</span>
+        </a>
+
+        <div className="selector-copy">
+          <span className="eyebrow">Webdesign und Marketing aus Stäfa</span>
+          <h1>Womit soll ZhStudio euch helfen?</h1>
+          <p>
+            Wählt den Bereich, den ihr sehen wollt. Websites laufen neu unter
+            zhstudio.ch/website, Marketing bleibt unter zhstudio.ch/marketing.
+          </p>
+        </div>
+
+        <div className="selector-grid">
+          {selectorContent.choices.map((choice) => (
+            <a
+              className={`selector-card selector-card-${choice.key} interactive-card`}
+              href={choice.href}
+              onClick={(event) => handleNavigate(event, choice.href)}
+              key={choice.key}
+            >
+              <span className="selector-eyebrow">{choice.eyebrow}</span>
+              <h2>{choice.title}</h2>
+              <p>{choice.text}</p>
+              <div className="selector-tags">
+                {choice.tags.map((tag) => (
+                  <em key={tag}>{tag}</em>
+                ))}
+              </div>
+              <strong>{choice.action}</strong>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <Footer content={siteContent.web} />
+    </main>
+  )
+}
+
+function WebsiteHeroVisual() {
+  return (
+    <div className="website-visual interactive-card" aria-hidden="true">
+      <div className="website-browser">
+        <div className="website-browser-bar">
+          <span />
+          <span />
+          <span />
+          <strong>zhstudio.ch/website</strong>
+        </div>
+
+        <div className="website-canvas">
+          <div className="website-layout website-layout-hero">
+            <span />
+            <strong />
+            <p />
+          </div>
+          <div className="website-layout website-layout-card-a" />
+          <div className="website-layout website-layout-card-b" />
+          <div className="website-layout website-layout-card-c" />
+          <div className="website-cta" />
+          <div className="website-scan" />
+        </div>
+      </div>
+
+      <svg className="website-paths" viewBox="0 0 540 420" role="img">
+        <path className="website-path website-path-a" d="M56 330 C116 242 174 272 226 188 S354 84 472 136" />
+        <path className="website-path website-path-b" d="M86 112 C168 170 190 76 276 118 S402 252 490 192" />
+      </svg>
+
+      <div className="website-floating website-floating-a">
+        <span>Mobile</span>
+        <strong>sauber</strong>
+      </div>
+      <div className="website-floating website-floating-b">
+        <span>SEO</span>
+        <strong>bereit</strong>
+      </div>
+      <div className="website-floating website-floating-c">
+        <span>Speed</span>
+        <strong>95+</strong>
+      </div>
+    </div>
+  )
+}
+
 function HomePage({ content }) {
   const basePath = content.basePath
   const home = content.home
+  const isWebsiteHome = basePath === websiteBasePath
 
   return (
     <>
-      <main id="top">
-        <section className="hero">
+      <main id="top" className={isWebsiteHome ? 'home-main home-main-website' : 'home-main'}>
+        <section className={`hero${isWebsiteHome ? ' hero-website' : ''}`}>
           <div className="hero-copy">
             <div className="eyebrow">{home.eyebrow}</div>
             <h1>
-              {home.titleStart} <span>{home.titleHighlight}</span>.
+              {home.titleStart} <span>{home.titleHighlight}.</span>
             </h1>
             <p className="hero-text">
               {home.text}
@@ -658,22 +783,28 @@ function HomePage({ content }) {
           </div>
 
           <div className="hero-orb">
-            <div className="glow-ring" />
-            <div className="device-card device-main kinetic-board interactive-card">
-              <span className="kinetic-label">{home.kineticLabel}</span>
-              <div className="kinetic-word kinetic-word-a">{home.kineticWords[0]}</div>
-              <div className="kinetic-word kinetic-word-b">{home.kineticWords[1]}</div>
-              <div className="kinetic-word kinetic-word-c">{home.kineticWords[2]}</div>
-              <div className="kinetic-word kinetic-word-d">{home.kineticWords[3]}</div>
-              <div className="kinetic-line" />
-              <p>
-                {home.kineticText}
-              </p>
-            </div>
-            <div className="floating-card floating-b interactive-card">
-              <span>Typischer Start</span>
-              <strong>Offerte in kurzer Zeit</strong>
-            </div>
+            {isWebsiteHome ? (
+              <WebsiteHeroVisual />
+            ) : (
+              <>
+                <div className="glow-ring" />
+                <div className="device-card device-main kinetic-board interactive-card">
+                  <span className="kinetic-label">{home.kineticLabel}</span>
+                  <div className="kinetic-word kinetic-word-a">{home.kineticWords[0]}</div>
+                  <div className="kinetic-word kinetic-word-b">{home.kineticWords[1]}</div>
+                  <div className="kinetic-word kinetic-word-c">{home.kineticWords[2]}</div>
+                  <div className="kinetic-word kinetic-word-d">{home.kineticWords[3]}</div>
+                  <div className="kinetic-line" />
+                  <p>
+                    {home.kineticText}
+                  </p>
+                </div>
+                <div className="floating-card floating-b interactive-card">
+                  <span>Typischer Start</span>
+                  <strong>Offerte in kurzer Zeit</strong>
+                </div>
+              </>
+            )}
           </div>
         </section>
 
@@ -1072,13 +1203,22 @@ export default function App() {
   const [location, setLocation] = useState(getLocationState)
   const [isTopbarHidden, setIsTopbarHidden] = useState(false)
   const path = location.pathname
+  const isWebsitePage = path === websiteBasePath || path.startsWith(`${websiteBasePath}/`)
   const isMarketingPage = path === marketingBasePath || path.startsWith(`${marketingBasePath}/`)
+  const isRootLegalPage = path === '/impressum' || path === '/datenschutz'
+  const isSelectorPage = !isWebsitePage && !isMarketingPage && !isRootLegalPage
   const content = isMarketingPage ? siteContent.marketing : siteContent.web
-  const routePath = stripMarketingPath(path)
+  const pageMeta = isSelectorPage ? selectorContent : content
+  const routePath = isMarketingPage
+    ? stripBasePath(path, marketingBasePath)
+    : isWebsitePage
+      ? stripBasePath(path, websiteBasePath)
+      : path
   const isLegalPage = routePath === '/impressum' || routePath === '/datenschutz'
-  const isServicesPage = routePath === '/leistungen'
-  const isContactPage = routePath === '/kontakt'
-  const isThankYouPage = routePath === formRedirectPath
+  const isServicesPage = !isSelectorPage && routePath === '/leistungen'
+  const isContactPage = !isSelectorPage && routePath === '/kontakt'
+  const isThankYouPage = !isSelectorPage && routePath === formRedirectPath
+  const siteClassName = isSelectorPage ? ' site-selector' : isMarketingPage ? ' site-marketing' : ' site-web'
 
   useEffect(() => {
     const handleLocationChange = () => {
@@ -1095,7 +1235,7 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    document.title = content.title
+    document.title = pageMeta.title
 
     const description = document.querySelector('meta[name="description"]')
     const ogTitle = document.querySelector('meta[property="og:title"]')
@@ -1104,12 +1244,12 @@ export default function App() {
     const canonical = document.querySelector('link[rel="canonical"]')
     const canonicalUrl = getCanonicalUrl(path)
 
-    description?.setAttribute('content', content.description)
-    ogTitle?.setAttribute('content', content.title)
-    ogDescription?.setAttribute('content', content.description)
+    description?.setAttribute('content', pageMeta.description)
+    ogTitle?.setAttribute('content', pageMeta.title)
+    ogDescription?.setAttribute('content', pageMeta.description)
     ogUrl?.setAttribute('content', canonicalUrl)
     canonical?.setAttribute('href', canonicalUrl)
-  }, [content, path])
+  }, [pageMeta, path])
 
   useEffect(() => {
     if (routePath !== '/') {
@@ -1310,10 +1450,10 @@ export default function App() {
       cleanupFns.forEach((cleanup) => cleanup())
       ctx.revert()
     }
-  }, [isLegalPage, isServicesPage, isContactPage, isThankYouPage, isMarketingPage])
+  }, [isLegalPage, isServicesPage, isContactPage, isThankYouPage, isMarketingPage, isSelectorPage])
 
   return (
-      <div className={`site-shell${isLegalPage ? ' legal-shell' : ''}`} ref={appRef}>
+    <div className={`site-shell${siteClassName}${isLegalPage ? ' legal-shell' : ''}`} ref={appRef}>
       <div className="background-motion" />
       <div className="background-grid" />
       <div className="background-bubbles" aria-hidden="true">
@@ -1324,19 +1464,23 @@ export default function App() {
         <span className="background-bubble bubble-e" />
       </div>
 
-      <Header
-        hidden={isTopbarHidden}
-        basePath={content.basePath}
-        location={location}
-        onNavigate={handleNavigate}
-        routePath={routePath}
-      />
-      {routePath === '/impressum' ? <LegalPage content={siteContent.web} pageKey="impressum" /> : null}
-      {routePath === '/datenschutz' ? <LegalPage content={siteContent.web} pageKey="datenschutz" /> : null}
-      {routePath === '/leistungen' ? <ServicesPage content={content} /> : null}
-      {routePath === '/kontakt' ? <ContactPage content={content} /> : null}
-      {routePath === formRedirectPath ? <ThankYouPage content={content} /> : null}
-      {routePath !== '/impressum' &&
+      {!isSelectorPage ? (
+        <Header
+          hidden={isTopbarHidden}
+          basePath={content.basePath}
+          location={location}
+          onNavigate={handleNavigate}
+          routePath={routePath}
+        />
+      ) : null}
+      {isSelectorPage ? <SelectorPage onNavigate={handleNavigate} /> : null}
+      {!isSelectorPage && routePath === '/impressum' ? <LegalPage content={siteContent.web} pageKey="impressum" /> : null}
+      {!isSelectorPage && routePath === '/datenschutz' ? <LegalPage content={siteContent.web} pageKey="datenschutz" /> : null}
+      {!isSelectorPage && routePath === '/leistungen' ? <ServicesPage content={content} /> : null}
+      {!isSelectorPage && routePath === '/kontakt' ? <ContactPage content={content} /> : null}
+      {!isSelectorPage && routePath === formRedirectPath ? <ThankYouPage content={content} /> : null}
+      {!isSelectorPage &&
+      routePath !== '/impressum' &&
       routePath !== '/datenschutz' &&
       routePath !== '/leistungen' &&
       routePath !== '/kontakt' &&

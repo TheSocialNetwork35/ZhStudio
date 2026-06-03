@@ -2,49 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.zhstudio.ch/</loc>
-    <lastmod>2026-05-27</lastmod>
+    <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.zhstudio.ch/leistungen</loc>
-    <lastmod>2026-05-27</lastmod>
+    <loc>https://www.zhstudio.ch/website</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.zhstudio.ch/website/leistungen</loc>
+    <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.zhstudio.ch/kontakt</loc>
-    <lastmod>2026-05-27</lastmod>
+    <loc>https://www.zhstudio.ch/website/kontakt</loc>
+    <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.zhstudio.ch/marketing</loc>
-    <lastmod>2026-05-27</lastmod>
+    <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.zhstudio.ch/marketing/leistungen</loc>
-    <lastmod>2026-05-27</lastmod>
+    <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.zhstudio.ch/marketing/kontakt</loc>
-    <lastmod>2026-05-27</lastmod>
+    <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.zhstudio.ch/impressum</loc>
-    <lastmod>2026-05-27</lastmod>
+    <lastmod>2026-06-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://www.zhstudio.ch/datenschutz</loc>
-    <lastmod>2026-05-27</lastmod>
+    <lastmod>2026-06-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

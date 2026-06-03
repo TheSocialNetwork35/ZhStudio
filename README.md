@@ -1,6 +1,6 @@
 # ZhStudio
 
-React/Vite website for ZhStudio. The current content is focused on Instagram and TikTok marketing for local businesses.
+React/Vite website for ZhStudio. The root page lets visitors choose between the website offer at `/website` and the marketing offer at `/marketing`.
 
 ## Requirements
 
