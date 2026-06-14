@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -9,14 +9,6 @@ const formRedirectPath = '/danke'
 const websiteBasePath = '/website'
 const marketingBasePath = '/marketing'
 const canonicalOrigin = 'https://www.zhstudio.ch'
-
-function getFormRedirectUrl(basePath = '') {
-  if (typeof window === 'undefined') {
-    return `${basePath}${formRedirectPath}`
-  }
-
-  return `${window.location.origin}${basePath}${formRedirectPath}`
-}
 
 function triggerOfferMail(event, mailto) {
   event.preventDefault()
@@ -335,9 +327,11 @@ const siteContent = {
       formTitle: 'Ein klarer Einstieg für Websites, Redesigns und lokale Auftritte im Kanton Zürich.',
       subject: 'Neue Anfrage über zhstudio.ch',
       fourthLabel: 'Website (falls vorhanden)',
-      fourthType: 'url',
+      fourthType: 'text',
+      fourthInputMode: 'url',
+      fourthAutoComplete: 'url',
       fourthName: 'website',
-      fourthPlaceholder: 'https://www.bäckerbastian.ch',
+      fourthPlaceholder: 'test.com oder https://www.bäckerbastian.ch',
       messagePlaceholder: 'Erzählt kurz, worum es geht und was ihr euch für eure Website wünscht.',
       thankYouText:
         'Wir prüfen die Angaben und melden uns so bald wie möglich persönlich zurück. Falls noch etwas Wichtiges fehlt, könnt ihr direkt per E-Mail nachreichen.',
@@ -1050,9 +1044,42 @@ function ServicesPage({ content }) {
   )
 }
 
-function ContactPage({ content }) {
+function ContactPage({ content, onNavigate }) {
   const basePath = content.basePath
   const contact = content.contact
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formError, setFormError] = useState('')
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    const form = event.currentTarget
+    const formData = new FormData(form)
+
+    setIsSubmitting(true)
+    setFormError('')
+
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error('Formspree submission failed')
+      }
+
+      form.reset()
+      onNavigate(withBasePath(basePath, formRedirectPath))
+    } catch (error) {
+      setFormError('Das Formular konnte nicht gesendet werden. Bitte versucht es nochmals oder schreibt direkt an info@zhstudio.ch.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <>
@@ -1078,8 +1105,7 @@ function ContactPage({ content }) {
               </div>
             </div>
 
-            <form className="contact-form contact-form-focused" action={formEndpoint} method="POST">
-              <input type="hidden" name="_next" value={getFormRedirectUrl(basePath)} />
+            <form className="contact-form contact-form-focused" action={formEndpoint} method="POST" onSubmit={handleSubmit}>
               <input type="hidden" name="_subject" value={contact.subject} />
               <div className="form-grid">
                 <label className="form-field">
@@ -1099,7 +1125,13 @@ function ContactPage({ content }) {
 
                 <label className="form-field">
                   <span>{contact.fourthLabel}</span>
-                  <input type={contact.fourthType} name={contact.fourthName} placeholder={contact.fourthPlaceholder} />
+                  <input
+                    type={contact.fourthType}
+                    name={contact.fourthName}
+                    placeholder={contact.fourthPlaceholder}
+                    inputMode={contact.fourthInputMode}
+                    autoComplete={contact.fourthAutoComplete}
+                  />
                 </label>
 
                 <label className="form-field">
@@ -1118,14 +1150,19 @@ function ContactPage({ content }) {
               </div>
 
               <div className="form-actions">
-                <button className="button button-primary" type="submit">
-                  Nachricht senden
+                <button className="button button-primary" type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? 'Wird gesendet...' : 'Nachricht senden'}
                 </button>
                 <p className="form-note">
                   Mit dem Absenden akzeptiert ihr die Verarbeitung gemäss{' '}
                   <a href="/datenschutz">Datenschutzerklärung</a>.
                 </p>
               </div>
+              {formError ? (
+                <p className="form-error" role="alert">
+                  {formError}
+                </p>
+              ) : null}
             </form>
           </div>
         </section>
@@ -1251,7 +1288,7 @@ export default function App() {
     canonical?.setAttribute('href', canonicalUrl)
   }, [pageMeta, path])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (routePath !== '/') {
       window.scrollTo({ top: 0, behavior: 'auto' })
       return
@@ -1477,7 +1514,7 @@ export default function App() {
       {!isSelectorPage && routePath === '/impressum' ? <LegalPage content={siteContent.web} pageKey="impressum" /> : null}
       {!isSelectorPage && routePath === '/datenschutz' ? <LegalPage content={siteContent.web} pageKey="datenschutz" /> : null}
       {!isSelectorPage && routePath === '/leistungen' ? <ServicesPage content={content} /> : null}
-      {!isSelectorPage && routePath === '/kontakt' ? <ContactPage content={content} /> : null}
+      {!isSelectorPage && routePath === '/kontakt' ? <ContactPage content={content} onNavigate={handleNavigate} /> : null}
       {!isSelectorPage && routePath === formRedirectPath ? <ThankYouPage content={content} /> : null}
       {!isSelectorPage &&
       routePath !== '/impressum' &&

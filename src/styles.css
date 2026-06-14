@@ -1713,6 +1713,19 @@ img {
   color: var(--accent-strong);
 }
 
+.form-error {
+  margin: 16px 0 0;
+  color: #9d2f1f;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+  transform: none;
+}
+
 .footer {
   max-width: 1200px;
   margin: 104px auto 0;
