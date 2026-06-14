@@ -3245,12 +3245,15 @@ body {
 
 .selector-hero {
   display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 460px);
   min-height: calc(100vh - 180px);
   align-content: center;
-  gap: clamp(26px, 4vw, 46px);
+  align-items: center;
+  gap: clamp(20px, 3vw, 34px);
 }
 
 .selector-brand {
+  grid-column: 1 / -1;
   display: inline-flex;
   width: max-content;
   align-items: center;
@@ -3268,15 +3271,16 @@ body {
 }
 
 .selector-copy {
+  grid-column: 1;
   max-width: 900px;
 }
 
 .selector-copy h1 {
-  max-width: 11ch;
+  max-width: 12ch;
   margin: 14px 0 18px;
   color: #12181b;
-  font-size: clamp(4rem, 10vw, 9.6rem);
-  line-height: 0.84;
+  font-size: clamp(3.6rem, 8vw, 7.6rem);
+  line-height: 0.88;
   letter-spacing: -0.06em;
   text-transform: uppercase;
 }
@@ -3289,7 +3293,118 @@ body {
   line-height: 1.75;
 }
 
+.selector-decision {
+  position: relative;
+  grid-column: 2;
+  justify-self: stretch;
+  width: min(100%, 980px);
+  min-height: 210px;
+  overflow: hidden;
+}
+
+.selector-decision-track {
+  position: absolute;
+  inset: 56px 0 auto;
+  display: grid;
+  grid-template-columns: minmax(112px, 1fr) auto minmax(112px, 1fr);
+  align-items: center;
+  gap: clamp(12px, 3vw, 28px);
+}
+
+.selector-decision-track::before,
+.selector-decision-track::after {
+  content: '';
+  height: 2px;
+  background:
+    linear-gradient(90deg, transparent, rgba(15, 122, 109, 0.78), rgba(18, 24, 27, 0.2));
+  transform-origin: center;
+  animation: selectorLineCharge 2.6s ease-in-out infinite;
+}
+
+.selector-decision-track::after {
+  background:
+    linear-gradient(90deg, rgba(18, 24, 27, 0.2), rgba(255, 107, 74, 0.78), transparent);
+  animation-delay: 0.35s;
+}
+
+.selector-choice-node,
+.selector-choice-pulse {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.selector-choice-node {
+  position: relative;
+  z-index: 1;
+  padding: 0 18px;
+  color: #12181b;
+  border: 1px solid rgba(18, 24, 27, 0.22);
+  background: rgba(247, 245, 238, 0.86);
+  box-shadow: 0 18px 50px rgba(18, 24, 27, 0.08);
+  animation: selectorNodeWake 2.8s ease-in-out infinite;
+}
+
+.selector-choice-node-website {
+  justify-self: start;
+}
+
+.selector-choice-node-marketing {
+  justify-self: end;
+  animation-delay: 0.5s;
+}
+
+.selector-choice-pulse {
+  position: relative;
+  z-index: 2;
+  min-width: 112px;
+  padding: 0 18px;
+  color: #f7f5ee;
+  background: #12181b;
+  box-shadow: 0 22px 70px rgba(18, 24, 27, 0.24);
+  animation: selectorPulse 1.65s ease-in-out infinite;
+}
+
+.selector-choice-flow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.selector-choice-flow span {
+  position: absolute;
+  top: 128px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #0f7a6d;
+  box-shadow: 0 0 0 10px rgba(15, 122, 109, 0.12);
+  animation: selectorFlowWebsite 2.4s ease-in-out infinite;
+}
+
+.selector-choice-flow span:nth-child(2) {
+  background: #ff6b4a;
+  box-shadow: 0 0 0 10px rgba(255, 107, 74, 0.13);
+  animation-name: selectorFlowMarketing;
+  animation-delay: 0.22s;
+}
+
+.selector-choice-flow span:nth-child(3) {
+  background: #12181b;
+  box-shadow: 0 0 0 10px rgba(18, 24, 27, 0.08);
+  animation-delay: 0.48s;
+}
+
 .selector-grid {
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   border-top: 1px solid rgba(18, 24, 27, 0.18);
@@ -3297,6 +3412,7 @@ body {
 }
 
 .selector-card {
+  position: relative;
   display: grid;
   min-height: 380px;
   align-content: end;
@@ -3304,10 +3420,37 @@ body {
   padding: clamp(26px, 4vw, 52px);
   color: #12181b;
   border-right: 1px solid rgba(18, 24, 27, 0.18);
+  overflow: hidden;
   transition:
     background 220ms ease,
     color 220ms ease,
     transform 220ms ease;
+}
+
+.selector-card::before {
+  content: '';
+  position: absolute;
+  inset: 18px;
+  border: 1px solid currentColor;
+  opacity: 0.16;
+  transform: scale(0.97);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.selector-card::after {
+  content: '';
+  position: absolute;
+  right: clamp(24px, 4vw, 52px);
+  top: clamp(24px, 4vw, 52px);
+  width: 52px;
+  height: 52px;
+  border-top: 3px solid currentColor;
+  border-right: 3px solid currentColor;
+  opacity: 0.52;
+  transform: rotate(45deg) translateX(-10px);
+  animation: selectorArrowNudge 1.7s ease-in-out infinite;
 }
 
 .selector-card:last-child {
@@ -3316,6 +3459,11 @@ body {
 
 .selector-card:hover {
   transform: translateY(-4px);
+}
+
+.selector-card:hover::before {
+  opacity: 0.34;
+  transform: scale(1);
 }
 
 .selector-card-website {
@@ -3375,6 +3523,125 @@ body {
   border-radius: 999px;
   font-style: normal;
   opacity: 0.72;
+}
+
+.selector-action {
+  position: relative;
+  display: inline-flex;
+  width: max-content;
+  align-items: center;
+  gap: 12px;
+}
+
+.selector-action::after {
+  content: '';
+  width: 36px;
+  height: 2px;
+  background: currentColor;
+  animation: selectorActionLine 1.8s ease-in-out infinite;
+}
+
+@keyframes selectorLineCharge {
+  0%,
+  100% {
+    transform: scaleX(0.62);
+    opacity: 0.34;
+  }
+
+  48% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes selectorNodeWake {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  46% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes selectorPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 22px 70px rgba(18, 24, 27, 0.24);
+  }
+
+  50% {
+    transform: scale(1.07);
+    box-shadow: 0 24px 76px rgba(18, 24, 27, 0.34);
+  }
+}
+
+@keyframes selectorFlowWebsite {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.6);
+  }
+
+  16% {
+    opacity: 1;
+  }
+
+  72% {
+    opacity: 1;
+    transform: translate(calc(-50% - min(36vw, 330px)), -42px) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% - min(40vw, 380px)), -42px) scale(0.7);
+  }
+}
+
+@keyframes selectorFlowMarketing {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.6);
+  }
+
+  16% {
+    opacity: 1;
+  }
+
+  72% {
+    opacity: 1;
+    transform: translate(calc(-50% + min(36vw, 330px)), -42px) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + min(40vw, 380px)), -42px) scale(0.7);
+  }
+}
+
+@keyframes selectorArrowNudge {
+  0%,
+  100% {
+    transform: rotate(45deg) translateX(-10px);
+  }
+
+  50% {
+    transform: rotate(45deg) translateX(0);
+  }
+}
+
+@keyframes selectorActionLine {
+  0%,
+  100% {
+    width: 26px;
+    opacity: 0.48;
+  }
+
+  50% {
+    width: 46px;
+    opacity: 1;
+  }
 }
 
 .site-web {
@@ -3828,6 +4095,50 @@ body {
 }
 
 @media (max-width: 820px) {
+  .selector-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .selector-brand,
+  .selector-copy,
+  .selector-decision,
+  .selector-grid {
+    grid-column: 1;
+  }
+
+  .selector-decision {
+    min-height: 154px;
+  }
+
+  .selector-decision-track {
+    inset: 18px 0 auto;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 10px;
+  }
+
+  .selector-decision-track::before,
+  .selector-decision-track::after {
+    width: 2px;
+    height: 28px;
+    transform-origin: center;
+    background: linear-gradient(180deg, transparent, rgba(18, 24, 27, 0.34), transparent);
+  }
+
+  .selector-choice-node,
+  .selector-choice-pulse {
+    min-height: 40px;
+  }
+
+  .selector-choice-node-website,
+  .selector-choice-node-marketing {
+    justify-self: center;
+  }
+
+  .selector-choice-flow {
+    display: none;
+  }
+
   .selector-grid {
     grid-template-columns: 1fr;
   }
@@ -3924,6 +4235,19 @@ body {
 }
 
 @media (max-width: 640px) {
+  .selector-hero {
+    gap: 24px;
+  }
+
+  .selector-decision {
+    min-height: 144px;
+  }
+
+  .selector-card::after {
+    width: 38px;
+    height: 38px;
+  }
+
   .site-web .hero-website h1 {
     font-size: clamp(3rem, 13vw, 4.7rem);
   }
@@ -3963,6 +4287,13 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .selector-decision-track::before,
+  .selector-decision-track::after,
+  .selector-choice-node,
+  .selector-choice-pulse,
+  .selector-choice-flow span,
+  .selector-card::after,
+  .selector-action::after,
   .website-browser,
   .website-layout-hero,
   .website-layout-card-a,

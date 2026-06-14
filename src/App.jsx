@@ -663,6 +663,19 @@ function SelectorPage({ onNavigate }) {
           </p>
         </div>
 
+        <div className="selector-decision" aria-hidden="true">
+          <div className="selector-decision-track">
+            <span className="selector-choice-node selector-choice-node-website">Website</span>
+            <span className="selector-choice-pulse">Wählen</span>
+            <span className="selector-choice-node selector-choice-node-marketing">Marketing</span>
+          </div>
+          <div className="selector-choice-flow">
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+
         <div className="selector-grid">
           {selectorContent.choices.map((choice) => (
             <a
@@ -679,7 +692,7 @@ function SelectorPage({ onNavigate }) {
                   <em key={tag}>{tag}</em>
                 ))}
               </div>
-              <strong>{choice.action}</strong>
+              <strong className="selector-action">{choice.action}</strong>
             </a>
           ))}
         </div>
@@ -1368,6 +1381,16 @@ export default function App() {
           duration: 1.4,
           ease: 'power3.out',
           delay: 0.15,
+        })
+      }
+
+      if (document.querySelector('.selector-hero')) {
+        gsap.from('.selector-brand, .selector-copy > *, .selector-decision, .selector-card', {
+          y: 34,
+          opacity: 0,
+          duration: 0.9,
+          stagger: 0.09,
+          ease: 'power3.out',
         })
       }
 
