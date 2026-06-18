@@ -422,21 +422,26 @@ const selectorContent = {
   title: 'ZhStudio | Webdesign und Marketing aus Stäfa',
   description:
     'ZhStudio aus Stäfa bietet Websites, Webdesign, Instagram Marketing und TikTok Marketing für lokale Unternehmen im Kanton Zürich.',
+  eyebrow: 'Websites und Marketing aus Stäfa',
+  heroTitle: 'Websites und Marketing, die zusammen wirken.',
+  heroText:
+    'ZhStudio gestaltet schnelle Websites und Social-Media-Auftritte für lokale Unternehmen im Kanton Zürich. Klar im Auftritt, sichtbar im Feed und sauber auf Anfragen ausgerichtet.',
+  proof: ['Website', 'Marketing', 'lokal im Kanton Zürich'],
   choices: [
     {
       key: 'website',
       eyebrow: 'Websites',
-      title: 'Website ansehen',
-      text: 'Webdesign, schnelle Seiten, SEO-Basis und lokale Auftritte für Unternehmen rund um Zürich.',
+      title: 'Website',
+      text: 'Schnelle, hochwertige Seiten, die Vertrauen schaffen und Anfragen einfacher machen.',
       href: websiteBasePath,
-      action: 'Zu Website',
-      tags: ['Webdesign', 'SEO', 'Auftritt'],
+      action: 'Zu Websites',
+      tags: ['Webdesign', 'SEO', 'Struktur'],
     },
     {
       key: 'marketing',
       eyebrow: 'Marketing',
-      title: 'Marketing ansehen',
-      text: 'Instagram, TikTok, Reels und Content-Strukturen für Marken, die sichtbarer werden wollen.',
+      title: 'Marketing',
+      text: 'Instagram, TikTok, Reels und Content-Strukturen, die aus Aufmerksamkeit echte Nachfrage machen.',
       href: marketingBasePath,
       action: 'Zu Marketing',
       tags: ['Instagram', 'TikTok', 'Content'],
@@ -614,8 +619,6 @@ function Header({ basePath = '', hidden = false, location, onNavigate, routePath
 }
 
 function Footer({ content }) {
-  const basePath = content.basePath
-
   return (
     <footer className="footer">
       <div className="footer-brand">
@@ -626,9 +629,8 @@ function Footer({ content }) {
         </div>
       </div>
       <div className="footer-links">
-        <a href="/">Auswahl</a>
-        <a href={withBasePath(basePath, '/leistungen')}>Leistungen</a>
-        <a href={withBasePath(basePath, '/kontakt')}>Kontakt</a>
+        <a href="/website">Website</a>
+        <a href="/marketing">Marketing</a>
         <a href="mailto:info@zhstudio.ch">E-Mail</a>
         <a href="/impressum">Impressum</a>
         <a href="/datenschutz">Datenschutz</a>
@@ -640,6 +642,54 @@ function Footer({ content }) {
   )
 }
 
+function UnifiedHomeVisual() {
+  return (
+    <div className="unified-visual" aria-hidden="true">
+      <article className="unified-plane unified-plane-website interactive-card parallax-card">
+        <div className="unified-plane-topline">
+          <span>01</span>
+          <strong>Website</strong>
+        </div>
+        <h2>Schnelle Websites. Klare Wirkung.</h2>
+        <div className="unified-browser-preview">
+          <span />
+          <span />
+          <span />
+          <strong>zhstudio.ch/website</strong>
+        </div>
+        <div className="unified-layout-preview">
+          <i className="unified-layout-hero" />
+          <i className="unified-layout-line" />
+          <i className="unified-layout-card" />
+          <i className="unified-layout-button" />
+        </div>
+        <div className="unified-plane-arrow">↗</div>
+      </article>
+
+      <article className="unified-plane unified-plane-marketing interactive-card parallax-card">
+        <div className="unified-plane-topline">
+          <span>02</span>
+          <strong>Marketing</strong>
+        </div>
+        <h2>Content, der sichtbar macht.</h2>
+        <div className="unified-social-grid">
+          <span>Reels</span>
+          <span>TikTok</span>
+          <span>Stories</span>
+          <span>Ads</span>
+          <span>Feed</span>
+          <span>Plan</span>
+        </div>
+        <div className="unified-growth-card">
+          <span>Reichweite</span>
+          <strong>+127%</strong>
+        </div>
+        <div className="unified-plane-arrow">↗</div>
+      </article>
+    </div>
+  )
+}
+
 function SelectorPage({ onNavigate }) {
   const handleNavigate = (event, href) => {
     event.preventDefault()
@@ -647,39 +697,63 @@ function SelectorPage({ onNavigate }) {
   }
 
   return (
-    <main className="selector-page">
-      <section className="selector-hero">
-        <a className="selector-brand" href="/" onClick={(event) => handleNavigate(event, '/')}>
+    <main className="selector-page unified-home-page">
+      <section className="unified-hero">
+        <a className="selector-brand unified-brand" href="/" onClick={(event) => handleNavigate(event, '/')}>
           <img src="/logo-mark.png" alt="ZhStudio Logo" />
           <span>ZhStudio</span>
         </a>
 
-        <div className="selector-copy">
-          <span className="eyebrow">Webdesign und Marketing aus Stäfa</span>
-          <h1>Womit soll ZhStudio euch helfen?</h1>
+        <div className="unified-nav-actions" aria-label="Bereiche">
+          <a href={websiteBasePath} onClick={(event) => handleNavigate(event, websiteBasePath)}>
+            Website <span>↗</span>
+          </a>
+          <a href={marketingBasePath} onClick={(event) => handleNavigate(event, marketingBasePath)}>
+            Marketing <span>↗</span>
+          </a>
+        </div>
+
+        <div className="unified-hero-copy">
+          <span className="eyebrow">{selectorContent.eyebrow}</span>
+          <h1>{selectorContent.heroTitle}</h1>
+          <p>{selectorContent.heroText}</p>
+          <div className="unified-actions">
+            <a
+              className="button button-primary"
+              href={websiteBasePath}
+              onClick={(event) => handleNavigate(event, websiteBasePath)}
+            >
+              Zu Websites <span>↗</span>
+            </a>
+            <a
+              className="button button-secondary"
+              href={marketingBasePath}
+              onClick={(event) => handleNavigate(event, marketingBasePath)}
+            >
+              Zu Marketing <span>↗</span>
+            </a>
+          </div>
+          <div className="unified-proof">
+            {selectorContent.proof.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <UnifiedHomeVisual />
+      </section>
+
+      <section className="unified-services" aria-label="Angebote">
+        <div className="unified-services-heading">
+          <span>Was ZhStudio anbietet</span>
           <p>
-            Wählt den Bereich, den ihr sehen wollt. Websites laufen neu unter
-            zhstudio.ch/website, Marketing bleibt unter zhstudio.ch/marketing.
+            Ein Auftritt funktioniert besser, wenn Website und Marketing dieselbe Sprache sprechen.
           </p>
         </div>
-
-        <div className="selector-decision" aria-hidden="true">
-          <div className="selector-decision-track">
-            <span className="selector-choice-node selector-choice-node-website">Website</span>
-            <span className="selector-choice-pulse">Wählen</span>
-            <span className="selector-choice-node selector-choice-node-marketing">Marketing</span>
-          </div>
-          <div className="selector-choice-flow">
-            <span />
-            <span />
-            <span />
-          </div>
-        </div>
-
-        <div className="selector-grid">
+        <div className="selector-grid unified-service-grid">
           {selectorContent.choices.map((choice) => (
             <a
-              className={`selector-card selector-card-${choice.key} interactive-card`}
+              className={`selector-card selector-card-${choice.key} unified-service-card interactive-card parallax-card`}
               href={choice.href}
               onClick={(event) => handleNavigate(event, choice.href)}
               key={choice.key}
@@ -698,7 +772,13 @@ function SelectorPage({ onNavigate }) {
         </div>
       </section>
 
-      <Footer content={siteContent.web} />
+      <Footer
+        content={{
+          footerSubtitle: 'Websites und Marketing aus Stäfa',
+          footerNote:
+            'ZhStudio baut digitale Auftritte für lokale Unternehmen rund um Stäfa, die Goldküste und Zürich.',
+        }}
+      />
     </main>
   )
 }
@@ -1384,13 +1464,37 @@ export default function App() {
         })
       }
 
-      if (document.querySelector('.selector-hero')) {
-        gsap.from('.selector-brand, .selector-copy > *, .selector-decision, .selector-card', {
+      if (document.querySelector('.unified-hero')) {
+        gsap.from('.unified-brand, .unified-nav-actions, .unified-hero-copy > *, .unified-plane, .unified-service-card', {
           y: 34,
           opacity: 0,
           duration: 0.9,
           stagger: 0.09,
           ease: 'power3.out',
+        })
+
+        gsap.to('.unified-plane-website', {
+          y: -34,
+          rotate: -2,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.unified-home-page',
+            start: 'top top',
+            end: '+=720',
+            scrub: 0.8,
+          },
+        })
+
+        gsap.to('.unified-plane-marketing', {
+          y: 26,
+          rotate: 3,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.unified-home-page',
+            start: 'top top',
+            end: '+=720',
+            scrub: 0.8,
+          },
         })
       }
 
