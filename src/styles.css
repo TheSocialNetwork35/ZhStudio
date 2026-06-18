@@ -4522,6 +4522,7 @@ body {
   .unified-hero {
     grid-template-columns: 1fr;
     min-height: auto;
+    align-items: start;
   }
 
   .unified-brand,
@@ -4537,17 +4538,34 @@ body {
   }
 
   .unified-visual {
-    min-height: 560px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(34px, 5vw, 48px);
+    min-height: auto;
+    align-items: stretch;
+  }
+
+  .unified-plane {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-height: 320px;
+  }
+
+  .unified-plane h2 {
+    font-size: clamp(2rem, 5vw, 3.3rem);
   }
 
   .unified-plane-website {
+    top: auto;
     right: auto;
-    left: 4%;
+    left: auto;
   }
 
   .unified-plane-marketing {
+    right: auto;
+    bottom: auto;
     left: auto;
-    right: 4%;
   }
 }
 
@@ -4559,6 +4577,15 @@ body {
 
   .unified-services-heading {
     grid-template-columns: 1fr;
+  }
+
+  .unified-visual {
+    grid-template-columns: 1fr;
+    gap: clamp(56px, 8vw, 72px);
+  }
+
+  .unified-plane {
+    min-height: 320px;
   }
 
   .unified-service-grid {
@@ -4601,23 +4628,22 @@ body {
   }
 
   .unified-visual {
-    min-height: 600px;
+    gap: 38px;
   }
 
   .unified-plane {
-    width: 94%;
     min-height: 328px;
     padding: 22px;
   }
 
   .unified-plane-website {
-    left: 0;
-    top: 0;
+    top: auto;
+    left: auto;
   }
 
   .unified-plane-marketing {
-    right: 0;
-    bottom: 0;
+    right: auto;
+    bottom: auto;
   }
 
   .unified-social-grid {
