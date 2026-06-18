@@ -426,19 +426,19 @@ const selectorContent = {
     {
       key: 'website',
       eyebrow: 'Websites',
-      title: 'Website ansehen',
-      text: 'Webdesign, schnelle Seiten, SEO-Basis und lokale Auftritte für Unternehmen rund um Zürich.',
+      title: 'Schnelle Websites',
+      text: 'Klare Seiten, kurze Ladezeiten und ein Auftritt, der schneller zur Anfrage führt.',
       href: websiteBasePath,
-      action: 'Zu Website',
+      action: 'Direkt zu Websites',
       tags: ['Webdesign', 'SEO', 'Auftritt'],
     },
     {
       key: 'marketing',
       eyebrow: 'Marketing',
-      title: 'Marketing ansehen',
-      text: 'Instagram, TikTok, Reels und Content-Strukturen für Marken, die sichtbarer werden wollen.',
+      title: 'Content, der sichtbar bleibt',
+      text: 'Reels, TikToks und Kampagnen mit Wiedererkennung statt zufälligem Posten.',
       href: marketingBasePath,
-      action: 'Zu Marketing',
+      action: 'Direkt zu Marketing',
       tags: ['Instagram', 'TikTok', 'Content'],
     },
   ],
@@ -648,6 +648,12 @@ function SelectorPage({ onNavigate }) {
 
   return (
     <main className="selector-page">
+      <div className="selector-cursor-trail" aria-hidden="true">
+        <span className="selector-cursor-core" />
+        <span className="selector-cursor-ring selector-cursor-ring-a" />
+        <span className="selector-cursor-ring selector-cursor-ring-b" />
+      </div>
+
       <section className="selector-hero">
         <a className="selector-brand" href="/" onClick={(event) => handleNavigate(event, '/')}>
           <img src="/logo-mark.png" alt="ZhStudio Logo" />
@@ -656,10 +662,16 @@ function SelectorPage({ onNavigate }) {
 
         <div className="selector-copy">
           <span className="eyebrow">Webdesign und Marketing aus Stäfa</span>
-          <h1>Womit soll ZhStudio euch helfen?</h1>
+          <h1>
+            <span>Websites</span>
+            <em>+</em>
+            <span>Marketing</span>
+            <strong>aus Stäfa.</strong>
+          </h1>
           <p>
-            Wählt den Bereich, den ihr sehen wollt. Websites laufen neu unter
-            zhstudio.ch/website, Marketing bleibt unter zhstudio.ch/marketing.
+            <strong>Schnelle Websites.</strong>
+            <span> Sichtbarer Content.</span>
+            <em> Klar auf Anfragen ausgerichtet.</em>
           </p>
         </div>
 
@@ -682,6 +694,7 @@ function SelectorPage({ onNavigate }) {
               className={`selector-card selector-card-${choice.key} interactive-card`}
               href={choice.href}
               onClick={(event) => handleNavigate(event, choice.href)}
+              aria-label={`${choice.title}: ${choice.action}`}
               key={choice.key}
             >
               <span className="selector-eyebrow">{choice.eyebrow}</span>
@@ -1391,6 +1404,76 @@ export default function App() {
           duration: 0.9,
           stagger: 0.09,
           ease: 'power3.out',
+        })
+      }
+
+      const selectorCursor = document.querySelector('.selector-cursor-trail')
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+      if (selectorCursor && !prefersReducedMotion) {
+        const moveX = gsap.quickTo(selectorCursor, 'x', { duration: 0.48, ease: 'power3.out' })
+        const moveY = gsap.quickTo(selectorCursor, 'y', { duration: 0.48, ease: 'power3.out' })
+        const rings = selectorCursor.querySelectorAll('.selector-cursor-ring')
+        let hasPointerMoved = false
+
+        gsap.set(selectorCursor, { xPercent: -50, yPercent: -50 })
+
+        const handlePointerMove = (event) => {
+          moveX(event.clientX)
+          moveY(event.clientY)
+
+          if (!hasPointerMoved) {
+            hasPointerMoved = true
+            gsap.to(selectorCursor, {
+              opacity: 0.72,
+              duration: 0.18,
+              ease: 'power3.out',
+            })
+          }
+        }
+
+        const handlePointerEnterCard = () => {
+          gsap.to(selectorCursor, {
+            scale: 1.18,
+            opacity: 0.92,
+            duration: 0.22,
+            ease: 'power3.out',
+          })
+          gsap.to(rings, {
+            scale: 1.16,
+            duration: 0.22,
+            ease: 'power3.out',
+          })
+        }
+
+        const handlePointerLeaveCard = () => {
+          gsap.to(selectorCursor, {
+            scale: 1,
+            opacity: 0.72,
+            duration: 0.3,
+            ease: 'power3.out',
+          })
+          gsap.to(rings, {
+            scale: 1,
+            duration: 0.3,
+            ease: 'power3.out',
+          })
+        }
+
+        window.addEventListener('pointermove', handlePointerMove, { passive: true })
+
+        document.querySelectorAll('.selector-card, .selector-brand').forEach((item) => {
+          item.addEventListener('pointerenter', handlePointerEnterCard)
+          item.addEventListener('pointerleave', handlePointerLeaveCard)
+
+          cleanupFns.push(() => {
+            item.removeEventListener('pointerenter', handlePointerEnterCard)
+            item.removeEventListener('pointerleave', handlePointerLeaveCard)
+          })
+        })
+
+        cleanupFns.push(() => {
+          window.removeEventListener('pointermove', handlePointerMove)
         })
       }
 
