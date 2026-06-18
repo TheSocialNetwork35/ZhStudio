@@ -4256,6 +4256,8 @@ body {
   position: relative;
   min-height: 590px;
   transform-style: preserve-3d;
+  perspective: 1200px;
+  isolation: isolate;
 }
 
 .unified-plane {
@@ -4267,6 +4269,7 @@ body {
   color: var(--home-paper);
   overflow: hidden;
   transform-style: preserve-3d;
+  backface-visibility: hidden;
   box-shadow: 0 34px 92px rgba(17, 20, 18, 0.22);
   transition:
     transform 240ms cubic-bezier(0.23, 1, 0.32, 1),
@@ -4277,22 +4280,24 @@ body {
   box-shadow: 0 40px 110px rgba(17, 20, 18, 0.3);
 }
 
+/* Website Card klar über Marketing Card halten */
 .unified-plane-website {
-  top: 18px;
+  top: 10px;
   right: 6px;
-  z-index: 2;
+  z-index: 30;
   background:
     linear-gradient(135deg, rgba(30, 76, 255, 0.94), rgba(17, 20, 18, 0.98));
-  transform: rotate(-3deg);
+  transform: translate3d(0, 0, 90px) rotate(-3deg);
 }
 
+/* Marketing Card weiter hinten */
 .unified-plane-marketing {
   left: 0;
   bottom: 12px;
-  z-index: 1;
+  z-index: 5;
   color: var(--home-ink);
   background: var(--home-acid);
-  transform: rotate(4deg);
+  transform: translate3d(0, 0, 0) rotate(4deg);
 }
 
 .unified-plane-topline {
@@ -4310,7 +4315,7 @@ body {
 
 .unified-plane h2 {
   max-width: 9ch;
-  margin: 24px 0;
+  margin: 20px 0 18px;
   font-size: clamp(2.25rem, 3.7vw, 4.2rem);
   line-height: 0.9;
   letter-spacing: -0.06em;
@@ -4318,6 +4323,8 @@ body {
 }
 
 .unified-browser-preview {
+  position: relative;
+  z-index: 4;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -4325,6 +4332,7 @@ body {
   padding: 0 13px;
   border: 1px solid rgba(246, 243, 236, 0.22);
   background: rgba(246, 243, 236, 0.1);
+  transform: translateZ(35px);
 }
 
 .unified-browser-preview span {
@@ -4341,34 +4349,45 @@ body {
   font-weight: 800;
 }
 
+/* Kleine Website Preview höher, kompakter und ohne Z-Fighting */
 .unified-layout-preview {
   position: relative;
-  min-height: 140px;
-  margin-top: 18px;
+  z-index: 8;
+  min-height: 126px;
+  margin-top: 12px;
   border: 1px solid rgba(246, 243, 236, 0.18);
   background:
     linear-gradient(90deg, rgba(246, 243, 236, 0.1) 1px, transparent 1px),
     linear-gradient(180deg, rgba(246, 243, 236, 0.1) 1px, transparent 1px);
   background-size: 28px 28px;
+  transform: translate3d(0, -4px, 70px);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  isolation: isolate;
+  overflow: hidden;
 }
 
 .unified-layout-preview i {
   position: absolute;
   display: block;
+  z-index: 2;
   background: currentColor;
   opacity: 0.9;
+  transform: translateZ(18px);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .unified-layout-hero {
   left: 18px;
-  top: 18px;
+  top: 14px;
   width: 52%;
-  height: 54px;
+  height: 48px;
 }
 
 .unified-layout-line {
   left: 18px;
-  top: 88px;
+  top: 76px;
   width: 34%;
   height: 10px;
   opacity: 0.5;
@@ -4376,17 +4395,17 @@ body {
 
 .unified-layout-card {
   right: 18px;
-  top: 18px;
+  top: 14px;
   width: 28%;
-  height: 80px;
+  height: 72px;
   opacity: 0.72;
 }
 
 .unified-layout-button {
   right: 18px;
-  bottom: 18px;
+  bottom: 16px;
   width: 36%;
-  height: 34px;
+  height: 30px;
   border-radius: 999px;
 }
 
