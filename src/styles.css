@@ -4254,22 +4254,24 @@ body {
   grid-column: 2;
   align-self: center;
   position: relative;
-  min-height: 590px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 1.5vw, 22px);
+  min-height: auto;
   transform-style: preserve-3d;
-  perspective: 1200px;
-  isolation: isolate;
 }
 
 .unified-plane {
-  position: absolute;
-  width: min(100%, 450px);
-  min-height: 360px;
-  padding: 26px;
+  position: relative;
+  inset: auto;
+  width: 100%;
+  aspect-ratio: 1 / 1.3;
+  min-height: 0;
+  padding: clamp(16px, 1.45vw, 22px);
   border: 1px solid rgba(17, 20, 18, 0.18);
   color: var(--home-paper);
   overflow: hidden;
   transform-style: preserve-3d;
-  backface-visibility: hidden;
   box-shadow: 0 34px 92px rgba(17, 20, 18, 0.22);
   transition:
     transform 240ms cubic-bezier(0.23, 1, 0.32, 1),
@@ -4280,24 +4282,18 @@ body {
   box-shadow: 0 40px 110px rgba(17, 20, 18, 0.3);
 }
 
-/* Website Card klar über Marketing Card halten */
 .unified-plane-website {
-  top: 10px;
-  right: 6px;
-  z-index: 30;
+  z-index: 2;
   background:
     linear-gradient(135deg, rgba(30, 76, 255, 0.94), rgba(17, 20, 18, 0.98));
-  transform: translate3d(0, 0, 90px) rotate(-3deg);
+  transform: none;
 }
 
-/* Marketing Card weiter hinten */
 .unified-plane-marketing {
-  left: 0;
-  bottom: 12px;
-  z-index: 5;
+  z-index: 1;
   color: var(--home-ink);
   background: var(--home-acid);
-  transform: translate3d(0, 0, 0) rotate(4deg);
+  transform: none;
 }
 
 .unified-plane-topline {
@@ -4314,25 +4310,24 @@ body {
 }
 
 .unified-plane h2 {
-  max-width: 9ch;
-  margin: 20px 0 18px;
-  font-size: clamp(2.25rem, 3.7vw, 4.2rem);
+  max-width: 11ch;
+  margin: clamp(12px, 1.1vw, 15px) 0;
+  font-size: clamp(1.34rem, 1.65vw, 2rem);
   line-height: 0.9;
   letter-spacing: -0.06em;
   text-transform: uppercase;
 }
 
 .unified-browser-preview {
-  position: relative;
-  z-index: 4;
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 42px;
-  padding: 0 13px;
+  min-height: 32px;
+  padding: 0 10px;
   border: 1px solid rgba(246, 243, 236, 0.22);
-  background: rgba(246, 243, 236, 0.1);
-  transform: translateZ(35px);
+  background:
+    linear-gradient(90deg, rgba(246, 243, 236, 0.14), rgba(246, 243, 236, 0.07));
+  box-shadow: inset 0 1px 0 rgba(246, 243, 236, 0.11);
 }
 
 .unified-browser-preview span {
@@ -4344,75 +4339,82 @@ body {
 }
 
 .unified-browser-preview strong {
-  margin-left: 8px;
-  font-size: 0.78rem;
+  margin-left: 4px;
+  font-size: clamp(0.62rem, 0.72vw, 0.78rem);
   font-weight: 800;
 }
 
-/* Kleine Website Preview höher, kompakter und ohne Z-Fighting */
 .unified-layout-preview {
   position: relative;
-  z-index: 8;
-  min-height: 126px;
-  margin-top: 12px;
-  border: 1px solid rgba(246, 243, 236, 0.18);
+  min-height: 84px;
+  margin-top: 10px;
+  border: 1px solid rgba(246, 243, 236, 0.22);
+  border-radius: 6px;
   background:
-    linear-gradient(90deg, rgba(246, 243, 236, 0.1) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(246, 243, 236, 0.1) 1px, transparent 1px);
-  background-size: 28px 28px;
-  transform: translate3d(0, -4px, 70px);
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  isolation: isolate;
-  overflow: hidden;
+    radial-gradient(circle at 18% 22%, rgba(246, 243, 236, 0.16), transparent 28%),
+    linear-gradient(90deg, rgba(246, 243, 236, 0.09) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(246, 243, 236, 0.09) 1px, transparent 1px),
+    rgba(246, 243, 236, 0.04);
+  background-size: 100% 100%, 28px 28px, 28px 28px, auto;
+  box-shadow: inset 0 1px 0 rgba(246, 243, 236, 0.1);
 }
 
 .unified-layout-preview i {
   position: absolute;
   display: block;
-  z-index: 2;
-  background: currentColor;
-  opacity: 0.9;
-  transform: translateZ(18px);
-  backface-visibility: hidden;
-  will-change: transform;
+  border: 1px solid rgba(246, 243, 236, 0.18);
+  background: rgba(246, 243, 236, 0.72);
+  box-shadow: 0 16px 30px rgba(5, 18, 62, 0.2);
+  opacity: 1;
 }
 
 .unified-layout-hero {
-  left: 18px;
+  left: 14px;
   top: 14px;
-  width: 52%;
-  height: 48px;
+  width: 50%;
+  height: 36px;
+  border-radius: 4px;
+  background:
+    linear-gradient(135deg, rgba(246, 243, 236, 0.94), rgba(164, 211, 255, 0.74));
 }
 
 .unified-layout-line {
-  left: 18px;
-  top: 76px;
-  width: 34%;
-  height: 10px;
-  opacity: 0.5;
+  left: 14px;
+  top: 62px;
+  width: 32%;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(246, 243, 236, 0.66);
+  box-shadow: 0 10px 20px rgba(5, 18, 62, 0.16);
 }
 
 .unified-layout-card {
-  right: 18px;
+  right: 14px;
   top: 14px;
-  width: 28%;
-  height: 72px;
-  opacity: 0.72;
+  width: 31%;
+  height: 36px;
+  border-radius: 4px;
+  background:
+    linear-gradient(160deg, rgba(246, 243, 236, 0.9), rgba(192, 229, 255, 0.7));
 }
 
 .unified-layout-button {
-  right: 18px;
-  bottom: 16px;
-  width: 36%;
-  height: 30px;
+  right: 14px;
+  bottom: 14px;
+  width: 34%;
+  height: 24px;
   border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(246, 243, 236, 0.82), rgba(211, 240, 255, 0.66));
+  box-shadow:
+    0 16px 32px rgba(5, 18, 62, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
 }
 
 .unified-social-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .unified-social-grid span,
@@ -4423,9 +4425,9 @@ body {
 
 .unified-social-grid span {
   display: grid;
-  min-height: 72px;
+  min-height: clamp(42px, 4.2vw, 54px);
   place-items: center;
-  font-size: 0.82rem;
+  font-size: clamp(0.66rem, 0.72vw, 0.82rem);
   font-weight: 900;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -4433,32 +4435,31 @@ body {
 
 .unified-growth-card {
   display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 18px;
-  margin-top: 12px;
-  padding: 18px;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 10px;
 }
 
 .unified-growth-card span {
   color: rgba(17, 20, 18, 0.68);
-  font-size: 0.82rem;
+  font-size: clamp(0.68rem, 0.7vw, 0.78rem);
   font-weight: 850;
   text-transform: uppercase;
 }
 
 .unified-growth-card strong {
-  font-size: clamp(2rem, 4vw, 4rem);
+  align-self: flex-end;
+  font-size: clamp(1.6rem, 2.05vw, 2.3rem);
   line-height: 0.86;
   letter-spacing: -0.05em;
+  white-space: nowrap;
 }
 
 .unified-plane-arrow {
-  position: absolute;
-  right: 22px;
-  top: 20px;
-  font-size: 2rem;
-  line-height: 1;
+  display: none;
 }
 
 .unified-services {
@@ -4525,15 +4526,7 @@ body {
 
 @media (hover: hover) and (pointer: fine) {
   .unified-plane:hover {
-    transform: translateY(-4px) rotate(var(--tilt, 0deg));
-  }
-
-  .unified-plane-website:hover {
-    --tilt: -2deg;
-  }
-
-  .unified-plane-marketing:hover {
-    --tilt: 3deg;
+    transform: translateY(-4px);
   }
 }
 
@@ -4569,6 +4562,7 @@ body {
     inset: auto;
     width: 100%;
     min-height: 320px;
+    transform: rotate(0deg);
   }
 
   .unified-plane h2 {

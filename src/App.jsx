@@ -10,6 +10,21 @@ const websiteBasePath = '/website'
 const marketingBasePath = '/marketing'
 const canonicalOrigin = 'https://www.zhstudio.ch'
 
+function normalizeRoutePathname(pathname = '/') {
+  const normalizedPathname = pathname || '/'
+  const lowerPathname = normalizedPathname.toLowerCase()
+
+  if (lowerPathname === websiteBasePath || lowerPathname.startsWith(`${websiteBasePath}/`)) {
+    return `${websiteBasePath}${normalizedPathname.slice(websiteBasePath.length)}`
+  }
+
+  if (lowerPathname === marketingBasePath || lowerPathname.startsWith(`${marketingBasePath}/`)) {
+    return `${marketingBasePath}${normalizedPathname.slice(marketingBasePath.length)}`
+  }
+
+  return normalizedPathname
+}
+
 function triggerOfferMail(event, mailto) {
   event.preventDefault()
   window.location.href = mailto
@@ -21,7 +36,7 @@ function getLocationState() {
   }
 
   return {
-    pathname: window.location.pathname || '/',
+    pathname: normalizeRoutePathname(window.location.pathname),
     hash: window.location.hash || '',
   }
 }
@@ -37,7 +52,7 @@ function normalizeHref(href) {
 
   const url = new URL(href, window.location.origin)
   return {
-    pathname: url.pathname || '/',
+    pathname: normalizeRoutePathname(url.pathname),
     hash: url.hash || '',
   }
 }
@@ -675,10 +690,8 @@ function UnifiedHomeVisual() {
         <div className="unified-social-grid">
           <span>Reels</span>
           <span>TikTok</span>
-          <span>Stories</span>
           <span>Ads</span>
           <span>Feed</span>
-          <span>Plan</span>
         </div>
         <div className="unified-growth-card">
           <span>Reichweite</span>
@@ -1351,6 +1364,15 @@ export default function App() {
   const siteClassName = isSelectorPage ? ' site-selector' : isMarketingPage ? ' site-marketing' : ' site-web'
 
   useEffect(() => {
+    const currentUrl = `${window.location.pathname}${window.location.hash}`
+    const normalizedUrl = `${path}${location.hash}`
+
+    if (currentUrl !== normalizedUrl) {
+      window.history.replaceState({}, '', normalizedUrl)
+    }
+  }, [path, location.hash])
+
+  useEffect(() => {
     const handleLocationChange = () => {
       setLocation(getLocationState())
     }
@@ -1382,13 +1404,21 @@ export default function App() {
   }, [pageMeta, path])
 
   useLayoutEffect(() => {
+    const scrollToPageTop = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+    }
+
     if (routePath !== '/') {
-      window.scrollTo({ top: 0, behavior: 'auto' })
+      scrollToPageTop()
+      requestAnimationFrame(scrollToPageTop)
       return
     }
 
     if (!location.hash) {
-      window.scrollTo({ top: 0, behavior: 'auto' })
+      scrollToPageTop()
+      requestAnimationFrame(scrollToPageTop)
       return
     }
 
