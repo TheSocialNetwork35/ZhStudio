@@ -1345,6 +1345,7 @@ export default function App() {
   const appRef = useRef(null)
   const [location, setLocation] = useState(getLocationState)
   const [isTopbarHidden, setIsTopbarHidden] = useState(false)
+  const [navigationTick, setNavigationTick] = useState(0)
   const path = location.pathname
   const isWebsitePage = path === websiteBasePath || path.startsWith(`${websiteBasePath}/`)
   const isMarketingPage = path === marketingBasePath || path.startsWith(`${marketingBasePath}/`)
@@ -1433,10 +1434,11 @@ export default function App() {
     }
 
     requestAnimationFrame(scrollToTarget)
-  }, [routePath, location.hash])
+  }, [path, routePath, location.hash, navigationTick])
 
   const handleNavigate = (href) => {
     navigateTo(href, setLocation)
+    setNavigationTick((tick) => tick + 1)
   }
 
   useEffect(() => {
