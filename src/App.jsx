@@ -703,6 +703,20 @@ function UnifiedHomeVisual() {
   )
 }
 
+function LandingArtwork() {
+  return (
+    <div className="landing-artwork" aria-hidden="true">
+      <div className="landing-orbit landing-orbit-a" />
+      <div className="landing-orbit landing-orbit-b" />
+      <div className="landing-sun" />
+      <div className="landing-signal landing-signal-a">WEB</div>
+      <div className="landing-signal landing-signal-b">SOCIAL</div>
+      <div className="landing-signal landing-signal-c">ZÜRICH</div>
+      <p>Eine klare Idee<br />findet ihren Weg.</p>
+    </div>
+  )
+}
+
 function SelectorPage({ onNavigate }) {
   const handleNavigate = (event, href) => {
     event.preventDefault()
@@ -753,7 +767,7 @@ function SelectorPage({ onNavigate }) {
           </div>
         </div>
 
-        <UnifiedHomeVisual />
+        <LandingArtwork />
       </section>
 
       <section className="unified-services" aria-label="Angebote">
@@ -914,8 +928,12 @@ function HomePage({ content }) {
 
         <section className="studio-marquee reveal" aria-label="Studio-Schwerpunkte">
           <div className="marquee-track">
-            {[...content.studioSignals, ...content.studioSignals].map((signal, index) => (
-              <span key={`${signal}-${index}`}>{signal}</span>
+            {Array.from({ length: 6 }, (_, groupIndex) => (
+              <div className="marquee-group" aria-hidden={groupIndex !== 0} key={groupIndex}>
+                {content.studioSignals.map((signal) => (
+                  <span key={`${groupIndex}-${signal}`}>{signal}</span>
+                ))}
+              </div>
             ))}
           </div>
         </section>
@@ -1497,7 +1515,7 @@ export default function App() {
       }
 
       if (document.querySelector('.unified-hero')) {
-        gsap.from('.unified-brand, .unified-nav-actions, .unified-hero-copy > *, .unified-plane, .unified-service-card', {
+        gsap.from('.unified-brand, .unified-nav-actions, .unified-hero-copy > *, .landing-artwork, .unified-service-card', {
           y: 34,
           opacity: 0,
           duration: 0.9,
@@ -1505,21 +1523,9 @@ export default function App() {
           ease: 'power3.out',
         })
 
-        gsap.to('.unified-plane-website', {
-          y: -34,
-          rotate: -2,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.unified-home-page',
-            start: 'top top',
-            end: '+=720',
-            scrub: 0.8,
-          },
-        })
-
-        gsap.to('.unified-plane-marketing', {
-          y: 26,
-          rotate: 3,
+        gsap.to('.landing-artwork', {
+          y: -42,
+          rotate: -1,
           ease: 'none',
           scrollTrigger: {
             trigger: '.unified-home-page',
