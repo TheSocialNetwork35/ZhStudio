@@ -438,9 +438,8 @@ const selectorContent = {
   description:
     'ZhStudio aus Stäfa bietet Websites, Webdesign, Instagram Marketing und TikTok Marketing für lokale Unternehmen im Kanton Zürich.',
   eyebrow: 'Websites und Marketing aus Stäfa',
-  heroTitle: 'Websites und Marketing, die zusammen wirken.',
-  heroText:
-    'ZhStudio gestaltet schnelle Websites und Social-Media-Auftritte für lokale Unternehmen im Kanton Zürich. Klar im Auftritt, sichtbar im Feed und sauber auf Anfragen ausgerichtet.',
+  heroTitle: 'Digitaler Auftritt. Echte Wirkung.',
+  heroText: 'Webdesign und Content für Unternehmen, die lokal relevant und unverwechselbar auftreten wollen.',
   proof: ['Website', 'Marketing', 'lokal im Kanton Zürich'],
   choices: [
     {
@@ -703,20 +702,6 @@ function UnifiedHomeVisual() {
   )
 }
 
-function LandingArtwork() {
-  return (
-    <div className="landing-artwork" aria-hidden="true">
-      <div className="landing-orbit landing-orbit-a" />
-      <div className="landing-orbit landing-orbit-b" />
-      <div className="landing-sun" />
-      <div className="landing-signal landing-signal-a">WEB</div>
-      <div className="landing-signal landing-signal-b">SOCIAL</div>
-      <div className="landing-signal landing-signal-c">ZÜRICH</div>
-      <p>Eine klare Idee<br />findet ihren Weg.</p>
-    </div>
-  )
-}
-
 function SelectorPage({ onNavigate }) {
   const handleNavigate = (event, href) => {
     event.preventDefault()
@@ -767,7 +752,6 @@ function SelectorPage({ onNavigate }) {
           </div>
         </div>
 
-        <LandingArtwork />
       </section>
 
       <section className="unified-services" aria-label="Angebote">
@@ -1515,7 +1499,7 @@ export default function App() {
       }
 
       if (document.querySelector('.unified-hero')) {
-        gsap.from('.unified-brand, .unified-nav-actions, .unified-hero-copy > *, .landing-artwork, .unified-service-card', {
+        gsap.from('.unified-brand, .unified-nav-actions, .unified-hero-copy > *, .unified-service-card', {
           y: 34,
           opacity: 0,
           duration: 0.9,
@@ -1523,17 +1507,6 @@ export default function App() {
           ease: 'power3.out',
         })
 
-        gsap.to('.landing-artwork', {
-          y: -42,
-          rotate: -1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.unified-home-page',
-            start: 'top top',
-            end: '+=720',
-            scrub: 0.8,
-          },
-        })
       }
 
       gsap.utils.toArray('.reveal').forEach((item) => {
