@@ -1,6 +1,10 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import DotField from './components/DotField'
+import LogoLoop from './components/LogoLoop'
+import SideRays from './components/SideRays'
+import SpecularButton from './components/SpecularButton'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -88,6 +92,38 @@ function withBasePath(basePath, path) {
   }
 
   return path === '/' ? basePath : `${basePath}${path}`
+}
+
+const ctaPalettes = {
+  selector: {
+    primary: { tint: '#3157ff', textColor: '#ffffff', baseColor: '#102063' },
+    secondary: { tint: '#edf2ec', textColor: '#111614', baseColor: '#738079' },
+  },
+  web: {
+    primary: { tint: '#2457ff', textColor: '#ffffff', baseColor: '#101928' },
+    secondary: { tint: '#f7fbff', textColor: '#101928', baseColor: '#2457ff' },
+  },
+  marketing: {
+    primary: { tint: '#111412', textColor: '#f6f3ec', baseColor: '#1e4cff' },
+    secondary: { tint: '#f6f3ec', textColor: '#111412', baseColor: '#6b716d' },
+  },
+}
+
+function StudioButton({ theme = 'marketing', variant = 'primary', className = '', children, ...props }) {
+  const palette = ctaPalettes[theme][variant]
+
+  return (
+    <SpecularButton
+      {...palette}
+      {...props}
+      radius={30}
+      tintOpacity={variant === 'primary' ? 0.96 : 0.82}
+      autoAnimate={variant === 'primary'}
+      className={`cta-button cta-button-${variant}${className ? ` ${className}` : ''}`}
+    >
+      {children}
+    </SpecularButton>
+  )
 }
 
 function getCanonicalUrl(pathname) {
@@ -730,20 +766,21 @@ function SelectorPage({ onNavigate }) {
           <h1>{selectorContent.heroTitle}</h1>
           <p>{selectorContent.heroText}</p>
           <div className="unified-actions">
-            <a
-              className="button button-primary"
+            <StudioButton
+              theme="selector"
               href={websiteBasePath}
               onClick={(event) => handleNavigate(event, websiteBasePath)}
             >
               Zu Websites <span>↗</span>
-            </a>
-            <a
-              className="button button-secondary"
+            </StudioButton>
+            <StudioButton
+              theme="selector"
+              variant="secondary"
               href={marketingBasePath}
               onClick={(event) => handleNavigate(event, marketingBasePath)}
             >
               Zu Marketing <span>↗</span>
-            </a>
+            </StudioButton>
           </div>
           <div className="unified-proof">
             {selectorContent.proof.map((item) => (
@@ -844,6 +881,11 @@ function HomePage({ content }) {
   const basePath = content.basePath
   const home = content.home
   const isWebsiteHome = basePath === websiteBasePath
+  const buttonTheme = isWebsiteHome ? 'web' : 'marketing'
+  const studioLoopItems = content.studioSignals.map((signal, index) => ({
+    node: <span className={index % 3 === 2 ? 'studio-loop-accent' : ''}>{signal}</span>,
+    title: signal,
+  }))
 
   return (
     <>
@@ -858,15 +900,19 @@ function HomePage({ content }) {
               {home.text}
             </p>
             <div className="hero-actions">
-              <a
-                className="button button-primary button-offer"
+              <StudioButton
+                theme={buttonTheme}
                 href={withBasePath(basePath, '/kontakt')}
               >
                 Offerte anfragen
-              </a>
-              <a className="button button-secondary" href={withBasePath(basePath, '/leistungen')}>
+              </StudioButton>
+              <StudioButton
+                theme={buttonTheme}
+                variant="secondary"
+                href={withBasePath(basePath, '/leistungen')}
+              >
                 Leistungen ansehen
-              </a>
+              </StudioButton>
             </div>
             <div className="hero-meta">
               <div>
@@ -881,6 +927,20 @@ function HomePage({ content }) {
           </div>
 
           <div className="hero-orb">
+            <div className="hero-rays" aria-hidden="true">
+              <SideRays
+                speed={1.15}
+                rayColor1={isWebsiteHome ? '#2457ff' : '#d7ff56'}
+                rayColor2={isWebsiteHome ? '#79f2c9' : '#1e4cff'}
+                intensity={1.05}
+                spread={1.7}
+                origin="top-right"
+                saturation={1.15}
+                blend={0.58}
+                falloff={1.9}
+                opacity={0.48}
+              />
+            </div>
             {isWebsiteHome ? (
               <WebsiteHeroVisual />
             ) : (
@@ -911,20 +971,35 @@ function HomePage({ content }) {
         </section>
 
         <section className="studio-marquee reveal" aria-label="Studio-Schwerpunkte">
-          <div className="marquee-track">
-            {Array.from({ length: 6 }, (_, groupIndex) => (
-              <div className="marquee-group" aria-hidden={groupIndex !== 0} key={groupIndex}>
-                {content.studioSignals.map((signal) => (
-                  <span key={`${groupIndex}-${signal}`}>{signal}</span>
-                ))}
-              </div>
-            ))}
-          </div>
+          <LogoLoop
+            logos={studioLoopItems}
+            speed={62}
+            direction="left"
+            logoHeight={34}
+            gap={58}
+            hoverSpeed={26}
+            fadeOut
+            fadeOutColor={isWebsiteHome ? '#101928' : '#111412'}
+            ariaLabel="Studio-Schwerpunkte"
+            className="studio-logo-loop"
+          />
         </section>
 
         <section className="section spotlight-section reveal">
           <div className="spotlight-layout">
             <article className="spotlight-panel spotlight-large interactive-card parallax-card">
+              <div className="spotlight-dot-field" aria-hidden="true">
+                <DotField
+                  dotRadius={1.5}
+                  dotSpacing={17}
+                  cursorRadius={380}
+                  bulgeStrength={48}
+                  glowRadius={190}
+                  gradientFrom={isWebsiteHome ? 'rgba(121, 242, 201, 0.42)' : 'rgba(215, 255, 86, 0.38)'}
+                  gradientTo="rgba(255, 255, 255, 0.16)"
+                  glowColor={isWebsiteHome ? '#2457ff' : '#1e4cff'}
+                />
+              </div>
               <span className="eyebrow">Design-Richtung</span>
               <h2 className="editorial-title">
                 Ruhige Präzision
@@ -981,9 +1056,13 @@ function HomePage({ content }) {
                 {home.nextText}
               </p>
             </div>
-            <a className="button button-primary button-offer button-large" href={withBasePath(basePath, '/kontakt')}>
+            <StudioButton
+              theme={buttonTheme}
+              className="cta-button-large"
+              href={withBasePath(basePath, '/kontakt')}
+            >
               Anfragen
-            </a>
+            </StudioButton>
           </div>
         </section>
       </main>
@@ -996,6 +1075,7 @@ function HomePage({ content }) {
 function ServicesPage({ content }) {
   const basePath = content.basePath
   const page = content.servicesPage
+  const buttonTheme = basePath === websiteBasePath ? 'web' : 'marketing'
 
   return (
     <>
@@ -1115,12 +1195,13 @@ function ServicesPage({ content }) {
                 {page.priceText}
               </p>
             </div>
-            <a
-              className="button button-primary button-offer button-large"
+            <StudioButton
+              theme={buttonTheme}
+              className="cta-button-large"
               href={withBasePath(basePath, '/kontakt')}
             >
               Offerte anfragen
-            </a>
+            </StudioButton>
           </div>
         </section>
 
@@ -1155,6 +1236,7 @@ function ServicesPage({ content }) {
 function ContactPage({ content, onNavigate }) {
   const basePath = content.basePath
   const contact = content.contact
+  const buttonTheme = basePath === websiteBasePath ? 'web' : 'marketing'
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formError, setFormError] = useState('')
 
@@ -1258,9 +1340,9 @@ function ContactPage({ content, onNavigate }) {
               </div>
 
               <div className="form-actions">
-                <button className="button button-primary" type="submit" disabled={isSubmitting}>
+                <StudioButton theme={buttonTheme} type="submit" disabled={isSubmitting}>
                   {isSubmitting ? 'Wird gesendet...' : 'Nachricht senden'}
-                </button>
+                </StudioButton>
                 <p className="form-note">
                   Mit dem Absenden akzeptiert ihr die Verarbeitung gemäss{' '}
                   <a href="/datenschutz">Datenschutzerklärung</a>.
@@ -1283,6 +1365,7 @@ function ContactPage({ content, onNavigate }) {
 
 function ThankYouPage({ content }) {
   const basePath = content.basePath
+  const buttonTheme = basePath === websiteBasePath ? 'web' : 'marketing'
 
   return (
     <>
@@ -1296,12 +1379,12 @@ function ThankYouPage({ content }) {
             </p>
 
             <div className="thank-you-actions">
-              <a className="button button-primary" href={withBasePath(basePath, '/')}>
+              <StudioButton theme={buttonTheme} href={withBasePath(basePath, '/')}>
                 Zur Startseite
-              </a>
-              <a className="button button-secondary" href="mailto:info@zhstudio.ch">
+              </StudioButton>
+              <StudioButton theme={buttonTheme} variant="secondary" href="mailto:info@zhstudio.ch">
                 info@zhstudio.ch
-              </a>
+              </StudioButton>
             </div>
           </div>
         </section>
