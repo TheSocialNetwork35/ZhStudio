@@ -4102,6 +4102,8 @@ body {
 }
 
 .unified-hero {
+  position: relative;
+  isolation: isolate;
   width: 100%;
   min-height: calc(100dvh - 144px);
   display: grid;
@@ -4110,6 +4112,16 @@ body {
   gap: clamp(28px, 5vw, 76px);
   align-items: center;
   padding: 8px 0 66px;
+}
+
+.unified-side-rays {
+  position: absolute;
+  inset: 0 calc(var(--edge) * -1) 0 34%;
+  z-index: -1;
+  overflow: hidden;
+  opacity: 0.58;
+  mix-blend-mode: multiply;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 28%, #000 100%);
 }
 
 .unified-brand {
@@ -4527,6 +4539,11 @@ body {
     align-items: start;
   }
 
+  .unified-side-rays {
+    inset: 0 calc(var(--edge) * -1) 42% 18%;
+    opacity: 0.42;
+  }
+
   .unified-brand,
   .unified-nav-actions,
   .unified-hero-copy,
@@ -4659,6 +4676,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .unified-side-rays {
+    display: none;
+  }
+
   .unified-nav-actions a,
   .unified-actions .button,
   .unified-plane,

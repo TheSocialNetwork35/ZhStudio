@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import SideRays from './components/SideRays'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -712,6 +713,21 @@ function SelectorPage({ onNavigate }) {
   return (
     <main className="selector-page unified-home-page">
       <section className="unified-hero">
+        <div className="unified-side-rays" aria-hidden="true">
+          <SideRays
+            speed={2.5}
+            rayColor1="#EAB308"
+            rayColor2="#96c8ff"
+            intensity={2}
+            spread={2}
+            origin="top-right"
+            tilt={0}
+            saturation={1.5}
+            blend={0.75}
+            falloff={1.6}
+            opacity={1}
+          />
+        </div>
         <a className="selector-brand unified-brand" href="/" onClick={(event) => handleNavigate(event, '/')}>
           <img src="/logo-mark.png" alt="ZhStudio Logo" />
           <span>ZhStudio</span>
