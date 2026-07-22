@@ -4688,3 +4688,269 @@ body {
     transition: opacity 160ms ease, color 160ms ease, background 160ms ease;
   }
 }
+
+/* Website homepage only: quieter, warmer palette with an interactive dot field. */
+.site-web-home {
+  --ink: #18231f;
+  --paper: #f3f1e9;
+  --acid: #b8cec1;
+  --blue: #176b5d;
+  --accent: #176b5d;
+  --accent-strong: #18231f;
+  --accent-soft: rgba(23, 107, 93, 0.12);
+  --text: #18231f;
+  --muted: #66716b;
+  background:
+    linear-gradient(90deg, rgba(24, 35, 31, 0.048) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(24, 35, 31, 0.042) 1px, transparent 1px),
+    radial-gradient(circle at 82% 16%, rgba(127, 167, 148, 0.24), transparent 0 28%),
+    radial-gradient(circle at 8% 72%, rgba(213, 184, 108, 0.1), transparent 0 24%),
+    #f3f1e9;
+  background-size: 88px 88px, 88px 88px, auto, auto, auto;
+}
+
+.site-web-home .background-motion {
+  background:
+    linear-gradient(180deg, rgba(243, 241, 233, 0.72), rgba(235, 238, 230, 0.58)),
+    radial-gradient(circle at 78% 12%, rgba(23, 107, 93, 0.12), transparent 0 34%),
+    radial-gradient(circle at 18% 78%, rgba(213, 184, 108, 0.1), transparent 0 32%);
+}
+
+.site-web-home .brand img,
+.site-web-home .footer-brand img {
+  background: #176b5d;
+  box-shadow: 0 14px 30px rgba(23, 107, 93, 0.2);
+}
+
+.site-web-home .nav,
+.site-web-home .footer {
+  border-color: rgba(24, 35, 31, 0.12);
+  background: rgba(246, 244, 237, 0.82);
+}
+
+.site-web-home .nav a:hover,
+.site-web-home .nav a.nav-link-active,
+.site-web-home .footer-links a:hover {
+  background: rgba(23, 107, 93, 0.12);
+}
+
+.site-web-home .hero-website h1 span,
+.site-web-home .hero-website .eyebrow {
+  color: #176b5d;
+}
+
+.site-web-home .hero-text,
+.site-web-home .section-lead {
+  color: #66716b;
+}
+
+.site-web-home .button-primary,
+.site-web-home .button-offer {
+  border-color: #176b5d;
+  background: #176b5d;
+  box-shadow: 0 16px 34px rgba(23, 107, 93, 0.2);
+}
+
+.site-web-home .button-primary:hover,
+.site-web-home .button-offer:hover {
+  border-color: #18231f;
+  background: #18231f;
+  box-shadow: 0 18px 38px rgba(24, 35, 31, 0.2);
+}
+
+.site-web-home .button-secondary {
+  border-color: rgba(24, 35, 31, 0.2);
+  color: #18231f;
+}
+
+.site-web-home .hero-meta,
+.site-web-home .trust-strip {
+  border-color: rgba(24, 35, 31, 0.14);
+}
+
+.site-web-home .website-dot-field {
+  position: absolute;
+  inset: 18px -18px 8px 18px;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: 48% 52% 42% 58%;
+  opacity: 0.9;
+  mask-image: radial-gradient(ellipse at center, #000 26%, rgba(0, 0, 0, 0.72) 58%, transparent 82%);
+}
+
+.site-web-home .website-visual::before {
+  z-index: 1;
+  border-color: rgba(23, 107, 93, 0.18);
+  background:
+    linear-gradient(90deg, rgba(23, 107, 93, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(23, 107, 93, 0.08) 1px, transparent 1px),
+    rgba(245, 243, 236, 0.34);
+  background-size: 34px 34px;
+}
+
+.site-web-home .website-browser {
+  border-color: rgba(24, 35, 31, 0.18);
+  background: rgba(250, 249, 244, 0.92);
+  box-shadow:
+    0 34px 80px rgba(24, 35, 31, 0.14),
+    0 14px 36px rgba(23, 107, 93, 0.1);
+}
+
+.site-web-home .website-browser-bar {
+  border-color: rgba(24, 35, 31, 0.12);
+  background: rgba(243, 241, 233, 0.94);
+}
+
+.site-web-home .website-browser-bar span {
+  background: #18231f;
+}
+
+.site-web-home .website-browser-bar strong {
+  background: rgba(23, 107, 93, 0.1);
+  color: rgba(24, 35, 31, 0.68);
+}
+
+.site-web-home .website-canvas {
+  background:
+    linear-gradient(90deg, rgba(24, 35, 31, 0.05) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(24, 35, 31, 0.045) 1px, transparent 1px),
+    #faf9f4;
+  background-size: 42px 42px;
+}
+
+.site-web-home .website-layout {
+  border-color: rgba(24, 35, 31, 0.14);
+  background: #f3f1e9;
+  box-shadow: 0 14px 28px rgba(24, 35, 31, 0.06);
+}
+
+.site-web-home .website-layout-hero {
+  background: linear-gradient(135deg, #176b5d, #7fa794);
+}
+
+.site-web-home .website-layout-card-a {
+  background: #18231f;
+  animation-name: websiteHomeCardPulse;
+}
+
+.site-web-home .website-layout-card-b {
+  background: #b8cec1;
+}
+
+.site-web-home .website-layout-card-c {
+  background: #e7e7df;
+}
+
+.site-web-home .website-cta {
+  background: #176b5d;
+  box-shadow: 0 18px 34px rgba(23, 107, 93, 0.24);
+  animation-name: websiteHomeCtaGlow;
+}
+
+.site-web-home .website-scan {
+  background: linear-gradient(180deg, transparent, rgba(213, 184, 108, 0.3), transparent);
+}
+
+.site-web-home .website-path-a {
+  stroke: rgba(23, 107, 93, 0.42);
+}
+
+.site-web-home .website-path-b {
+  stroke: rgba(127, 167, 148, 0.58);
+}
+
+.site-web-home .website-floating {
+  border-color: rgba(24, 35, 31, 0.14);
+  background: rgba(250, 249, 244, 0.9);
+  box-shadow: 0 18px 34px rgba(24, 35, 31, 0.12);
+}
+
+.site-web-home .website-floating span {
+  color: #66716b;
+}
+
+.site-web-home .website-floating strong {
+  color: #18231f;
+}
+
+.site-web-home .website-floating-c {
+  background: #18231f;
+}
+
+.site-web-home .website-floating-c span,
+.site-web-home .website-floating-c strong {
+  color: #f3f1e9;
+}
+
+.site-web-home .studio-marquee {
+  background: #18231f;
+  color: #f3f1e9;
+}
+
+.site-web-home .marquee-track span:nth-child(3n) {
+  color: #b8cec1;
+}
+
+.site-web-home .spotlight-large {
+  background: #cbdad1;
+  color: #18231f;
+}
+
+.site-web-home .spotlight-large p,
+.site-web-home .spotlight-large .eyebrow {
+  color: rgba(24, 35, 31, 0.72);
+}
+
+.site-web-home .spotlight-icon {
+  color: #176b5d;
+}
+
+.site-web-home .showcase-card,
+.site-web-home .price-card {
+  background: #18231f;
+  color: #f3f1e9;
+}
+
+.site-web-home .price-card p,
+.site-web-home .price-card .eyebrow {
+  color: rgba(243, 241, 233, 0.72);
+}
+
+.site-web-home .service-card::before {
+  color: rgba(23, 107, 93, 0.12);
+}
+
+@keyframes websiteHomeCardPulse {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+    background: #18231f;
+  }
+  to {
+    transform: translate3d(-4px, 4px, 0) scale(1.02);
+    background: #176b5d;
+  }
+}
+
+@keyframes websiteHomeCtaGlow {
+  from {
+    transform: translate3d(0, 0, 0);
+    box-shadow: 0 18px 34px rgba(23, 107, 93, 0.24);
+  }
+  to {
+    transform: translate3d(-6px, -8px, 0);
+    box-shadow: 0 24px 44px rgba(23, 107, 93, 0.34);
+  }
+}
+
+@media (max-width: 820px) {
+  .site-web-home .website-dot-field {
+    inset: 0 -10px 0 0;
+    opacity: 0.72;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-web-home .website-dot-field {
+    display: none;
+  }
+}

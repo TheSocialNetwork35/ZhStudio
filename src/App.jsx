@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import DotField from './components/DotField'
 import SideRays from './components/SideRays'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -815,6 +816,18 @@ function SelectorPage({ onNavigate }) {
 function WebsiteHeroVisual() {
   return (
     <div className="website-visual interactive-card" aria-hidden="true">
+      <div className="website-dot-field">
+        <DotField
+          dotRadius={2}
+          dotSpacing={11}
+          bulgeStrength={43}
+          glowRadius={140}
+          cursorRadius={400}
+          gradientFrom="rgba(23, 107, 93, 0.38)"
+          gradientTo="rgba(127, 167, 148, 0.24)"
+          glowColor="#d5b86c"
+        />
+      </div>
       <div className="website-browser">
         <div className="website-browser-bar">
           <span />
@@ -1378,7 +1391,12 @@ export default function App() {
   const isServicesPage = !isSelectorPage && routePath === '/leistungen'
   const isContactPage = !isSelectorPage && routePath === '/kontakt'
   const isThankYouPage = !isSelectorPage && routePath === formRedirectPath
-  const siteClassName = isSelectorPage ? ' site-selector' : isMarketingPage ? ' site-marketing' : ' site-web'
+  const isWebsiteHomePage = isWebsitePage && routePath === '/'
+  const siteClassName = isSelectorPage
+    ? ' site-selector'
+    : isMarketingPage
+      ? ' site-marketing'
+      : ` site-web${isWebsiteHomePage ? ' site-web-home' : ''}`
 
   useEffect(() => {
     const currentUrl = `${window.location.pathname}${window.location.hash}`
