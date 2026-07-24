@@ -675,6 +675,8 @@ function UnifiedHomeVisual() {
         imageFit="cover"
         lanyardImage="/lanyard/band.png"
         lanyardWidth={1.12}
+        anchorY={4}
+        cardScale={3.4}
       />
       <div className="unified-lanyard-hint" aria-hidden="true">
         <span>↙</span>
@@ -696,8 +698,8 @@ function SelectorPage({ onNavigate }) {
         <div className="unified-side-rays" aria-hidden="true">
           <SideRays
             speed={2.5}
-            rayColor1="#d7ff56"
-            rayColor2="#20c878"
+            rayColor1="#EAB308"
+            rayColor2="#96c8ff"
             intensity={2}
             spread={2}
             origin="top-right"
