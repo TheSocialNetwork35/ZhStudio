@@ -666,7 +666,6 @@ function UnifiedHomeVisual() {
       className="unified-visual unified-lanyard"
       aria-label="Interaktiver ZhStudio-Ausweis. Ziehen, schwingen und umdrehen."
     >
-      <div className="unified-lanyard-aura" aria-hidden="true" />
       <Lanyard
         position={[0, 0, 24]}
         gravity={[0, -40, 0]}
@@ -697,8 +696,8 @@ function SelectorPage({ onNavigate }) {
         <div className="unified-side-rays" aria-hidden="true">
           <SideRays
             speed={2.5}
-            rayColor1="#EAB308"
-            rayColor2="#96c8ff"
+            rayColor1="#d7ff56"
+            rayColor2="#20c878"
             intensity={2}
             spread={2}
             origin="top-right"
