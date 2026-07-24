@@ -667,7 +667,7 @@ function UnifiedHomeVisual() {
       aria-label="Interaktiver ZhStudio-Ausweis. Ziehen, schwingen und umdrehen."
     >
       <Lanyard
-        position={[0, 0, 24]}
+        position={[0, 0, 17]}
         gravity={[0, -40, 0]}
         fov={20}
         frontImage="/lanyard/front.png"
@@ -675,8 +675,10 @@ function UnifiedHomeVisual() {
         imageFit="cover"
         lanyardImage="/lanyard/band.png"
         lanyardWidth={1.12}
-        anchorY={4}
-        cardScale={3.4}
+        anchorX={2}
+        anchorY={3}
+        cardScale={2.25}
+        ropeLength={0.8}
       />
       <div className="unified-lanyard-hint" aria-hidden="true">
         <span>↙</span>

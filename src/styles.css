@@ -4961,13 +4961,13 @@ body {
   top: 0;
   right: calc(var(--edge) * -1);
   bottom: 0;
-  left: auto;
+  left: calc(var(--edge) * -1);
   display: block;
   grid-column: auto;
   grid-row: auto;
   align-self: auto;
   justify-self: auto;
-  width: min(56vw, 820px);
+  width: auto;
   min-height: 0;
   margin: 0;
   z-index: 0;
@@ -5032,13 +5032,13 @@ body {
     top: 0;
     right: calc(var(--edge) * -1);
     bottom: 0;
-    left: auto;
+    left: calc(var(--edge) * -1);
     display: block;
     grid-column: auto;
     grid-row: auto;
     align-self: auto;
     justify-self: auto;
-    width: min(68vw, 720px);
+    width: auto;
     min-height: 0;
     margin: 0;
   }
@@ -5046,7 +5046,6 @@ body {
 
 @media (max-width: 640px) {
   .unified-visual.unified-lanyard {
-    width: calc(100% + (var(--edge) * 2));
     opacity: 0.42;
     pointer-events: none;
   }
