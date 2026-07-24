@@ -675,6 +675,7 @@ function UnifiedHomeVisual() {
         imageFit="cover"
         lanyardImage="/lanyard/band.png"
         lanyardWidth={1.12}
+        lanyardRepeat={1}
         anchorX={2}
         anchorY={3}
         cardScale={2.25}

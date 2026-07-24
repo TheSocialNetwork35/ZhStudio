@@ -34,6 +34,7 @@ export default function Lanyard({
   imageFit = 'cover',
   lanyardImage = null,
   lanyardWidth = 1,
+  lanyardRepeat = 1,
   anchorX = 0,
   anchorY = 4,
   cardScale = 2.25,
@@ -42,12 +43,20 @@ export default function Lanyard({
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== 'undefined' && window.innerWidth < 768,
   )
+  const [isPhone, setIsPhone] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth <= 640,
+  )
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+      setIsPhone(window.innerWidth <= 640)
+    }
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  if (isPhone) return null
 
   return (
     <div className="lanyard-wrapper">
@@ -68,6 +77,7 @@ export default function Lanyard({
             imageFit={imageFit}
             lanyardImage={lanyardImage}
             lanyardWidth={lanyardWidth}
+            lanyardRepeat={lanyardRepeat}
             anchorX={anchorX}
             anchorY={anchorY}
             cardScale={cardScale}
@@ -118,6 +128,7 @@ function Band({
   imageFit = 'cover',
   lanyardImage = null,
   lanyardWidth = 1,
+  lanyardRepeat = 1,
   anchorX = 0,
   anchorY = 4,
   cardScale = 2.25,
@@ -335,7 +346,7 @@ function Band({
           resolution={isMobile ? [1000, 2000] : [1000, 1000]}
           useMap
           map={texture}
-          repeat={[-4, 1]}
+          repeat={[-lanyardRepeat, 1]}
           lineWidth={lanyardWidth}
         />
       </mesh>

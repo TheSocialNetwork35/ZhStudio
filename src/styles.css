@@ -5042,12 +5042,20 @@ body {
     min-height: 0;
     margin: 0;
   }
+
+  .unified-hero-copy {
+    pointer-events: none;
+  }
+
+  .unified-hero-copy .unified-actions,
+  .unified-hero-copy .unified-actions a {
+    pointer-events: auto;
+  }
 }
 
 @media (max-width: 640px) {
   .unified-visual.unified-lanyard {
-    opacity: 0.42;
-    pointer-events: none;
+    display: none;
   }
 
   .unified-lanyard-hint {
