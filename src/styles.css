@@ -4954,3 +4954,111 @@ body {
     display: none;
   }
 }
+
+/* Interactive ZhStudio lanyard in the unified homepage hero. */
+.unified-visual.unified-lanyard {
+  position: relative;
+  display: block;
+  width: min(100%, 620px);
+  min-height: clamp(560px, 70vh, 760px);
+  justify-self: end;
+  isolation: isolate;
+}
+
+.unified-lanyard::before {
+  content: '';
+  position: absolute;
+  inset: 15% 6% 9%;
+  z-index: -1;
+  border: 1px solid rgba(17, 20, 18, 0.12);
+  border-radius: 48% 52% 46% 54% / 54% 48% 52% 46%;
+  background:
+    linear-gradient(135deg, rgba(246, 243, 236, 0.32), rgba(215, 255, 86, 0.12)),
+    rgba(246, 243, 236, 0.14);
+  backdrop-filter: blur(12px);
+  transform: rotate(-5deg);
+}
+
+.unified-lanyard-aura {
+  position: absolute;
+  inset: 18% 5% 4% 13%;
+  z-index: -2;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 48% 48%, rgba(215, 255, 86, 0.42), transparent 58%),
+    radial-gradient(circle at 66% 35%, rgba(30, 76, 255, 0.23), transparent 52%);
+  filter: blur(40px);
+  opacity: 0.78;
+  transform: rotate(10deg);
+}
+
+.unified-lanyard-hint {
+  position: absolute;
+  right: clamp(10px, 4vw, 52px);
+  bottom: clamp(38px, 7vh, 86px);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(17, 20, 18, 0.2);
+  border-radius: 999px;
+  background: rgba(246, 243, 236, 0.78);
+  box-shadow: 0 16px 42px rgba(17, 20, 18, 0.12);
+  color: var(--home-ink);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  pointer-events: none;
+  backdrop-filter: blur(16px);
+}
+
+.unified-lanyard-hint span {
+  color: var(--home-blue);
+  font-size: 1.05rem;
+  animation: lanyardHint 1.8s ease-in-out infinite;
+}
+
+@keyframes lanyardHint {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(-4px, 4px, 0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .unified-visual.unified-lanyard {
+    display: block;
+    width: min(100%, 720px);
+    min-height: 650px;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .unified-visual.unified-lanyard {
+    min-height: 520px;
+    margin-top: -24px;
+  }
+
+  .unified-lanyard::before {
+    inset: 18% 0 7%;
+  }
+
+  .unified-lanyard-hint {
+    right: 8px;
+    bottom: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .unified-lanyard-hint span {
+    animation: none;
+  }
+}

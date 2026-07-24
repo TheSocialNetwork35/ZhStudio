@@ -5,16 +5,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/prepare-sites-build.mjs",
     "preview": "vite preview",
     "worker:dev": "npm run build && wrangler dev",
     "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "@react-three/rapier": "^2.2.0",
     "gsap": "^3.13.0",
+    "meshline": "^3.3.1",
     "ogl": "^1.0.11",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.0.2",

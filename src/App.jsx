@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import DotField from './components/DotField'
 import SideRays from './components/SideRays'
+import Lanyard from './components/Lanyard/Lanyard'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -661,46 +662,25 @@ function Footer({ content }) {
 
 function UnifiedHomeVisual() {
   return (
-    <div className="unified-visual" aria-hidden="true">
-      <article className="unified-plane unified-plane-website interactive-card parallax-card">
-        <div className="unified-plane-topline">
-          <span>01</span>
-          <strong>Website</strong>
-        </div>
-        <h2>Schnelle Websites. Klare Wirkung.</h2>
-        <div className="unified-browser-preview">
-          <span />
-          <span />
-          <span />
-          <strong>zhstudio.ch/website</strong>
-        </div>
-        <div className="unified-layout-preview">
-          <i className="unified-layout-hero" />
-          <i className="unified-layout-line" />
-          <i className="unified-layout-card" />
-          <i className="unified-layout-button" />
-        </div>
-        <div className="unified-plane-arrow">↗</div>
-      </article>
-
-      <article className="unified-plane unified-plane-marketing interactive-card parallax-card">
-        <div className="unified-plane-topline">
-          <span>02</span>
-          <strong>Marketing</strong>
-        </div>
-        <h2>Content, der sichtbar macht.</h2>
-        <div className="unified-social-grid">
-          <span>Reels</span>
-          <span>TikTok</span>
-          <span>Ads</span>
-          <span>Feed</span>
-        </div>
-        <div className="unified-growth-card">
-          <span>Reichweite</span>
-          <strong>+127%</strong>
-        </div>
-        <div className="unified-plane-arrow">↗</div>
-      </article>
+    <div
+      className="unified-visual unified-lanyard"
+      aria-label="Interaktiver ZhStudio-Ausweis. Ziehen, schwingen und umdrehen."
+    >
+      <div className="unified-lanyard-aura" aria-hidden="true" />
+      <Lanyard
+        position={[0, 0, 24]}
+        gravity={[0, -40, 0]}
+        fov={20}
+        frontImage="/lanyard/front.png"
+        backImage="/lanyard/back.png"
+        imageFit="cover"
+        lanyardImage="/lanyard/band.png"
+        lanyardWidth={1.12}
+      />
+      <div className="unified-lanyard-hint" aria-hidden="true">
+        <span>↙</span>
+        Drag it
+      </div>
     </div>
   )
 }
