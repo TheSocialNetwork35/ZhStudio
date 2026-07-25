@@ -33,6 +33,47 @@ function json(data, init = {}) {
   })
 }
 
+const securityHeaders = {
+  'content-security-policy': [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "connect-src 'self' https://formspree.io",
+    "font-src 'self'",
+    "form-action 'self' https://formspree.io",
+    "frame-ancestors 'none'",
+    "img-src 'self' data: blob:",
+    "object-src 'none'",
+    "script-src 'self' 'wasm-unsafe-eval'",
+    "style-src 'self' 'unsafe-inline'",
+    "worker-src 'self' blob:",
+  ].join('; '),
+  'cross-origin-opener-policy': 'same-origin',
+  'permissions-policy': 'camera=(), geolocation=(), microphone=()',
+  'referrer-policy': 'strict-origin-when-cross-origin',
+  'strict-transport-security': 'max-age=31536000; includeSubDomains',
+  'x-content-type-options': 'nosniff',
+  'x-frame-options': 'DENY',
+}
+
+function withAssetHeaders(request, response) {
+  const headers = new Headers(response.headers)
+  const url = new URL(request.url)
+
+  Object.entries(securityHeaders).forEach(([name, value]) => {
+    headers.set(name, value)
+  })
+
+  if (url.pathname.startsWith('/assets/') || url.pathname.startsWith('/fonts/')) {
+    headers.set('cache-control', 'public, max-age=31536000, immutable')
+  }
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  })
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url)
@@ -45,6 +86,7 @@ export default {
       return json({ error: 'Not found' }, { status: 404 })
     }
 
-    return env.ASSETS.fetch(request)
+    const assetResponse = await env.ASSETS.fetch(request)
+    return withAssetHeaders(request, assetResponse)
   },
 }

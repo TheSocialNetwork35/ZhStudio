@@ -49,11 +49,12 @@ ein praegnantes visuelles System statt austauschbarer Standard-Templates.
 
 ## Wichtige Seiten
 
-- / : Startseite
-- /leistungen : Leistungen
-- /kontakt : Kontakt
-- /marketing : bisherige Marketing-Version
-- /marketing/leistungen : Marketing-Leistungen
-- /marketing/kontakt : Marketing-Kontakt
-- /impressum : Impressum
-- /datenschutz : Datenschutzerklaerung
+- [Startseite](https://www.zhstudio.ch/)
+- [Website-Angebot](https://www.zhstudio.ch/website)
+- [Website-Leistungen](https://www.zhstudio.ch/website/leistungen)
+- [Website-Kontakt](https://www.zhstudio.ch/website/kontakt)
+- [Marketing-Angebot](https://www.zhstudio.ch/marketing)
+- [Marketing-Leistungen](https://www.zhstudio.ch/marketing/leistungen)
+- [Marketing-Kontakt](https://www.zhstudio.ch/marketing/kontakt)
+- [Impressum](https://www.zhstudio.ch/impressum)
+- [Datenschutzerklaerung](https://www.zhstudio.ch/datenschutz)

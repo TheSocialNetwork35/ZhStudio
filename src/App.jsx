@@ -1,11 +1,8 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import DotField from './components/DotField'
-import SideRays from './components/SideRays'
-import Lanyard from './components/Lanyard/Lanyard'
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
-gsap.registerPlugin(ScrollTrigger)
+const DotField = lazy(() => import('./components/DotField'))
+const SideRays = lazy(() => import('./components/SideRays'))
+const Lanyard = lazy(() => import('./components/Lanyard/Lanyard'))
 
 const formEndpoint = 'https://formspree.io/f/xvzdeqvn'
 const formRedirectPath = '/danke'
@@ -95,6 +92,21 @@ function withBasePath(basePath, path) {
 
 function getCanonicalUrl(pathname) {
   return `${canonicalOrigin}${pathname === '/' ? '/' : pathname}`
+}
+
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(() => window.matchMedia(query).matches)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(query)
+    const updateMatches = () => setMatches(mediaQuery.matches)
+
+    updateMatches()
+    mediaQuery.addEventListener('change', updateMatches)
+    return () => mediaQuery.removeEventListener('change', updateMatches)
+  }, [query])
+
+  return matches
 }
 
 const webServices = [
@@ -660,36 +672,65 @@ function Footer({ content }) {
   )
 }
 
-function UnifiedHomeVisual() {
+function UnifiedHomeVisual({ enabled }) {
+  const [isInteractive, setIsInteractive] = useState(false)
+  const enableInteractive = () => setIsInteractive(true)
+
+  if (!enabled) {
+    return null
+  }
+
   return (
     <div
       className="unified-visual unified-lanyard"
-      aria-label="Interaktiver ZhStudio-Ausweis. Ziehen, schwingen und umdrehen."
     >
-      <Lanyard
-        position={[0, 0, 17]}
-        gravity={[0, -40, 0]}
-        fov={20}
-        frontImage="/lanyard/front.png"
-        backImage="/lanyard/back.png"
-        imageFit="cover"
-        lanyardImage="/lanyard/band.png"
-        lanyardWidth={1.12}
-        lanyardRepeat={1}
-        anchorX={2}
-        anchorY={3}
-        cardScale={2.25}
-        ropeLength={0.8}
-      />
-      <div className="unified-lanyard-hint" aria-hidden="true">
+      {isInteractive ? (
+        <Suspense fallback={<LanyardFallback />}>
+          <Lanyard
+            position={[0, 0, 17]}
+            gravity={[0, -40, 0]}
+            fov={20}
+            frontImage="/lanyard/front.png"
+            backImage="/lanyard/back.png"
+            imageFit="cover"
+            lanyardImage="/lanyard/band.png"
+            lanyardWidth={1.12}
+            lanyardRepeat={1}
+            anchorX={2}
+            anchorY={3}
+            cardScale={2.25}
+            ropeLength={0.8}
+          />
+        </Suspense>
+      ) : (
+        <LanyardFallback />
+      )}
+      <button
+        className="unified-lanyard-hint"
+        type="button"
+        onClick={enableInteractive}
+        onFocus={enableInteractive}
+        aria-label="Interaktiven ZhStudio-Ausweis aktivieren"
+      >
         <span>↙</span>
-        Drag it
-      </div>
+        {isInteractive ? 'Drag it' : '3D aktivieren'}
+      </button>
+    </div>
+  )
+}
+
+function LanyardFallback() {
+  return (
+    <div className="unified-lanyard-static" aria-hidden="true">
+      <img className="unified-lanyard-static-band" src="/lanyard/band.png" alt="" />
+      <img className="unified-lanyard-static-card" src="/lanyard/front.png" alt="" />
     </div>
   )
 }
 
 function SelectorPage({ onNavigate }) {
+  const showEnhancedVisuals = useMediaQuery('(min-width: 641px)')
+
   const handleNavigate = (event, href) => {
     event.preventDefault()
     onNavigate(href)
@@ -699,19 +740,23 @@ function SelectorPage({ onNavigate }) {
     <main className="selector-page unified-home-page">
       <section className="unified-hero">
         <div className="unified-side-rays" aria-hidden="true">
-          <SideRays
-            speed={2.5}
-            rayColor1="#EAB308"
-            rayColor2="#96c8ff"
-            intensity={2}
-            spread={2}
-            origin="top-right"
-            tilt={0}
-            saturation={1.5}
-            blend={0.75}
-            falloff={1.6}
-            opacity={1}
-          />
+          {showEnhancedVisuals ? (
+            <Suspense fallback={null}>
+              <SideRays
+                speed={2.5}
+                rayColor1="#EAB308"
+                rayColor2="#96c8ff"
+                intensity={2}
+                spread={2}
+                origin="top-right"
+                tilt={0}
+                saturation={1.5}
+                blend={0.75}
+                falloff={1.6}
+                opacity={1}
+              />
+            </Suspense>
+          ) : null}
         </div>
         <a className="selector-brand unified-brand" href="/" onClick={(event) => handleNavigate(event, '/')}>
           <img src="/logo-mark.png" alt="ZhStudio Logo" />
@@ -754,7 +799,7 @@ function SelectorPage({ onNavigate }) {
           </div>
         </div>
 
-        <UnifiedHomeVisual />
+        <UnifiedHomeVisual enabled={showEnhancedVisuals} />
       </section>
 
       <section className="unified-services" aria-label="Angebote">
@@ -801,16 +846,18 @@ function WebsiteHeroVisual() {
   return (
     <div className="website-visual interactive-card" aria-hidden="true">
       <div className="website-dot-field">
-        <DotField
-          dotRadius={2}
-          dotSpacing={11}
-          bulgeStrength={43}
-          glowRadius={140}
-          cursorRadius={400}
-          gradientFrom="rgba(23, 107, 93, 0.38)"
-          gradientTo="rgba(127, 167, 148, 0.24)"
-          glowColor="#d5b86c"
-        />
+        <Suspense fallback={null}>
+          <DotField
+            dotRadius={2}
+            dotSpacing={11}
+            bulgeStrength={43}
+            glowRadius={140}
+            cursorRadius={400}
+            gradientFrom="rgba(23, 107, 93, 0.38)"
+            gradientTo="rgba(127, 167, 148, 0.24)"
+            glowColor="#d5b86c"
+          />
+        </Suspense>
       </div>
       <div className="website-browser">
         <div className="website-browser-bar">
@@ -1491,9 +1538,26 @@ export default function App() {
   }, [path])
 
   useEffect(() => {
+    if (window.matchMedia('(max-width: 640px)').matches) {
+      return undefined
+    }
+
+    let animationContext
+    let disposed = false
     const cleanupFns = []
 
-    const ctx = gsap.context(() => {
+    const setupAnimations = async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import('gsap'),
+        import('gsap/ScrollTrigger'),
+      ])
+
+      if (disposed) {
+        return
+      }
+
+      gsap.registerPlugin(ScrollTrigger)
+      animationContext = gsap.context(() => {
       if (document.querySelector('.hero-copy')) {
         gsap.from('.hero-copy > *', {
           y: 48,
@@ -1523,29 +1587,6 @@ export default function App() {
           ease: 'power3.out',
         })
 
-        gsap.to('.unified-plane-website', {
-          y: -34,
-          rotate: -2,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.unified-home-page',
-            start: 'top top',
-            end: '+=720',
-            scrub: 0.8,
-          },
-        })
-
-        gsap.to('.unified-plane-marketing', {
-          y: 26,
-          rotate: 3,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.unified-home-page',
-            start: 'top top',
-            end: '+=720',
-            scrub: 0.8,
-          },
-        })
       }
 
       gsap.utils.toArray('.reveal').forEach((item) => {
@@ -1658,11 +1699,15 @@ export default function App() {
           card.removeEventListener('pointerleave', handleLeave)
         })
       })
-    }, appRef)
+      }, appRef)
+    }
+
+    void setupAnimations()
 
     return () => {
+      disposed = true
       cleanupFns.forEach((cleanup) => cleanup())
-      ctx.revert()
+      animationContext?.revert()
     }
   }, [isLegalPage, isServicesPage, isContactPage, isThankYouPage, isMarketingPage, isSelectorPage])
 
