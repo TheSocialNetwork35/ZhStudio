@@ -673,9 +673,6 @@ function Footer({ content }) {
 }
 
 function UnifiedHomeVisual({ enabled }) {
-  const [isInteractive, setIsInteractive] = useState(false)
-  const enableInteractive = () => setIsInteractive(true)
-
   if (!enabled) {
     return null
   }
@@ -683,47 +680,29 @@ function UnifiedHomeVisual({ enabled }) {
   return (
     <div
       className="unified-visual unified-lanyard"
+      aria-label="Interaktiver ZhStudio-Ausweis. Ziehen, schwingen und umdrehen."
     >
-      {isInteractive ? (
-        <Suspense fallback={<LanyardFallback />}>
-          <Lanyard
-            position={[0, 0, 17]}
-            gravity={[0, -40, 0]}
-            fov={20}
-            frontImage="/lanyard/front.png"
-            backImage="/lanyard/back.png"
-            imageFit="cover"
-            lanyardImage="/lanyard/band.png"
-            lanyardWidth={1.12}
-            lanyardRepeat={1}
-            anchorX={2}
-            anchorY={3}
-            cardScale={2.25}
-            ropeLength={0.8}
-          />
-        </Suspense>
-      ) : (
-        <LanyardFallback />
-      )}
-      <button
-        className="unified-lanyard-hint"
-        type="button"
-        onClick={enableInteractive}
-        onFocus={enableInteractive}
-        aria-label="Interaktiven ZhStudio-Ausweis aktivieren"
-      >
+      <Suspense fallback={null}>
+        <Lanyard
+          position={[0, 0, 17]}
+          gravity={[0, -40, 0]}
+          fov={20}
+          frontImage="/lanyard/front.png"
+          backImage="/lanyard/back.png"
+          imageFit="cover"
+          lanyardImage="/lanyard/band.png"
+          lanyardWidth={1.12}
+          lanyardRepeat={1}
+          anchorX={2}
+          anchorY={3}
+          cardScale={2.25}
+          ropeLength={0.8}
+        />
+      </Suspense>
+      <div className="unified-lanyard-hint" aria-hidden="true">
         <span>↙</span>
-        {isInteractive ? 'Drag it' : '3D aktivieren'}
-      </button>
-    </div>
-  )
-}
-
-function LanyardFallback() {
-  return (
-    <div className="unified-lanyard-static" aria-hidden="true">
-      <img className="unified-lanyard-static-band" src="/lanyard/band.png" alt="" />
-      <img className="unified-lanyard-static-card" src="/lanyard/front.png" alt="" />
+        Drag it
+      </div>
     </div>
   )
 }
