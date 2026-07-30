@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Component, lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 const DotField = lazy(() => import('./components/DotField'))
 const SideRays = lazy(() => import('./components/SideRays'))
@@ -682,27 +682,58 @@ function UnifiedHomeVisual({ enabled }) {
       className="unified-visual unified-lanyard"
       aria-label="Interaktiver ZhStudio-Ausweis. Ziehen, schwingen und umdrehen."
     >
-      <Suspense fallback={null}>
-        <Lanyard
-          position={[0, 0, 17]}
-          gravity={[0, -40, 0]}
-          fov={20}
-          frontImage="/lanyard/front.png"
-          backImage="/lanyard/back.png"
-          imageFit="cover"
-          lanyardImage="/lanyard/band.png"
-          lanyardWidth={1.12}
-          lanyardRepeat={1}
-          anchorX={2}
-          anchorY={3}
-          cardScale={2.25}
-          ropeLength={0.8}
-        />
-      </Suspense>
+      <VisualErrorBoundary fallback={<LanyardFallback />}>
+        <Suspense fallback={<LanyardFallback />}>
+          <Lanyard
+            position={[0, 0, 17]}
+            gravity={[0, -40, 0]}
+            fov={20}
+            frontImage="/lanyard/front.png"
+            backImage="/lanyard/back.png"
+            imageFit="cover"
+            lanyardImage="/lanyard/band.png"
+            lanyardWidth={1.12}
+            lanyardRepeat={1}
+            anchorX={2}
+            anchorY={3}
+            cardScale={2.25}
+            ropeLength={0.8}
+          />
+        </Suspense>
+      </VisualErrorBoundary>
       <div className="unified-lanyard-hint" aria-hidden="true">
         <span>↙</span>
         Drag it
       </div>
+    </div>
+  )
+}
+
+class VisualErrorBoundary extends Component {
+  state = { hasError: false }
+
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+
+  componentDidCatch(error) {
+    console.error('The interactive 3D visual could not be rendered.', error)
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback
+    }
+
+    return this.props.children
+  }
+}
+
+function LanyardFallback() {
+  return (
+    <div className="unified-lanyard-static" aria-hidden="true">
+      <img className="unified-lanyard-static-band" src="/lanyard/band.png" alt="" />
+      <img className="unified-lanyard-static-card" src="/lanyard/front.png" alt="" />
     </div>
   )
 }
@@ -1401,12 +1432,11 @@ export default function App() {
   const isServicesPage = !isSelectorPage && routePath === '/leistungen'
   const isContactPage = !isSelectorPage && routePath === '/kontakt'
   const isThankYouPage = !isSelectorPage && routePath === formRedirectPath
-  const isWebsiteHomePage = isWebsitePage && routePath === '/'
   const siteClassName = isSelectorPage
     ? ' site-selector'
     : isMarketingPage
       ? ' site-marketing'
-      : ` site-web${isWebsiteHomePage ? ' site-web-home' : ''}`
+      : ' site-web site-web-theme'
 
   useEffect(() => {
     const currentUrl = `${window.location.pathname}${window.location.hash}`

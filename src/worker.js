@@ -34,19 +34,6 @@ function json(data, init = {}) {
 }
 
 const securityHeaders = {
-  'content-security-policy': [
-    "default-src 'self'",
-    "base-uri 'self'",
-    "connect-src 'self' https://formspree.io",
-    "font-src 'self'",
-    "form-action 'self' https://formspree.io",
-    "frame-ancestors 'none'",
-    "img-src 'self' data: blob:",
-    "object-src 'none'",
-    "script-src 'self' 'wasm-unsafe-eval'",
-    "style-src 'self' 'unsafe-inline'",
-    "worker-src 'self' blob:",
-  ].join('; '),
   'cross-origin-opener-policy': 'same-origin',
   'permissions-policy': 'camera=(), geolocation=(), microphone=()',
   'referrer-policy': 'strict-origin-when-cross-origin',
