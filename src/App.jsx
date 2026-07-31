@@ -673,6 +673,22 @@ function Footer({ content }) {
 }
 
 function UnifiedHomeVisual({ enabled }) {
+  const [is3DReady, setIs3DReady] = useState(false)
+
+  useEffect(() => {
+    if (!enabled || is3DReady) return undefined
+
+    const mount3D = () => setIs3DReady(true)
+
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(mount3D, { timeout: 800 })
+      return () => window.cancelIdleCallback(idleId)
+    }
+
+    const timeoutId = window.setTimeout(mount3D, 200)
+    return () => window.clearTimeout(timeoutId)
+  }, [enabled, is3DReady])
+
   if (!enabled) {
     return null
   }
@@ -682,25 +698,27 @@ function UnifiedHomeVisual({ enabled }) {
       className="unified-visual unified-lanyard"
       aria-label="Interaktiver ZhStudio-Ausweis. Ziehen, schwingen und umdrehen."
     >
-      <VisualErrorBoundary fallback={<LanyardFallback />}>
-        <Suspense fallback={<LanyardFallback />}>
-          <Lanyard
-            position={[0, 0, 17]}
-            gravity={[0, -40, 0]}
-            fov={20}
-            frontImage="/lanyard/front.png"
-            backImage="/lanyard/back.png"
-            imageFit="cover"
-            lanyardImage="/lanyard/band.png"
-            lanyardWidth={1.12}
-            lanyardRepeat={1}
-            anchorX={2}
-            anchorY={3.25}
-            cardScale={2.25}
-            ropeLength={0.8}
-          />
-        </Suspense>
-      </VisualErrorBoundary>
+      {is3DReady ? (
+        <VisualErrorBoundary fallback={null}>
+          <Suspense fallback={null}>
+            <Lanyard
+              position={[0, 0, 17]}
+              gravity={[0, -40, 0]}
+              fov={20}
+              frontImage="/lanyard/front.png"
+              backImage="/lanyard/back.png"
+              imageFit="cover"
+              lanyardImage="/lanyard/band.png"
+              lanyardWidth={1.12}
+              lanyardRepeat={1}
+              anchorX={2}
+              anchorY={3.25}
+              cardScale={2.25}
+              ropeLength={0.8}
+            />
+          </Suspense>
+        </VisualErrorBoundary>
+      ) : null}
       <div className="unified-lanyard-hint" aria-hidden="true">
         <span>↙</span>
         Drag it
@@ -727,15 +745,6 @@ class VisualErrorBoundary extends Component {
 
     return this.props.children
   }
-}
-
-function LanyardFallback() {
-  return (
-    <div className="unified-lanyard-static" aria-hidden="true">
-      <img className="unified-lanyard-static-band" src="/lanyard/band.png" alt="" />
-      <img className="unified-lanyard-static-card" src="/lanyard/front.png" alt="" />
-    </div>
-  )
 }
 
 function SelectorPage({ onNavigate }) {

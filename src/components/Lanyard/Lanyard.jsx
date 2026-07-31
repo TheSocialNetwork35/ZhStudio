@@ -24,6 +24,25 @@ const BLANK_PIXEL =
 const FRONT_UV_RECT = { x: 0, y: 0, w: 0.5, h: 0.755 }
 const BACK_UV_RECT = { x: 0.5, y: 0, w: 0.5, h: 0.757 }
 
+function smoothJoint(body, delta, minSpeed, maxSpeed) {
+  const translation = body.translation()
+
+  if (!body.lerped) {
+    body.lerped = new THREE.Vector3().copy(translation)
+  }
+
+  const clampedDistance = Math.max(
+    0.1,
+    Math.min(1, body.lerped.distanceTo(translation)),
+  )
+  body.lerped.lerp(
+    translation,
+    Math.min(1, delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))),
+  )
+
+  return body.lerped
+}
+
 export default function Lanyard({
   position = [0, 0, 30],
   gravity = [0, -40, 0],
@@ -62,14 +81,19 @@ export default function Lanyard({
     <div className="lanyard-wrapper">
       <Canvas
         camera={{ position, fov }}
-        dpr={[1, isMobile ? 1.5 : 2]}
-        gl={{ alpha: transparent, antialias: !isMobile }}
+        dpr={[1, isMobile ? 1.25 : 1.5]}
+        gl={{
+          alpha: transparent,
+          antialias: !isMobile,
+          powerPreference: 'high-performance',
+          stencil: false,
+        }}
         onCreated={({ gl }) =>
           gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)
         }
       >
         <ambientLight intensity={Math.PI} />
-        <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
+        <Physics gravity={gravity} timeStep={isMobile ? 1 / 45 : 1 / 60}>
           <Band
             isMobile={isMobile}
             frontImage={frontImage}
@@ -84,7 +108,7 @@ export default function Lanyard({
             ropeLength={ropeLength}
           />
         </Physics>
-        <Environment blur={0.75}>
+        <Environment blur={0.75} frames={1} resolution={64}>
           <Lightformer
             intensity={2}
             color="white"
@@ -142,11 +166,18 @@ function Band({
   const card = useRef()
   const activePointerId = useRef(null)
   const dragPointer = useRef(new THREE.Vector2())
+  const nextTranslation = useRef({ x: 0, y: 0, z: 0 })
+  const nextAngularVelocity = useRef({ x: 0, y: 0, z: 0 })
   const vec = useMemo(() => new THREE.Vector3(), [])
   const ang = useMemo(() => new THREE.Vector3(), [])
   const rot = useMemo(() => new THREE.Vector3(), [])
   const dir = useMemo(() => new THREE.Vector3(), [])
   const gl = useThree((state) => state.gl)
+  const curvePointCount = isMobile ? 13 : 21
+  const curvePoints = useMemo(
+    () => Array.from({ length: curvePointCount }, () => new THREE.Vector3()),
+    [curvePointCount],
+  )
   const segmentProps = {
     type: 'dynamic',
     canSleep: true,
@@ -200,10 +231,10 @@ function Band({
     const composite = new THREE.CanvasTexture(canvas)
     composite.colorSpace = THREE.SRGBColorSpace
     composite.flipY = baseMap.flipY
-    composite.anisotropy = 16
+    composite.anisotropy = isMobile ? 2 : 4
     composite.needsUpdate = true
     return composite
-  }, [frontImage, backImage, imageFit, frontTex, backTex, materials.base.map])
+  }, [frontImage, backImage, imageFit, frontTex, backTex, isMobile, materials.base.map])
 
   useEffect(
     () => () => {
@@ -212,15 +243,16 @@ function Band({
     [cardMap, materials.base.map],
   )
 
-  const [curve] = useState(
-    () =>
-      new THREE.CatmullRomCurve3([
+  const [curve] = useState(() => {
+    const nextCurve = new THREE.CatmullRomCurve3([
         new THREE.Vector3(),
         new THREE.Vector3(),
         new THREE.Vector3(),
         new THREE.Vector3(),
-      ]),
-  )
+    ])
+    nextCurve.curveType = 'chordal'
+    return nextCurve
+  })
   const [dragged, drag] = useState(false)
   const [hovered, hover] = useState(false)
 
@@ -297,46 +329,64 @@ function Band({
   }, [dragged, finishDrag, gl, updateDragPointer])
 
   useFrame((state, delta) => {
+    const fixedBody = fixed.current
+    const firstJoint = j1.current
+    const secondJoint = j2.current
+    const thirdJoint = j3.current
+    const cardBody = card.current
+    const bandMesh = band.current
+
     if (dragged) {
       vec.set(dragPointer.current.x, dragPointer.current.y, 0.5).unproject(state.camera)
       dir.copy(vec).sub(state.camera.position).normalize()
       vec.add(dir.multiplyScalar(state.camera.position.length()))
-      ;[card, j1, j2, j3, fixed].forEach((ref) => ref.current?.wakeUp())
-      card.current?.setNextKinematicTranslation({
-        x: vec.x - dragged.x,
-        y: vec.y - dragged.y,
-        z: vec.z - dragged.z,
-      })
+      cardBody?.wakeUp()
+      firstJoint?.wakeUp()
+      secondJoint?.wakeUp()
+      thirdJoint?.wakeUp()
+
+      if (cardBody) {
+        nextTranslation.current.x = vec.x - dragged.x
+        nextTranslation.current.y = vec.y - dragged.y
+        nextTranslation.current.z = vec.z - dragged.z
+        cardBody.setNextKinematicTranslation(nextTranslation.current)
+      }
     }
 
-    if (fixed.current && j1.current && j2.current && j3.current && card.current && band.current) {
-      ;[j1, j2].forEach((ref) => {
-        if (!ref.current.lerped) {
-          ref.current.lerped = new THREE.Vector3().copy(ref.current.translation())
-        }
-        const clampedDistance = Math.max(
-          0.1,
-          Math.min(1, ref.current.lerped.distanceTo(ref.current.translation())),
-        )
-        ref.current.lerped.lerp(
-          ref.current.translation(),
-          delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)),
-        )
-      })
-
-      curve.points[0].copy(j3.current.translation())
-      curve.points[1].copy(j2.current.lerped)
-      curve.points[2].copy(j1.current.lerped)
-      curve.points[3].copy(fixed.current.translation())
-      band.current.geometry.setPoints(curve.getPoints(isMobile ? 16 : 32))
-      ang.copy(card.current.angvel())
-      rot.copy(card.current.rotation())
-      card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z })
+    if (!fixedBody || !firstJoint || !secondJoint || !thirdJoint || !cardBody || !bandMesh) {
+      return
     }
+
+    if (
+      !dragged &&
+      cardBody.isSleeping() &&
+      firstJoint.isSleeping() &&
+      secondJoint.isSleeping() &&
+      thirdJoint.isSleeping()
+    ) {
+      return
+    }
+
+    curve.points[0].copy(thirdJoint.translation())
+    curve.points[1].copy(smoothJoint(secondJoint, delta, minSpeed, maxSpeed))
+    curve.points[2].copy(smoothJoint(firstJoint, delta, minSpeed, maxSpeed))
+    curve.points[3].copy(fixedBody.translation())
+
+    for (let index = 0; index < curvePointCount; index += 1) {
+      curve.getPoint(index / (curvePointCount - 1), curvePoints[index])
+    }
+
+    bandMesh.geometry.setPoints(curvePoints)
+    ang.copy(cardBody.angvel())
+    rot.copy(cardBody.rotation())
+    nextAngularVelocity.current.x = ang.x
+    nextAngularVelocity.current.y = ang.y - rot.y * 0.25
+    nextAngularVelocity.current.z = ang.z
+    cardBody.setAngvel(nextAngularVelocity.current)
   })
 
-  curve.curveType = 'chordal'
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+  texture.anisotropy = isMobile ? 2 : 4
 
   return (
     <>
@@ -378,13 +428,10 @@ function Band({
             }}
           >
             <mesh geometry={nodes.card.geometry}>
-              <meshPhysicalMaterial
+              <meshStandardMaterial
                 map={cardMap}
-                map-anisotropy={16}
-                clearcoat={isMobile ? 0 : 1}
-                clearcoatRoughness={0.15}
-                roughness={0.9}
-                metalness={0.8}
+                roughness={0.72}
+                metalness={0.45}
               />
             </mesh>
             <mesh
