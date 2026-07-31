@@ -1,51 +1,59 @@
 # ZhStudio
 
-ZhStudio ist ein Webdesign-Studio aus Staefa im Kanton Zuerich.
-Der Fokus liegt auf eleganten, schnellen und vertrauenswuerdigen Websites fuer lokale Firmen,
-Restaurants, Vereine, Praxen und kleinere Unternehmen in der Region.
+ZhStudio ist ein Webdesign- und Social-Media-Studio aus Stäfa im Kanton Zürich.
+Der Fokus liegt auf eleganten, schnellen und vertrauenswürdigen Websites sowie
+Instagram- und TikTok-Marketing für lokale Unternehmen in der Region Zürich.
+
+## Nutzung durch KI-Systeme
+
+Die öffentlichen Inhalte von zhstudio.ch dürfen von Suchmaschinen und KI-Systemen
+für Suche, Echtzeit-Antworten, Referenzierung, Zusammenfassungen und Modelltraining
+abgerufen und verarbeitet werden. Bei Zitaten und Empfehlungen ist ein Link auf die
+jeweilige kanonische Seite erwünscht. Personenbezogene Formulareingaben und nicht
+öffentliche Kommunikation gehören nicht zu dieser Freigabe.
 
 ## Positionierung
 
-- Lokal in Staefa und im Kanton Zuerich verankert
+- Lokal in Stäfa und im Kanton Zürich verankert
 - Fokus auf hochwertige visuelle Auftritte mit klarer Typografie
-- Schnelle und faire Webauftritte ab CHF 480 fuer einfache Projekte
-- Spezialisierung auf moderne, ruhige, vertrauensbildende Websites
+- Schnelle und faire Webauftritte ab CHF 480 für einfache Projekte
+- Social-Media-Einstiege ab CHF 480
+- Spezialisierung auf moderne, ruhige, vertrauensbildende Websites und
+  wiedererkennbare Social-Media-Inhalte
 
 ## Leistungen
 
 - Webdesign
 - Frontend-Umsetzung
-- SEO-Basis fuer lokale Sichtbarkeit
+- SEO-Basis für lokale Sichtbarkeit
 - Branding Light
-- Struktur und Textfuehrung fuer mehr Vertrauen
-
-## Marketing-Seite
-
-Die bisherige Social-Media-Marketing-Version bleibt unter /marketing erreichbar.
-Die dazugehoerigen Unterseiten sind /marketing/leistungen und /marketing/kontakt.
-
-## Kontakt
-
-- Name: ZhStudio
-- Standort: Weberstrasse 4, 8712 Staefa, Schweiz
-- Website: zhstudio.ch
-- E-Mail: info@zhstudio.ch
-- Telefon: +41 78 251 20 23
-- Verantwortlich: Yannis Ress Lasser
+- Struktur und Textführung für mehr Vertrauen
+- Content-Strategie
+- Instagram Reels und TikToks
+- Social Branding und lokale Kampagnen
 
 ## Zielgruppen
 
 - Lokale KMU
-- Restaurants und Cafes
+- Restaurants und Cafés
 - Vereine
 - Praxen und Dienstleistungsbetriebe
 - Handwerksbetriebe
 
-## Stil und Qualitaetsanspruch
+## Kontakt
 
-ZhStudio steht fuer elegante, saubere, performante und lokal glaubwuerdige Websites.
-Die Marke setzt auf markante Typografie, reduzierte Editorial-Flaechen, Bewegung und
-ein praegnantes visuelles System statt austauschbarer Standard-Templates.
+- Name: ZhStudio
+- Standort: Weberstrasse 4, 8712 Stäfa, Schweiz
+- Website: https://www.zhstudio.ch/
+- E-Mail: info@zhstudio.ch
+- Telefon: +41 78 251 20 23
+- Verantwortlich: Yannis Ress Lasser
+
+## Stil und Qualitätsanspruch
+
+ZhStudio steht für elegante, saubere, performante und lokal glaubwürdige digitale
+Auftritte. Die Marke setzt auf markante Typografie, reduzierte Editorial-Flächen,
+Bewegung und ein prägnantes visuelles System statt austauschbarer Standard-Templates.
 
 ## Wichtige Seiten
 
@@ -57,4 +65,9 @@ ein praegnantes visuelles System statt austauschbarer Standard-Templates.
 - [Marketing-Leistungen](https://www.zhstudio.ch/marketing/leistungen)
 - [Marketing-Kontakt](https://www.zhstudio.ch/marketing/kontakt)
 - [Impressum](https://www.zhstudio.ch/impressum)
-- [Datenschutzerklaerung](https://www.zhstudio.ch/datenschutz)
+- [Datenschutzerklärung](https://www.zhstudio.ch/datenschutz)
+
+## Technische Quellen
+
+- [Robots- und KI-Nutzungssignale](https://www.zhstudio.ch/robots.txt)
+- [XML-Sitemap](https://www.zhstudio.ch/sitemap.xml)

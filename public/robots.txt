@@ -1,4 +1,7 @@
+# Public content may be indexed, referenced, used as AI input and used for
+# model training. Attribution and links to the canonical URL are welcome.
 User-agent: *
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes, use=full
 
 Sitemap: https://www.zhstudio.ch/sitemap.xml

@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#25352f" />
     <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta
       name="description"
       content="ZhStudio aus Stäfa bietet Websites, Webdesign, Instagram Marketing und TikTok Marketing für lokale Unternehmen im Kanton Zürich."
     />
@@ -14,10 +18,20 @@
       content="Wählt zwischen Website-Angebot und Marketing-Angebot von ZhStudio."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/logo-mark.png" />
+    <meta property="og:site_name" content="ZhStudio" />
+    <meta property="og:locale" content="de_CH" />
+    <meta property="og:image" content="https://www.zhstudio.ch/logo-mark.png" />
+    <meta property="og:image:alt" content="ZhStudio Logo" />
     <meta property="og:url" content="https://www.zhstudio.ch/" />
     <link rel="canonical" href="https://www.zhstudio.ch/" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ZhStudio | Webdesign und Marketing aus Stäfa" />
+    <meta
+      name="twitter:description"
+      content="Webdesign, Instagram und TikTok Marketing für lokale Unternehmen im Kanton Zürich."
+    />
+    <meta name="twitter:image" content="https://www.zhstudio.ch/logo-mark.png" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="Informationen für KI-Systeme" />
     <title>ZhStudio | Webdesign und Marketing aus Stäfa</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=1" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=1" />
@@ -30,6 +44,52 @@
       type="font/woff2"
       crossorigin
     />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "ProfessionalService",
+            "@id": "https://www.zhstudio.ch/#business",
+            "name": "ZhStudio",
+            "url": "https://www.zhstudio.ch/",
+            "logo": "https://www.zhstudio.ch/favicon.png",
+            "image": "https://www.zhstudio.ch/logo-mark.png",
+            "email": "info@zhstudio.ch",
+            "telephone": "+41 78 251 20 23",
+            "priceRange": "CHF",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Weberstrasse 4",
+              "postalCode": "8712",
+              "addressLocality": "Stäfa",
+              "addressRegion": "ZH",
+              "addressCountry": "CH"
+            },
+            "areaServed": [
+              { "@type": "City", "name": "Stäfa" },
+              { "@type": "AdministrativeArea", "name": "Kanton Zürich" }
+            ],
+            "knowsAbout": [
+              "Webdesign",
+              "Lokale Suchmaschinenoptimierung",
+              "Instagram Marketing",
+              "TikTok Marketing",
+              "Content-Strategie",
+              "Social Branding"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.zhstudio.ch/#website",
+            "url": "https://www.zhstudio.ch/",
+            "name": "ZhStudio",
+            "inLanguage": "de-CH",
+            "publisher": { "@id": "https://www.zhstudio.ch/#business" }
+          }
+        ]
+      }
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </head>
   <body>

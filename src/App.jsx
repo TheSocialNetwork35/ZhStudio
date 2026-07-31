@@ -479,6 +479,61 @@ const selectorContent = {
   ],
 }
 
+const routeMetadata = {
+  web: {
+    '/': {
+      title: 'Webdesign Stäfa & Zürich | ZhStudio',
+      description:
+        'ZhStudio gestaltet elegante, schnelle Websites für Firmen, Restaurants und Vereine in Stäfa, an der Goldküste und im Kanton Zürich.',
+    },
+    '/leistungen': {
+      title: 'Webdesign-Leistungen in Stäfa & Zürich | ZhStudio',
+      description:
+        'Webdesign, SEO-Basis und Branding für lokale Unternehmen: klare Struktur, schnelle Umsetzung und hochwertige Websites ab CHF 480.',
+    },
+    '/kontakt': {
+      title: 'Webdesign anfragen | ZhStudio Stäfa',
+      description:
+        'Website, Redesign oder lokaler Webauftritt: Projekt bei ZhStudio in Stäfa anfragen und eine persönliche Offerte erhalten.',
+    },
+    '/danke': {
+      title: 'Danke für eure Anfrage | ZhStudio',
+      description: 'Die Anfrage ist bei ZhStudio angekommen. Wir melden uns so bald wie möglich persönlich zurück.',
+    },
+  },
+  marketing: {
+    '/': {
+      title: 'Social Media Marketing Stäfa & Zürich | ZhStudio',
+      description:
+        'ZhStudio entwickelt Reels, TikToks, Content-Strategien und Kampagnen für lokale Unternehmen in Stäfa und im Kanton Zürich.',
+    },
+    '/leistungen': {
+      title: 'Instagram & TikTok Marketing | ZhStudio Zürich',
+      description:
+        'Content-Strategie, Reels, TikToks und Social Branding für lokale Marken – von der Idee bis zur sichtbaren Kampagne.',
+    },
+    '/kontakt': {
+      title: 'Social Media Marketing anfragen | ZhStudio',
+      description:
+        'Instagram-, TikTok- oder Content-Projekt bei ZhStudio anfragen und eine passende Social-Media-Lösung persönlich besprechen.',
+    },
+    '/danke': {
+      title: 'Danke für eure Anfrage | ZhStudio',
+      description: 'Die Anfrage ist bei ZhStudio angekommen. Wir melden uns so bald wie möglich persönlich zurück.',
+    },
+  },
+  legal: {
+    '/impressum': {
+      title: 'Impressum | ZhStudio Stäfa',
+      description: 'Anbieter-, Kontakt- und Verantwortlichkeitsangaben von ZhStudio in Stäfa, Kanton Zürich.',
+    },
+    '/datenschutz': {
+      title: 'Datenschutzerklärung | ZhStudio',
+      description: 'Informationen zum Datenschutz und zur Verarbeitung personenbezogener Daten auf zhstudio.ch.',
+    },
+  },
+}
+
 const legalContent = {
   impressum: {
     eyebrow: 'Impressum',
@@ -1431,7 +1486,6 @@ export default function App() {
   const isRootLegalPage = path === '/impressum' || path === '/datenschutz'
   const isSelectorPage = !isWebsitePage && !isMarketingPage && !isRootLegalPage
   const content = isMarketingPage ? siteContent.marketing : siteContent.web
-  const pageMeta = isSelectorPage ? selectorContent : content
   const routePath = isMarketingPage
     ? stripBasePath(path, marketingBasePath)
     : isWebsitePage
@@ -1441,6 +1495,8 @@ export default function App() {
   const isServicesPage = !isSelectorPage && routePath === '/leistungen'
   const isContactPage = !isSelectorPage && routePath === '/kontakt'
   const isThankYouPage = !isSelectorPage && routePath === formRedirectPath
+  const siteMetadata = isMarketingPage ? routeMetadata.marketing : routeMetadata.web
+  const pageMeta = routeMetadata.legal[routePath] || (isSelectorPage ? selectorContent : siteMetadata[routePath] || content)
   const siteClassName = isSelectorPage
     ? ' site-selector'
     : isMarketingPage
@@ -1477,6 +1533,9 @@ export default function App() {
     const ogTitle = document.querySelector('meta[property="og:title"]')
     const ogDescription = document.querySelector('meta[property="og:description"]')
     const ogUrl = document.querySelector('meta[property="og:url"]')
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]')
+    const twitterDescription = document.querySelector('meta[name="twitter:description"]')
+    const robots = document.querySelector('meta[name="robots"]')
     const canonical = document.querySelector('link[rel="canonical"]')
     const canonicalUrl = getCanonicalUrl(path)
 
@@ -1484,8 +1543,16 @@ export default function App() {
     ogTitle?.setAttribute('content', pageMeta.title)
     ogDescription?.setAttribute('content', pageMeta.description)
     ogUrl?.setAttribute('content', canonicalUrl)
+    twitterTitle?.setAttribute('content', pageMeta.title)
+    twitterDescription?.setAttribute('content', pageMeta.description)
+    robots?.setAttribute(
+      'content',
+      isThankYouPage
+        ? 'noindex, nofollow'
+        : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    )
     canonical?.setAttribute('href', canonicalUrl)
-  }, [pageMeta, path])
+  }, [pageMeta, path, isThankYouPage])
 
   useLayoutEffect(() => {
     const scrollToPageTop = () => {
