@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { Canvas, extend, useFrame } from '@react-three/fiber'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Canvas, extend, useFrame, useThree } from '@react-three/fiber'
 import { Environment, Lightformer, useGLTF, useTexture } from '@react-three/drei'
 import {
   BallCollider,
@@ -140,10 +140,13 @@ function Band({
   const j2 = useRef()
   const j3 = useRef()
   const card = useRef()
+  const activePointerId = useRef(null)
+  const dragPointer = useRef(new THREE.Vector2())
   const vec = useMemo(() => new THREE.Vector3(), [])
   const ang = useMemo(() => new THREE.Vector3(), [])
   const rot = useMemo(() => new THREE.Vector3(), [])
   const dir = useMemo(() => new THREE.Vector3(), [])
+  const gl = useThree((state) => state.gl)
   const segmentProps = {
     type: 'dynamic',
     canSleep: true,
@@ -221,6 +224,30 @@ function Band({
   const [dragged, drag] = useState(false)
   const [hovered, hover] = useState(false)
 
+  const updateDragPointer = useCallback(
+    (event) => {
+      const bounds = gl.domElement.getBoundingClientRect()
+      if (!bounds.width || !bounds.height) return
+
+      dragPointer.current.set(
+        ((event.clientX - bounds.left) / bounds.width) * 2 - 1,
+        -((event.clientY - bounds.top) / bounds.height) * 2 + 1,
+      )
+    },
+    [gl],
+  )
+
+  const finishDrag = useCallback(() => {
+    const pointerId = activePointerId.current
+    activePointerId.current = null
+
+    if (pointerId !== null && gl.domElement.hasPointerCapture?.(pointerId)) {
+      gl.domElement.releasePointerCapture(pointerId)
+    }
+
+    drag(false)
+  }, [gl])
+
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], ropeLength])
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], ropeLength])
   useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], ropeLength])
@@ -238,9 +265,40 @@ function Band({
     }
   }, [hovered, dragged])
 
+  useEffect(() => {
+    if (!dragged) return undefined
+
+    const cancelDrag = () => {
+      finishDrag()
+      hover(false)
+    }
+    const handleVisibilityChange = () => {
+      if (document.hidden) cancelDrag()
+    }
+
+    window.addEventListener('pointermove', updateDragPointer, {
+      capture: true,
+      passive: true,
+    })
+    window.addEventListener('pointerup', finishDrag, true)
+    window.addEventListener('pointercancel', cancelDrag, true)
+    window.addEventListener('blur', cancelDrag)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    gl.domElement.addEventListener('lostpointercapture', cancelDrag)
+
+    return () => {
+      window.removeEventListener('pointermove', updateDragPointer, true)
+      window.removeEventListener('pointerup', finishDrag, true)
+      window.removeEventListener('pointercancel', cancelDrag, true)
+      window.removeEventListener('blur', cancelDrag)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      gl.domElement.removeEventListener('lostpointercapture', cancelDrag)
+    }
+  }, [dragged, finishDrag, gl, updateDragPointer])
+
   useFrame((state, delta) => {
     if (dragged) {
-      vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera)
+      vec.set(dragPointer.current.x, dragPointer.current.y, 0.5).unproject(state.camera)
       dir.copy(vec).sub(state.camera.position).normalize()
       vec.add(dir.multiplyScalar(state.camera.position.length()))
       ;[card, j1, j2, j3, fixed].forEach((ref) => ref.current?.wakeUp())
@@ -305,13 +363,13 @@ function Band({
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
-            onPointerUp={(event) => {
-              event.target.releasePointerCapture(event.pointerId)
-              drag(false)
-            }}
+            onPointerUp={finishDrag}
+            onPointerCancel={finishDrag}
             onPointerDown={(event) => {
               event.stopPropagation()
-              event.target.setPointerCapture(event.pointerId)
+              activePointerId.current = event.pointerId
+              updateDragPointer(event)
+              gl.domElement.setPointerCapture?.(event.pointerId)
               drag(
                 new THREE.Vector3()
                   .copy(event.point)

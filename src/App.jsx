@@ -695,7 +695,7 @@ function UnifiedHomeVisual({ enabled }) {
             lanyardWidth={1.12}
             lanyardRepeat={1}
             anchorX={2}
-            anchorY={3}
+            anchorY={3.25}
             cardScale={2.25}
             ropeLength={0.8}
           />
