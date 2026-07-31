@@ -751,6 +751,7 @@ function UnifiedHomeVisual({ enabled }) {
   return (
     <div
       className="unified-visual unified-lanyard"
+      role="img"
       aria-label="Interaktiver ZhStudio-Ausweis. Ziehen, schwingen und umdrehen."
     >
       {is3DReady ? (
