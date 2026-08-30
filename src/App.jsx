@@ -324,27 +324,15 @@ function HomePage({ onNavigate }) {
           </figure>
         </section>
 
-        <section className="studio-services section-reveal" aria-labelledby="studio-services-title">
-          <div className="studio-section-head"><span className="studio-index">02 / Leistungen</span><div><h2 id="studio-services-title">Von der ersten Struktur bis zur fertigen Website.</h2><p>Ein zusammenhängender Prozess statt einzelner, unverbundener Bausteine.</p></div></div>
-          <div className="studio-service-list">
-            {services.map((service) => (
-              <article className="studio-service-item reveal-item" key={service.number}>
-                <span className="service-symbol"><LineIcon name={['structure', 'design', 'performance'][Number(service.number) - 1]} /><small>{service.number}</small></span>
-                <div><h3>{service.title}</h3><p>{service.text}</p><ul>{service.points.map((point) => <li key={point}>{point}</li>)}</ul></div>
-              </article>
-            ))}
-          </div>
-        </section>
-
         <section className="studio-standard section-reveal" aria-labelledby="studio-standard-title">
-          <div className="studio-standard-copy"><span className="studio-index">03 / Qualitätsanspruch</span><h2 id="studio-standard-title">Was eine Website von ZhStudio auszeichnet.</h2><p>Nicht Effekte um ihrer selbst willen, sondern Entscheidungen, die den Auftritt glaubwürdiger und die Nutzung einfacher machen.</p></div>
+          <div className="studio-standard-copy"><span className="studio-index">02 / Qualitätsanspruch</span><h2 id="studio-standard-title">Was eine Website von ZhStudio auszeichnet.</h2><p>Nicht Effekte um ihrer selbst willen, sondern Entscheidungen, die den Auftritt glaubwürdiger und die Nutzung einfacher machen.</p></div>
           <div className="studio-standard-grid">
             {standards.map(([title, text], index) => <article className="reveal-item" key={title}><span><LineIcon name="clarity" /> 0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}
           </div>
         </section>
 
         <section className="studio-process section-reveal" aria-labelledby="studio-process-title">
-          <div className="studio-section-head"><span className="studio-index">04 / Ablauf</span><div><h2 id="studio-process-title">Vier nachvollziehbare Schritte.</h2><p>Direkte Abstimmung, klare Entscheidungen und ein sauberer Weg bis zur Veröffentlichung.</p></div></div>
+          <div className="studio-section-head"><span className="studio-index">03 / Ablauf</span><div><h2 id="studio-process-title">Vier nachvollziehbare Schritte.</h2><p>Direkte Abstimmung, klare Entscheidungen und ein sauberer Weg bis zur Veröffentlichung.</p></div></div>
           <ol className="studio-process-list">
             {processSteps.map(([number, title, text]) => <li className="reveal-item" key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></li>)}
           </ol>
@@ -365,7 +353,7 @@ function HomePage({ onNavigate }) {
 function FaqSection() {
   return (
     <section className="studio-faq section-reveal" aria-labelledby="studio-faq-title">
-      <div className="studio-section-head"><span className="studio-index">05 / Fragen</span><div><h2 id="studio-faq-title">Häufige Fragen, klar beantwortet.</h2></div></div>
+      <div className="studio-section-head"><span className="studio-index">04 / Fragen</span><div><h2 id="studio-faq-title">Häufige Fragen, klar beantwortet.</h2></div></div>
       <div className="studio-faq-list">
         {faqs.map((item) => <details key={item.question}><summary><span>{item.question}</span><i aria-hidden="true">+</i></summary><p>{item.answer}</p></details>)}
       </div>
@@ -391,10 +379,6 @@ function ServicesPage() {
               ['Saubere Veröffentlichung', 'Die fertige Website wird nach Freigabe veröffentlicht und funktional geprüft.'],
             ].map(([title, text], index) => <article className="reveal-item" key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}
           </div>
-        </section>
-        <section className="refined-process section-reveal">
-          <div><span className="eyebrow">Zusammenarbeit</span><h2>Transparent vom ersten Gespräch bis zum Livegang.</h2></div>
-          <ol>{processSteps.map(([number, title, text]) => <li className="reveal-item" key={number}><span>{number}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol>
         </section>
         <section className="refined-price section-reveal">
           <div><span className="eyebrow">Offerte</span><h2>Einfache Webauftritte ab CHF 480.</h2><p>Umfangreichere Websites, zusätzliche Seiten und besondere Funktionen werden passend zum tatsächlichen Aufwand offeriert.</p></div>
