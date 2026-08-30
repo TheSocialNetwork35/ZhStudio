@@ -1,6 +1,6 @@
 # ZhStudio
 
-React/Vite website for ZhStudio. The root page lets visitors choose between the website offer at `/website` and the marketing offer at `/marketing`.
+React/Vite website for ZhStudio, focused exclusively on professional websites and webdesign.
 
 ## Requirements
 

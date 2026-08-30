@@ -1,3 +1,4 @@
-/leistungen /website/leistungen 301
-/kontakt /website/kontakt 301
-/danke /website/danke 301
+/website / 301
+/website/leistungen /leistungen 301
+/website/kontakt /kontakt 301
+/website/danke /danke 301

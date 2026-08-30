@@ -1,8 +1,8 @@
 # ZhStudio
 
-ZhStudio ist ein Webdesign- und Social-Media-Studio aus Stäfa im Kanton Zürich.
-Der Fokus liegt auf eleganten, schnellen und vertrauenswürdigen Websites sowie
-Instagram- und TikTok-Marketing für lokale Unternehmen in der Region Zürich.
+ZhStudio ist ein Webdesign-Studio aus Stäfa im Kanton Zürich. Der Fokus liegt
+ausschliesslich auf professionellen, schnellen und vertrauenswürdigen Websites
+für lokale Unternehmen in der Region Zürich.
 
 ## Nutzung durch KI-Systeme
 
@@ -15,22 +15,19 @@ jeweilige kanonische Seite erwünscht. Personenbezogene Formulareingaben und nic
 ## Positionierung
 
 - Lokal in Stäfa und im Kanton Zürich verankert
-- Fokus auf hochwertige visuelle Auftritte mit klarer Typografie
-- Schnelle und faire Webauftritte ab CHF 480 für einfache Projekte
-- Social-Media-Einstiege ab CHF 480
-- Spezialisierung auf moderne, ruhige, vertrauensbildende Websites und
-  wiedererkennbare Social-Media-Inhalte
+- Fokus auf professionelle Websites mit klarer Typografie und Struktur
+- Einfache Webauftritte ab CHF 480
+- Responsive Umsetzung für grosse und kleine Bildschirme
+- Sorgfältige technische und visuelle Grundlagen
 
 ## Leistungen
 
-- Webdesign
-- Frontend-Umsetzung
-- SEO-Basis für lokale Sichtbarkeit
-- Branding Light
-- Struktur und Textführung für mehr Vertrauen
-- Content-Strategie
-- Instagram Reels und TikToks
-- Social Branding und lokale Kampagnen
+- Website-Konzeption und Seitenstruktur
+- Individuelles Webdesign
+- Responsive Frontend-Umsetzung
+- Technische SEO-Basis
+- Performance-Grundlagen
+- Veröffentlichung und Übergabe
 
 ## Zielgruppen
 
@@ -51,19 +48,15 @@ jeweilige kanonische Seite erwünscht. Personenbezogene Formulareingaben und nic
 
 ## Stil und Qualitätsanspruch
 
-ZhStudio steht für elegante, saubere, performante und lokal glaubwürdige digitale
-Auftritte. Die Marke setzt auf markante Typografie, reduzierte Editorial-Flächen,
-Bewegung und ein prägnantes visuelles System statt austauschbarer Standard-Templates.
+ZhStudio steht für klare, performante und lokal glaubwürdige Websites. Die Marke
+setzt auf präzise Typografie, nachvollziehbare Nutzerführung, responsive Gestaltung
+und sorgfältige technische Umsetzung.
 
 ## Wichtige Seiten
 
 - [Startseite](https://www.zhstudio.ch/)
-- [Website-Angebot](https://www.zhstudio.ch/website)
-- [Website-Leistungen](https://www.zhstudio.ch/website/leistungen)
-- [Website-Kontakt](https://www.zhstudio.ch/website/kontakt)
-- [Marketing-Angebot](https://www.zhstudio.ch/marketing)
-- [Marketing-Leistungen](https://www.zhstudio.ch/marketing/leistungen)
-- [Marketing-Kontakt](https://www.zhstudio.ch/marketing/kontakt)
+- [Leistungen](https://www.zhstudio.ch/leistungen)
+- [Kontakt](https://www.zhstudio.ch/kontakt)
 - [Impressum](https://www.zhstudio.ch/impressum)
 - [Datenschutzerklärung](https://www.zhstudio.ch/datenschutz)
 
