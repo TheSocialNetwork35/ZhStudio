@@ -5782,14 +5782,14 @@ body {
 
 .topbar .nav a {
   min-width: 0;
-  min-height: 44px;
-  padding: 0 2px;
-  border-radius: 0;
+  min-height: 40px;
+  padding: 0 15px;
+  border-radius: 999px;
   color: #55585f;
   font-size: 0.86rem;
   font-weight: 650;
   overflow: visible;
-  transition: color 170ms var(--motion-out);
+  transition: color 160ms var(--motion-out), background-color 160ms var(--motion-out), box-shadow 160ms var(--motion-out), transform 140ms var(--motion-out);
 }
 
 .topbar .nav a.nav-link-active,
@@ -5801,13 +5801,22 @@ body {
 }
 
 .topbar .nav a.nav-link-active::after {
-  left: 0;
-  right: 0;
-  bottom: 2px;
+  left: 15px;
+  right: 15px;
+  bottom: -2px;
   height: 2px;
   background: var(--brand-accent);
   transform-origin: left;
   animation: navLineIn 360ms var(--motion-out) both;
+}
+
+.topbar .nav a:active {
+  transform: scale(0.97);
+}
+
+.topbar .nav a:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 2px;
 }
 
 .header-cta {
@@ -6138,7 +6147,9 @@ body {
   }
 
   .topbar .nav a:hover {
-    color: var(--brand-accent);
+    background: rgba(83, 98, 232, 0.09);
+    color: var(--brand-accent-dark);
+    box-shadow: inset 0 0 0 1px rgba(83, 98, 232, 0.12);
   }
 
   .editorial-card:hover img,
@@ -6243,7 +6254,13 @@ body {
 
   .topbar .nav a {
     min-height: 40px;
+    padding: 0 8px;
     font-size: 0.66rem;
+  }
+
+  .topbar .nav a.nav-link-active::after {
+    left: 8px;
+    right: 8px;
   }
 
   .unified-hero {
