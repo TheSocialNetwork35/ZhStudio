@@ -37,22 +37,22 @@ const services = [
 
 const inboxReferenceViews = [
   {
-    image: '/references/inbox-showcase.jpg',
-    label: 'Startseite',
-    link: 'https://inbx.page/',
-    alt: 'Von ZhStudio realisierte Inbox-Website mit dunklem Hero und App-Ansicht',
+    image: '/references/inbox-overview.jpg',
+    label: 'Alles drin',
+    link: 'https://inbx.page/#alles-drin',
+    alt: 'Inbox-Website mit der Überschrift Eine App. Dein ganzer Schultag.',
   },
   {
-    image: '/references/inbox-functions.jpg',
-    label: 'Funktionsübersicht',
-    link: 'https://inbx.page/funktionen',
-    alt: 'Funktionsseite der von ZhStudio realisierten Inbox-Website',
+    image: '/references/inbox-grades.jpg',
+    label: 'Noten & Prüfungen',
+    link: 'https://inbx.page/funktionen#noten',
+    alt: 'Inbox-Website mit Notenübersicht, Pluspunkten und kommenden Prüfungen',
   },
   {
-    image: '/references/inbox-schools.jpg',
-    label: 'Schulen & Anbindung',
-    link: 'https://inbx.page/schulen',
-    alt: 'Schulseite der von ZhStudio realisierten Inbox-Website',
+    image: '/references/inbox-absences.jpg',
+    label: 'Absenzen',
+    link: 'https://inbx.page/funktionen#absenzen',
+    alt: 'Inbox-Website mit einer mobilen Übersicht offener und erledigter Absenzen',
   },
 ]
 

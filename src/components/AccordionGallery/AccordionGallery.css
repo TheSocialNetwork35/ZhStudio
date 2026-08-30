@@ -123,7 +123,7 @@
 
 @media (max-width: 640px) {
   .accordion-gallery {
-    height: 560px !important;
+    height: 430px !important;
     flex-direction: column;
     perspective: none;
   }
@@ -136,6 +136,15 @@
   .accordion-gallery .ag-panel__media {
     width: 100%;
     height: var(--ag-media-size);
+  }
+
+  .ag-panel--active .ag-panel__media {
+    background: #f1f1ef;
+  }
+
+  .ag-panel--active .ag-panel__media img {
+    object-fit: contain;
+    transform: scale(1.35);
   }
 
   .ag-panel__label {
