@@ -182,17 +182,27 @@ function useMediaQuery(query) {
   return matches
 }
 
-function Header({ hidden, onNavigate, routePath }) {
+function LineIcon({ name }) {
+  const paths = {
+    structure: <><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M3 9h18M8 9v11" /></>,
+    design: <><path d="m4 16 8-12 8 12" /><path d="M7 16h10v4H7zM12 4v12" /></>,
+    performance: <><path d="M4 14a8 8 0 1 1 16 0" /><path d="m12 14 4-5M7 18h10" /></>,
+    clarity: <><circle cx="12" cy="12" r="8" /><path d="M8.5 12.5 11 15l5-6" /></>,
+  }
+  return <svg className="line-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{paths[name] || paths.clarity}</svg>
+}
+
+function Header({ onNavigate, routePath }) {
   const handleNavigate = (event, href) => {
     event.preventDefault()
     onNavigate(href)
   }
 
   return (
-    <header className={`topbar${hidden ? ' topbar-hidden' : ''}`}>
+    <header className="topbar">
       <a className="brand" href="/" onClick={(event) => handleNavigate(event, '/')}>
         <img src="/logo-mark.png" alt="ZhStudio Logo" />
-        <div><strong>ZhStudio</strong><span>Stäfa, Schweiz</span></div>
+        <div><strong>ZhStudio</strong><span>Webdesign · Stäfa</span></div>
       </a>
       <nav className="nav" aria-label="Hauptnavigation">
         {[
@@ -211,6 +221,7 @@ function Header({ hidden, onNavigate, routePath }) {
           </a>
         ))}
       </nav>
+      <a className="header-cta" href="/kontakt" onClick={(event) => handleNavigate(event, '/kontakt')}>Projekt anfragen <span aria-hidden="true">↗</span></a>
     </header>
   )
 }
@@ -279,14 +290,9 @@ function HomePage({ onNavigate }) {
         <div className="unified-side-rays" aria-hidden="true">
           {showEnhancedVisuals ? (
             <Suspense fallback={null}>
-              <SideRays speed={2.5} rayColor1="#EAB308" rayColor2="#96c8ff" intensity={2} spread={2} origin="top-right" tilt={0} saturation={1.5} blend={0.75} falloff={1.6} opacity={1} />
+              <SideRays speed={2} rayColor1="#5968ee" rayColor2="#d7d9e1" intensity={1.6} spread={2} origin="top-right" tilt={0} saturation={0.8} blend={0.68} falloff={1.7} opacity={0.88} />
             </Suspense>
           ) : null}
-        </div>
-        <a className="selector-brand unified-brand" href="/" onClick={(event) => handleNavigate(event, '/')}><img src="/logo-mark.png" alt="ZhStudio Logo" /><span>ZhStudio</span></a>
-        <div className="unified-nav-actions" aria-label="Direktlinks">
-          <a href="/leistungen" onClick={(event) => handleNavigate(event, '/leistungen')}>Leistungen <span>↗</span></a>
-          <a href="/kontakt" onClick={(event) => handleNavigate(event, '/kontakt')}>Kontakt <span>↗</span></a>
         </div>
         <div className="unified-hero-copy">
           <span className="eyebrow">Webdesign aus Stäfa</span>
@@ -307,12 +313,23 @@ function HomePage({ onNavigate }) {
           <div><h2 id="studio-intro-title">Ein seriöser Webauftritt beginnt mit Klarheit.</h2><p>Gute Websites müssen nicht laut sein. Sie müssen verständlich aufgebaut sein, sorgfältig wirken und im richtigen Moment den nächsten Schritt leicht machen.</p></div>
         </section>
 
+        <section className="studio-editorial section-reveal" aria-label="Einblicke in Gestaltung und digitale Arbeitsweise">
+          <figure className="editorial-card editorial-card-wide image-reveal">
+            <img src="/editorial/architecture.jpg" alt="Klare Raster und Linien einer modernen Fassade" loading="lazy" />
+            <figcaption><span>01</span><strong>Struktur schafft Orientierung</strong></figcaption>
+          </figure>
+          <figure className="editorial-card image-reveal">
+            <img src="/editorial/process.jpg" alt="Aufgeräumter Arbeitsplatz mit Laptop, Notizbüchern und Materialmustern" loading="lazy" />
+            <figcaption><span>02</span><strong>Sorgfalt bis ins Detail</strong></figcaption>
+          </figure>
+        </section>
+
         <section className="studio-services section-reveal" aria-labelledby="studio-services-title">
           <div className="studio-section-head"><span className="studio-index">02 / Leistungen</span><div><h2 id="studio-services-title">Von der ersten Struktur bis zur fertigen Website.</h2><p>Ein zusammenhängender Prozess statt einzelner, unverbundener Bausteine.</p></div></div>
           <div className="studio-service-list">
             {services.map((service) => (
-              <article className="studio-service-item" key={service.number}>
-                <span>{service.number}</span>
+              <article className="studio-service-item reveal-item" key={service.number}>
+                <span className="service-symbol"><LineIcon name={['structure', 'design', 'performance'][Number(service.number) - 1]} /><small>{service.number}</small></span>
                 <div><h3>{service.title}</h3><p>{service.text}</p><ul>{service.points.map((point) => <li key={point}>{point}</li>)}</ul></div>
               </article>
             ))}
@@ -322,14 +339,14 @@ function HomePage({ onNavigate }) {
         <section className="studio-standard section-reveal" aria-labelledby="studio-standard-title">
           <div className="studio-standard-copy"><span className="studio-index">03 / Qualitätsanspruch</span><h2 id="studio-standard-title">Was eine Website von ZhStudio auszeichnet.</h2><p>Nicht Effekte um ihrer selbst willen, sondern Entscheidungen, die den Auftritt glaubwürdiger und die Nutzung einfacher machen.</p></div>
           <div className="studio-standard-grid">
-            {standards.map(([title, text], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}
+            {standards.map(([title, text], index) => <article className="reveal-item" key={title}><span><LineIcon name="clarity" /> 0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}
           </div>
         </section>
 
         <section className="studio-process section-reveal" aria-labelledby="studio-process-title">
           <div className="studio-section-head"><span className="studio-index">04 / Ablauf</span><div><h2 id="studio-process-title">Vier nachvollziehbare Schritte.</h2><p>Direkte Abstimmung, klare Entscheidungen und ein sauberer Weg bis zur Veröffentlichung.</p></div></div>
           <ol className="studio-process-list">
-            {processSteps.map(([number, title, text]) => <li key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></li>)}
+            {processSteps.map(([number, title, text]) => <li className="reveal-item" key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></li>)}
           </ol>
         </section>
 
@@ -360,9 +377,9 @@ function ServicesPage() {
   return (
     <>
       <main className="services-page-main refined-page">
-        <section className="refined-page-hero section-reveal"><span className="eyebrow">Leistungen</span><h1>Webdesign mit einer klaren Grundlage.</h1><p>ZhStudio verbindet Struktur, Gestaltung und technische Umsetzung zu einem professionellen Webauftritt, der verständlich bleibt und Vertrauen aufbaut.</p></section>
+        <section className="refined-page-hero section-reveal"><span className="eyebrow">Leistungen</span><h1>Webdesign mit einer klaren Grundlage.</h1><p>ZhStudio verbindet Struktur, Gestaltung und technische Umsetzung zu einem professionellen Webauftritt, der verständlich bleibt und Vertrauen aufbaut.</p><figure className="refined-hero-image image-reveal"><img src="/editorial/workspace.jpg" alt="Laptop und Smartphone an einem aufgeräumten Arbeitsplatz" /><figcaption>Responsive gedacht. Sorgfältig umgesetzt.</figcaption></figure></section>
         <section className="refined-service-grid section-reveal" aria-label="Webdesign-Leistungen">
-          {services.map((service) => <article key={service.number}><span>{service.number}</span><h2>{service.title}</h2><p>{service.text}</p><ul>{service.points.map((point) => <li key={point}>{point}</li>)}</ul></article>)}
+          {services.map((service) => <article className="reveal-item" key={service.number}><span className="service-symbol"><LineIcon name={['structure', 'design', 'performance'][Number(service.number) - 1]} /><small>{service.number}</small></span><h2>{service.title}</h2><p>{service.text}</p><ul>{service.points.map((point) => <li key={point}>{point}</li>)}</ul></article>)}
         </section>
         <section className="refined-deliverables section-reveal">
           <div><span className="eyebrow">Im Projekt enthalten</span><h2>Die wichtigen Grundlagen werden nicht dem Zufall überlassen.</h2></div>
@@ -372,12 +389,12 @@ function ServicesPage() {
               ['Klare Inhaltsführung', 'Überschriften, Textblöcke und Kontaktwege erhalten eine nachvollziehbare Hierarchie.'],
               ['Technische Sorgfalt', 'Semantik, Metadaten, Ladeverhalten und grundlegende Auffindbarkeit werden berücksichtigt.'],
               ['Saubere Veröffentlichung', 'Die fertige Website wird nach Freigabe veröffentlicht und funktional geprüft.'],
-            ].map(([title, text], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}
+            ].map(([title, text], index) => <article className="reveal-item" key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}
           </div>
         </section>
         <section className="refined-process section-reveal">
           <div><span className="eyebrow">Zusammenarbeit</span><h2>Transparent vom ersten Gespräch bis zum Livegang.</h2></div>
-          <ol>{processSteps.map(([number, title, text]) => <li key={number}><span>{number}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol>
+          <ol>{processSteps.map(([number, title, text]) => <li className="reveal-item" key={number}><span>{number}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol>
         </section>
         <section className="refined-price section-reveal">
           <div><span className="eyebrow">Offerte</span><h2>Einfache Webauftritte ab CHF 480.</h2><p>Umfangreichere Websites, zusätzliche Seiten und besondere Funktionen werden passend zum tatsächlichen Aufwand offeriert.</p></div>
@@ -461,7 +478,6 @@ function LegalPage({ pageKey }) {
 export default function App() {
   const appRef = useRef(null)
   const [location, setLocation] = useState(getLocationState)
-  const [isTopbarHidden, setIsTopbarHidden] = useState(false)
   const [navigationTick, setNavigationTick] = useState(0)
   const path = location.pathname
   const isHomePage = path === '/'
@@ -511,24 +527,8 @@ export default function App() {
   }
 
   useEffect(() => {
-    let lastScrollY = window.scrollY
-    const updateTopbarVisibility = () => {
-      const currentScrollY = window.scrollY
-      const delta = currentScrollY - lastScrollY
-      if (currentScrollY <= 32) setIsTopbarHidden(false)
-      else if (delta > 8) setIsTopbarHidden(true)
-      else if (delta < -8) setIsTopbarHidden(false)
-      lastScrollY = currentScrollY
-    }
-    window.addEventListener('scroll', updateTopbarVisibility, { passive: true })
-    return () => window.removeEventListener('scroll', updateTopbarVisibility)
-  }, [])
-
-  useEffect(() => setIsTopbarHidden(false), [path])
-
-  useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
-    const elements = [...document.querySelectorAll('.section-reveal')]
+    const elements = [...document.querySelectorAll('.section-reveal, .reveal-item, .image-reveal')]
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -544,7 +544,7 @@ export default function App() {
   return (
     <div className={`site-shell${isHomePage ? ' site-selector' : ' site-web site-web-theme'}${path === '/impressum' || path === '/datenschutz' ? ' legal-shell' : ''}`} ref={appRef}>
       <div className="background-motion" /><div className="background-grid" />
-      {!isHomePage ? <Header hidden={isTopbarHidden} onNavigate={handleNavigate} routePath={path} /> : null}
+      <Header onNavigate={handleNavigate} routePath={path} />
       {path === '/' ? <HomePage onNavigate={handleNavigate} /> : null}
       {path === '/leistungen' ? <ServicesPage /> : null}
       {path === '/kontakt' ? <ContactPage onNavigate={handleNavigate} /> : null}
