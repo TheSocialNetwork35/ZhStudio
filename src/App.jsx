@@ -2,6 +2,7 @@ import { Component, lazy, Suspense, useEffect, useLayoutEffect, useRef, useState
 
 const SideRays = lazy(() => import('./components/SideRays'))
 const Lanyard = lazy(() => import('./components/Lanyard/Lanyard'))
+const AccordionGallery = lazy(() => import('./components/AccordionGallery/AccordionGallery'))
 
 const formEndpoint = 'https://formspree.io/f/xvzdeqvn'
 const canonicalOrigin = 'https://www.zhstudio.ch'
@@ -31,6 +32,27 @@ const services = [
     title: 'Technische Basis',
     text: 'Solide Grundlagen für schnelle Ladezeiten, Auffindbarkeit und eine Website, die zuverlässig funktioniert.',
     points: ['Performance-Grundlagen', 'Technische SEO-Basis', 'Veröffentlichung und Übergabe'],
+  },
+]
+
+const inboxReferenceViews = [
+  {
+    image: '/references/inbox-showcase.jpg',
+    label: 'Startseite',
+    link: 'https://inbx.page/',
+    alt: 'Von ZhStudio realisierte Inbox-Website mit dunklem Hero und App-Ansicht',
+  },
+  {
+    image: '/references/inbox-functions.jpg',
+    label: 'Funktionsübersicht',
+    link: 'https://inbx.page/funktionen',
+    alt: 'Funktionsseite der von ZhStudio realisierten Inbox-Website',
+  },
+  {
+    image: '/references/inbox-schools.jpg',
+    label: 'Schulen & Anbindung',
+    link: 'https://inbx.page/schulen',
+    alt: 'Schulseite der von ZhStudio realisierten Inbox-Website',
   },
 ]
 
@@ -364,25 +386,62 @@ function FaqSection() {
 function ServicesPage() {
   return (
     <>
-      <main className="services-page-main refined-page">
-        <section className="refined-page-hero section-reveal"><span className="eyebrow">Leistungen</span><h1>Webdesign mit einer klaren Grundlage.</h1><p>ZhStudio verbindet Struktur, Gestaltung und technische Umsetzung zu einem professionellen Webauftritt, der verständlich bleibt und Vertrauen aufbaut.</p><figure className="refined-hero-image image-reveal"><img src="/editorial/workspace.jpg" alt="Laptop und Smartphone an einem aufgeräumten Arbeitsplatz" /><figcaption>Responsive gedacht. Sorgfältig umgesetzt.</figcaption></figure></section>
-        <section className="refined-service-grid section-reveal" aria-label="Webdesign-Leistungen">
-          {services.map((service) => <article className="reveal-item" key={service.number}><span className="service-symbol"><LineIcon name={['structure', 'design', 'performance'][Number(service.number) - 1]} /><small>{service.number}</small></span><h2>{service.title}</h2><p>{service.text}</p><ul>{service.points.map((point) => <li key={point}>{point}</li>)}</ul></article>)}
+      <main className="services-page-main refined-page services-redesign">
+        <section className="services-redesign-hero section-reveal" aria-labelledby="services-title">
+          <div className="services-redesign-copy">
+            <span className="eyebrow">01 / Webdesign</span>
+            <h1 id="services-title">Websites mit Substanz.</h1>
+            <p>Vom ersten Seitenraster bis zum veröffentlichten Auftritt: ZhStudio gestaltet und entwickelt Websites, die verständlich, hochwertig und auf jedem Gerät überzeugend sind.</p>
+            <a className="services-inline-link" href="/kontakt">Projekt besprechen <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure className="services-redesign-visual image-reveal">
+            <img src="/editorial/workspace.jpg" alt="Aufgeräumter Arbeitsplatz für Konzeption und Webdesign" />
+            <figcaption><span>Konzept</span><span>Design</span><span>Entwicklung</span></figcaption>
+          </figure>
         </section>
-        <section className="refined-deliverables section-reveal">
-          <div><span className="eyebrow">Im Projekt enthalten</span><h2>Die wichtigen Grundlagen werden nicht dem Zufall überlassen.</h2></div>
-          <div className="refined-deliverable-list">
-            {[
-              ['Responsive Gestaltung', 'Die Website wird für grosse und kleine Bildschirme konsequent ausgearbeitet.'],
-              ['Klare Inhaltsführung', 'Überschriften, Textblöcke und Kontaktwege erhalten eine nachvollziehbare Hierarchie.'],
-              ['Technische Sorgfalt', 'Semantik, Metadaten, Ladeverhalten und grundlegende Auffindbarkeit werden berücksichtigt.'],
-              ['Saubere Veröffentlichung', 'Die fertige Website wird nach Freigabe veröffentlicht und funktional geprüft.'],
-            ].map(([title, text], index) => <article className="reveal-item" key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}
+
+        <section className="services-redesign-list section-reveal" aria-labelledby="services-overview-title">
+          <header>
+            <span className="eyebrow">02 / Leistungen</span>
+            <h2 id="services-overview-title">Alles, was ein starker Webauftritt braucht.</h2>
+          </header>
+          <div className="refined-service-grid" aria-label="Webdesign-Leistungen">
+          {services.map((service) => <article className="reveal-item" key={service.number}><span className="service-symbol"><LineIcon name={['structure', 'design', 'performance'][Number(service.number) - 1]} /><small>{service.number}</small></span><h2>{service.title}</h2><p>{service.text}</p><ul>{service.points.map((point) => <li key={point}>{point}</li>)}</ul></article>)}
           </div>
         </section>
+
+        <section className="reference-showcase section-reveal" aria-labelledby="reference-title">
+          <div className="reference-showcase-head">
+            <div>
+              <span className="eyebrow">03 / Referenz</span>
+              <h2 id="reference-title">Inbox</h2>
+            </div>
+            <div className="reference-showcase-copy">
+              <p>Eine vollständig von ZhStudio realisierte Website für eine moderne Schul-App – vom visuellen System bis zur responsiven Umsetzung.</p>
+              <a href="https://inbx.page/" target="_blank" rel="noreferrer">Live ansehen <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <Suspense fallback={<div className="reference-gallery-fallback" aria-hidden="true" />}>
+            <AccordionGallery
+              items={inboxReferenceViews}
+              defaultIndex={0}
+              expandRatio={0.62}
+              accentColor="#7d89ff"
+              overlayColor="#0a0a0d"
+              height={500}
+              gap={10}
+              radius={14}
+              duration={0.55}
+              tilt={4}
+              parallax={0.35}
+            />
+          </Suspense>
+          <p className="reference-showcase-note">Mit Maus, Fokus oder Fingertipp erkunden · Das aktive Panel öffnet die jeweilige Seite.</p>
+        </section>
+
         <section className="refined-price section-reveal">
-          <div><span className="eyebrow">Offerte</span><h2>Einfache Webauftritte ab CHF 480.</h2><p>Umfangreichere Websites, zusätzliche Seiten und besondere Funktionen werden passend zum tatsächlichen Aufwand offeriert.</p></div>
-          <a className="button button-primary" href="/kontakt">Offerte anfragen</a>
+          <div><span className="eyebrow">04 / Offerte</span><h2>Bereit für eine Website, die passt?</h2><p>Einfache Webauftritte starten ab CHF 480. Für den tatsächlichen Umfang folgt eine klare, persönliche Offerte.</p></div>
+          <a className="button button-primary" href="/kontakt">Projekt anfragen <span aria-hidden="true">↗</span></a>
         </section>
       </main>
       <Footer />
