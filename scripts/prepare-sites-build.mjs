@@ -42,9 +42,7 @@ for (const [pathname, metadata] of Object.entries(routeMetadata)) {
     await writeFile(indexUrl, pageHtml)
     continue
   }
-  const routeDirectory = new URL(`.${pathname}/`, distUrl)
-  await mkdir(routeDirectory, { recursive: true })
-  await writeFile(new URL('index.html', routeDirectory), pageHtml)
+  await writeFile(new URL(`${pathname.slice(1)}.html`, distUrl), pageHtml)
 }
 
 const notFoundHtml = baseHtml

@@ -33,9 +33,9 @@ npm run build
 
 The built files are generated in `dist/`.
 
-## Cloudflare Workers
+## Cloudflare
 
-This project deploys as a Cloudflare Worker with static assets.
+The Git-connected production site deploys to Cloudflare Pages. A small Pages middleware reuses the Worker routing logic for canonical redirects, security headers and real 404 responses. The same app can also be deployed directly as a Cloudflare Worker with static assets.
 
 Cloudflare build settings:
 
