@@ -73,7 +73,7 @@ const standards = [
 const faqs = [
   {
     question: 'Was kostet eine Website bei ZhStudio?',
-    answer: 'Einfache Webauftritte starten ab CHF 480. Der konkrete Preis richtet sich nach Umfang, Seitenzahl, Funktionen und dem Zustand der vorhandenen Inhalte. Vor dem Start gibt es eine klare Offerte.',
+    answer: 'Einfache Webauftritte starten ab CHF 680. Der konkrete Preis richtet sich nach Umfang, Seitenzahl, Funktionen und dem Zustand der vorhandenen Inhalte. Vor dem Start gibt es eine klare Offerte.',
   },
   {
     question: 'Für welche Unternehmen eignet sich das Angebot?',
@@ -363,7 +363,7 @@ function HomePage({ onNavigate }) {
         <FaqSection />
 
         <section className="studio-cta section-reveal" aria-labelledby="studio-cta-title">
-          <div><span className="studio-index">Projektstart</span><h2 id="studio-cta-title">Einfache Webauftritte ab CHF 480.</h2><p>Erzählt kurz, was ihr braucht. Danach folgt eine persönliche Einschätzung und eine klare Offerte.</p></div>
+          <div><span className="studio-index">Projektstart</span><h2 id="studio-cta-title">Einfache Webauftritte ab CHF 680.</h2><p>Erzählt kurz, was ihr braucht. Danach folgt eine persönliche Einschätzung und eine klare Offerte.</p></div>
           <a className="button studio-cta-button" href="/kontakt" onClick={(event) => handleNavigate(event, '/kontakt')}>Anfrage starten <span>↗</span></a>
         </section>
       </div>
@@ -440,7 +440,7 @@ function ServicesPage() {
         </section>
 
         <section className="refined-price section-reveal">
-          <div><span className="eyebrow">04 / Offerte</span><h2>Bereit für eine Website, die passt?</h2><p>Einfache Webauftritte starten ab CHF 480. Für den tatsächlichen Umfang folgt eine klare, persönliche Offerte.</p></div>
+          <div><span className="eyebrow">04 / Offerte</span><h2>Bereit für eine Website, die passt?</h2><p>Einfache Webauftritte starten ab CHF 680. Für den tatsächlichen Umfang folgt eine klare, persönliche Offerte.</p></div>
           <a className="button button-primary" href="/kontakt">Projekt anfragen <span aria-hidden="true">↗</span></a>
         </section>
       </main>
