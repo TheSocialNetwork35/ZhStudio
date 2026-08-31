@@ -41,7 +41,7 @@ jeweilige kanonische Seite erwünscht. Personenbezogene Formulareingaben und nic
 
 - Name: ZhStudio
 - Standort: Weberstrasse 4, 8712 Stäfa, Schweiz
-- Website: https://www.zhstudio.ch/
+- Website: https://zhstudio.ch/
 - E-Mail: info@zhstudio.ch
 - Telefon: +41 78 251 20 23
 - Verantwortlich: Yannis Ress Lasser
@@ -54,13 +54,13 @@ und sorgfältige technische Umsetzung.
 
 ## Wichtige Seiten
 
-- [Startseite](https://www.zhstudio.ch/)
-- [Leistungen](https://www.zhstudio.ch/leistungen)
-- [Kontakt](https://www.zhstudio.ch/kontakt)
-- [Impressum](https://www.zhstudio.ch/impressum)
-- [Datenschutzerklärung](https://www.zhstudio.ch/datenschutz)
+- [Startseite](https://zhstudio.ch/)
+- [Leistungen](https://zhstudio.ch/leistungen)
+- [Kontakt](https://zhstudio.ch/kontakt)
+- [Impressum](https://zhstudio.ch/impressum)
+- [Datenschutzerklärung](https://zhstudio.ch/datenschutz)
 
 ## Technische Quellen
 
-- [Robots- und KI-Nutzungssignale](https://www.zhstudio.ch/robots.txt)
-- [XML-Sitemap](https://www.zhstudio.ch/sitemap.xml)
+- [Robots- und KI-Nutzungssignale](https://zhstudio.ch/robots.txt)
+- [XML-Sitemap](https://zhstudio.ch/sitemap.xml)

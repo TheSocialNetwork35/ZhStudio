@@ -2,6 +2,7 @@ import { canonicalOrigin, knownRoutes, legacyRoutes } from './seo.js'
 
 const canonicalHost = new URL(canonicalOrigin).host
 const knownRouteSet = new Set(knownRoutes)
+const productionHosts = new Set(['zhstudio.ch', 'www.zhstudio.ch'])
 
 function getHeader(request, name) {
   return request.headers.get(name) || ''
@@ -96,7 +97,7 @@ export default {
     const lowerPathname = url.pathname.toLowerCase()
     const withoutTrailingSlash = lowerPathname.length > 1 ? lowerPathname.replace(/\/+$/, '') : lowerPathname
     const legacyTarget = legacyRoutes[withoutTrailingSlash]
-    const isProductionHost = url.hostname === 'zhstudio.ch' || url.hostname === canonicalHost
+    const isProductionHost = productionHosts.has(url.hostname)
     const needsCanonicalHost = isProductionHost && (url.protocol !== 'https:' || url.host !== canonicalHost)
 
     if (legacyTarget) {

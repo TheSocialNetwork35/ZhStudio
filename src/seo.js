@@ -1,4 +1,4 @@
-export const canonicalOrigin = 'https://www.zhstudio.ch'
+export const canonicalOrigin = 'https://zhstudio.ch'
 
 export const routeMetadata = {
   '/': {

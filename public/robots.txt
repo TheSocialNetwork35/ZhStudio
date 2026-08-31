@@ -4,4 +4,4 @@ User-agent: *
 Allow: /
 Content-Signal: search=yes, ai-input=yes, ai-train=yes, use=full
 
-Sitemap: https://www.zhstudio.ch/sitemap.xml
+Sitemap: https://zhstudio.ch/sitemap.xml
