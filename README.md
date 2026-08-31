@@ -53,7 +53,7 @@ npm run worker:dev
 npm run deploy
 ```
 
-The Worker serves the built Vite app from `dist/` and keeps React routes working with the SPA fallback. API routes can be added under `/api/*`; `/api/request-info` already returns basic request and Cloudflare edge metadata.
+The Worker serves the built Vite app from `dist/`. The build creates route-specific HTML metadata for public React routes and returns a real 404 for unknown paths. API routes can be added under `/api/*`; `/api/request-info` already returns basic request and Cloudflare edge metadata.
 
 ## Main Files
 

@@ -1,18 +1,11 @@
 import { Component, lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { canonicalUrlFor, knownRoutes, legacyRoutes, routeMetadata } from './seo'
 
 const SideRays = lazy(() => import('./components/SideRays'))
 const Lanyard = lazy(() => import('./components/Lanyard/Lanyard'))
 const AccordionGallery = lazy(() => import('./components/AccordionGallery/AccordionGallery'))
 
 const formEndpoint = 'https://formspree.io/f/xvzdeqvn'
-const canonicalOrigin = 'https://www.zhstudio.ch'
-const knownRoutes = ['/', '/leistungen', '/kontakt', '/danke', '/impressum', '/datenschutz']
-const legacyRoutes = {
-  '/website': '/',
-  '/website/leistungen': '/leistungen',
-  '/website/kontakt': '/kontakt',
-  '/website/danke': '/danke',
-}
 
 const services = [
   {
@@ -88,33 +81,6 @@ const faqs = [
     answer: 'Hilfreich sind vorhandene Texte, Bilder, Logo-Dateien und ein kurzer Überblick über Ziele und gewünschte Funktionen. Fehlende Grundlagen werden vor Projektbeginn gemeinsam eingeordnet.',
   },
 ]
-
-const metadata = {
-  '/': {
-    title: 'ZhStudio | Webdesign aus Stäfa',
-    description: 'ZhStudio gestaltet professionelle, schnelle Websites für lokale Unternehmen in Stäfa, an der Goldküste und im Kanton Zürich.',
-  },
-  '/leistungen': {
-    title: 'Webdesign-Leistungen in Stäfa & Zürich | ZhStudio',
-    description: 'Konzept, Webdesign, responsive Umsetzung und technische SEO-Basis für professionelle Websites aus Stäfa.',
-  },
-  '/kontakt': {
-    title: 'Webdesign anfragen | ZhStudio Stäfa',
-    description: 'Website oder Redesign bei ZhStudio in Stäfa anfragen und eine persönliche, klare Offerte erhalten.',
-  },
-  '/danke': {
-    title: 'Danke für eure Anfrage | ZhStudio',
-    description: 'Die Anfrage ist bei ZhStudio angekommen. Wir melden uns so bald wie möglich persönlich zurück.',
-  },
-  '/impressum': {
-    title: 'Impressum | ZhStudio Stäfa',
-    description: 'Anbieter-, Kontakt- und Verantwortlichkeitsangaben von ZhStudio in Stäfa, Kanton Zürich.',
-  },
-  '/datenschutz': {
-    title: 'Datenschutzerklärung | ZhStudio',
-    description: 'Informationen zum Datenschutz und zur Verarbeitung personenbezogener Daten auf zhstudio.ch.',
-  },
-}
 
 const legalContent = {
   impressum: {
@@ -524,7 +490,7 @@ export default function App() {
   const [navigationTick, setNavigationTick] = useState(0)
   const path = location.pathname
   const isHomePage = path === '/'
-  const pageMeta = metadata[path] || metadata['/']
+  const pageMeta = routeMetadata[path] || routeMetadata['/']
 
   useEffect(() => {
     const normalizedUrl = `${path}${location.hash}`
@@ -543,14 +509,14 @@ export default function App() {
 
   useEffect(() => {
     document.title = pageMeta.title
-    const canonicalUrl = `${canonicalOrigin}${path === '/' ? '/' : path}`
+    const canonicalUrl = canonicalUrlFor(path)
     document.querySelector('meta[name="description"]')?.setAttribute('content', pageMeta.description)
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', pageMeta.title)
     document.querySelector('meta[property="og:description"]')?.setAttribute('content', pageMeta.description)
     document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonicalUrl)
     document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', pageMeta.title)
     document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', pageMeta.description)
-    document.querySelector('meta[name="robots"]')?.setAttribute('content', path === '/danke' ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')
+    document.querySelector('meta[name="robots"]')?.setAttribute('content', pageMeta.robots || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonicalUrl)
   }, [pageMeta, path])
 
