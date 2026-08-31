@@ -5723,7 +5723,7 @@ body {
   padding: 10px var(--edge);
   gap: clamp(18px, 3vw, 44px);
   border-bottom: 1px solid var(--brand-line);
-  background: rgba(243, 243, 241, 0.93);
+  background: rgba(243, 243, 241, 0.85);
   backdrop-filter: blur(20px) saturate(130%);
   box-shadow: 0 12px 32px rgba(17, 18, 22, 0.045);
 }
