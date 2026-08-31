@@ -5723,7 +5723,7 @@ body {
   padding: 10px var(--edge);
   gap: clamp(18px, 3vw, 44px);
   border-bottom: 1px solid var(--brand-line);
-  background: rgba(243, 243, 241, 0.88);
+  background: rgba(243, 243, 241, 0.93);
   backdrop-filter: blur(20px) saturate(130%);
   box-shadow: 0 12px 32px rgba(17, 18, 22, 0.045);
 }
@@ -6322,10 +6322,6 @@ body {
 /* Compact services page with a verified project reference. */
 .services-redesign {
   padding-top: 58px;
-}
-
-.topbar {
-  background: rgba(243, 243, 241, 0.97);
 }
 
 .services-redesign-hero {
