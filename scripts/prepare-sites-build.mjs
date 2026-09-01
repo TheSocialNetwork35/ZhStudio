@@ -52,6 +52,8 @@ const notFoundHtml = baseHtml
 
 await writeFile(new URL('404.html', distUrl), notFoundHtml)
 
+await import('./generate-static-html.mjs')
+
 await mkdir(new URL('../dist/server/', import.meta.url), { recursive: true })
 await copyFile(
   new URL('../src/worker.js', import.meta.url),

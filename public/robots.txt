@@ -1,5 +1,64 @@
+# AI crawler access
 # Public content may be indexed, referenced, used as AI input and used for
 # model training. Attribution and links to the canonical URL are welcome.
+
+# OpenAI - model training
+User-agent: GPTBot
+Allow: /
+
+# OpenAI - ChatGPT search results
+User-agent: OAI-SearchBot
+Allow: /
+
+# OpenAI - live user requests in ChatGPT
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic - model training
+User-agent: ClaudeBot
+Allow: /
+
+# Anthropic - Claude search results
+User-agent: Claude-SearchBot
+Allow: /
+
+# Anthropic - live user requests in Claude
+User-agent: Claude-User
+Allow: /
+
+# Google - Gemini training and grounding
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity - search index
+User-agent: PerplexityBot
+Allow: /
+
+# Perplexity - live user requests
+User-agent: Perplexity-User
+Allow: /
+
+# Meta - Meta AI training
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# Apple - Apple Intelligence training
+User-agent: Applebot-Extended
+Allow: /
+
+# Amazon - Alexa and Amazon AI
+User-agent: Amazonbot
+Allow: /
+
+# Common Crawl - open dataset used to train many models
+User-agent: CCBot
+Allow: /
+
+# ByteDance - model training
+User-agent: Bytespider
+Allow: /
+
+# Everyone else, including search engines and browsers
 User-agent: *
 Allow: /
 Content-Signal: search=yes, ai-input=yes, ai-train=yes, use=full
