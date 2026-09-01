@@ -24,9 +24,24 @@ const pages = {
           <p>Das Angebot umfasst Seitenstruktur und Nutzerführung, individuelles Webdesign, responsive Frontend-Umsetzung, Performance-Grundlagen, technische SEO sowie Veröffentlichung und Übergabe.</p>
         </section>
         <section>
+          <h2>Ein klarer Ablauf bis zur Veröffentlichung</h2>
+          <p>Zu Beginn werden Ziele, Umfang und vorhandene Inhalte in einem kurzen Gespräch geklärt. Danach legt ZhStudio gemeinsam mit dem Unternehmen die Seitenstruktur, die visuelle Richtung und die wichtigsten Funktionen fest. Die Website wird responsiv gestaltet, technisch umgesetzt und auf unterschiedlichen Bildschirmgrössen geprüft. Nach der Freigabe folgt die saubere Veröffentlichung mit den notwendigen technischen Grundlagen.</p>
+          <p>Während des gesamten Projekts gibt es eine direkte persönliche Abstimmung. Entscheidungen bleiben nachvollziehbar, Rückmeldungen können früh einfliessen und unnötige Übergaben werden vermieden.</p>
+        </section>
+        <section>
+          <h2>Qualität, die im Alltag funktioniert</h2>
+          <p>Eine Website von ZhStudio soll nicht nur gut aussehen, sondern dauerhaft verständlich und zuverlässig nutzbar sein. Dazu gehören gut lesbare Typografie, sinnvolle Abstände, ausreichende Kontraste, kurze Ladezeiten und eine klare Darstellung auf Smartphones, Tablets und Desktop-Bildschirmen.</p>
+          <p>Bestehende Websites können ebenfalls überarbeitet werden. Vor einem Redesign wird geprüft, welche Inhalte und technischen Grundlagen weiterverwendet werden können und wo eine neue Struktur den grösseren Nutzen bringt.</p>
+        </section>
+        <section>
           <h2>Einfache Webauftritte ab CHF 680</h2>
           <p>Nach einem kurzen Kennenlernen folgen eine persönliche Einschätzung und eine klare Offerte. ZhStudio begleitet das Projekt direkt von der ersten Struktur bis zur veröffentlichten Website.</p>
           <p><a href="/kontakt">Website bei ZhStudio anfragen</a></p>
+        </section>
+        <section>
+          <h2>Häufige Fragen zu einem Website-Projekt</h2>
+          <p>Der konkrete Preis richtet sich nach Seitenzahl, Funktionen und dem Zustand der vorhandenen Texte, Bilder und Logo-Dateien. Vor dem Projektstart erhalten Kundinnen und Kunden eine verständliche Offerte. Fehlende Inhalte oder offene technische Fragen werden gemeinsam eingeordnet.</p>
+          <p>Das Angebot eignet sich sowohl für einen neuen Webauftritt als auch für die Überarbeitung einer bestehenden Website. Im Mittelpunkt stehen lokale Unternehmen und Organisationen, die professionell auftreten, ihr Angebot klar erklären und online leichter kontaktiert werden möchten.</p>
         </section>
       </main>`,
   },
