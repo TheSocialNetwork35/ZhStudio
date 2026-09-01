@@ -68,15 +68,6 @@ function notFound() {
   })
 }
 
-const staticPageAssets = new Map([
-  ['/', '/index.html'],
-  ['/leistungen', '/leistungen.html'],
-  ['/kontakt', '/kontakt.html'],
-  ['/danke', '/danke.html'],
-  ['/impressum', '/impressum.html'],
-  ['/datenschutz', '/datenschutz.html'],
-])
-
 function withAssetHeaders(request, response) {
   const headers = new Headers(response.headers)
   const url = new URL(request.url)
@@ -133,12 +124,7 @@ export default {
       return withAssetHeaders(request, notFound())
     }
 
-    const acceptsHtml = getHeader(request, 'accept').includes('text/html')
-    const staticAssetPath = staticPageAssets.get(url.pathname)
-    const assetRequest = acceptsHtml && staticAssetPath
-      ? new Request(new URL(staticAssetPath, url), request)
-      : request
-    const assetResponse = await env.ASSETS.fetch(assetRequest)
+    const assetResponse = await env.ASSETS.fetch(request)
     return withAssetHeaders(request, assetResponse)
   },
 }
