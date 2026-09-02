@@ -40,7 +40,7 @@ jeweilige kanonische Seite erwünscht. Personenbezogene Formulareingaben und nic
 ## Kontakt
 
 - Name: ZhStudio
-- Standort: Weberstrasse 4, 8712 Stäfa, Schweiz
+- Standort: Webereistrasse 4, 8712 Stäfa, Schweiz
 - Website: https://zhstudio.ch/
 - E-Mail: info@zhstudio.ch
 - Telefon: +41 78 251 20 23

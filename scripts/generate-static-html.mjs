@@ -65,7 +65,7 @@ const pages = {
       <main class="seo-fallback">
         <header><a href="/">ZhStudio – Webdesign aus Stäfa</a><nav aria-label="Hauptnavigation"><a href="/leistungen">Leistungen</a> <a href="/kontakt">Kontakt</a></nav></header>
         <section><p>Kontakt</p><h1>Erzählt kurz, welche Website ihr braucht.</h1><p>ZhStudio beantwortet Anfragen zu neuen Websites und Redesigns persönlich und erstellt nach der ersten Einschätzung eine klare Offerte.</p></section>
-        <section><h2>Projektanfrage</h2><p>Hilfreich sind ein kurzer Überblick über das Unternehmen, die gewünschte Website, vorhandene Inhalte, benötigte Funktionen und der geplante Zeitrahmen.</p><p>E-Mail: <a href="mailto:info@zhstudio.ch">info@zhstudio.ch</a><br>Telefon: <a href="tel:+41782512023">+41 78 251 20 23</a><br>Adresse: Weberstrasse 4, 8712 Stäfa, Schweiz</p></section>
+        <section><h2>Projektanfrage</h2><p>Hilfreich sind ein kurzer Überblick über das Unternehmen, die gewünschte Website, vorhandene Inhalte, benötigte Funktionen und der geplante Zeitrahmen.</p><p>E-Mail: <a href="mailto:info@zhstudio.ch">info@zhstudio.ch</a><br>Telefon: <a href="tel:+41782512023">+41 78 251 20 23</a><br>Adresse: Webereistrasse 4, 8712 Stäfa, Schweiz</p></section>
       </main>`,
   },
   '/danke': {
@@ -84,7 +84,7 @@ const pages = {
     body: `
       <main class="seo-fallback"><header><a href="/">ZhStudio – Webdesign aus Stäfa</a></header>
         <section><h1>Impressum für ZhStudio</h1><p>Angaben zum Anbieter und zur verantwortlichen Person dieser Website.</p></section>
-        <section><h2>Anbieter</h2><p>ZhStudio<br>Weberstrasse 4<br>8712 Stäfa, Schweiz</p></section>
+        <section><h2>Anbieter</h2><p>ZhStudio<br>Webereistrasse 4<br>8712 Stäfa, Schweiz</p></section>
         <section><h2>Kontakt</h2><p>E-Mail: <a href="mailto:info@zhstudio.ch">info@zhstudio.ch</a><br>Telefon: <a href="tel:+41782512023">+41 78 251 20 23</a></p></section>
         <section><h2>Verantwortlich für den Inhalt</h2><p>Yannis Ress Lasser</p></section>
       </main>`,

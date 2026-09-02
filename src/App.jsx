@@ -90,7 +90,7 @@ const legalContent = {
     sections: [
       {
         title: 'Anbieter',
-        body: ['ZhStudio', 'Weberstrasse 4, 8712 Stäfa, Schweiz', 'Derzeit nicht im Handelsregister eingetragen.', 'Aktuell ohne eingetragene Rechtsform / ohne Handelsregistereintrag.'],
+        body: ['ZhStudio', 'Webereistrasse 4, 8712 Stäfa, Schweiz', 'Derzeit nicht im Handelsregister eingetragen.', 'Aktuell ohne eingetragene Rechtsform / ohne Handelsregistereintrag.'],
       },
       {
         title: 'Kontakt',
@@ -443,7 +443,7 @@ function ContactPage({ onNavigate }) {
           <div className="contact-focus-intro">
             <span className="eyebrow">Kontakt</span><h1>Erzählt kurz, welche Website ihr braucht.</h1>
             <p className="contact-focus-text">Ein paar Angaben reichen für eine erste Einschätzung. ZhStudio meldet sich persönlich zurück und klärt die nächsten Schritte.</p>
-            <div className="refined-contact-meta"><a href="mailto:info@zhstudio.ch">info@zhstudio.ch</a><span>Weberstrasse 4, 8712 Stäfa</span><a href="tel:+41782512023">+41 78 251 20 23</a></div>
+            <div className="refined-contact-meta"><a href="mailto:info@zhstudio.ch">info@zhstudio.ch</a><span>Webereistrasse 4, 8712 Stäfa</span><a href="tel:+41782512023">+41 78 251 20 23</a></div>
           </div>
           <div className="contact-form-shell">
             <div className="contact-form-head"><div><span className="eyebrow">Projektanfrage</span><h2>Die wichtigsten Angaben auf einen Blick.</h2></div></div>
