@@ -120,9 +120,15 @@ function replaceMeta(html, page, path) {
 const template = await readFile(new URL('index.html', distUrl), 'utf8')
 
 for (const [path, page] of Object.entries(pages)) {
+  // Keep the crawlable fallback in the HTML without flashing it before React mounts.
+  // The fallback node is replaced by the app on the first render.
+  const hiddenFallback = page.body.replace(
+    '<main class="seo-fallback">',
+    '<main class="seo-fallback" hidden>',
+  )
   const html = replaceMeta(template, { ...page, ...routeMetadata[path] }, path).replace(
     /<div id="root">[\s\S]*<\/div>\s*<\/body>/,
-    `<div id="root">${page.body}</div>\n  </body>`,
+    `<div id="root">${hiddenFallback}</div>\n  </body>`,
   )
   const outputUrl = path === '/' ? new URL('index.html', distUrl) : new URL(`${path.slice(1)}.html`, distUrl)
   await writeFile(outputUrl, html)
