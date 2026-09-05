@@ -111,6 +111,7 @@ export default function AccordionGallery({
       mediaSizeRef.current = size
       element.style.setProperty('--ag-media-size', `${size}px`)
       applyLayout(!firstRunRef.current)
+      element.dataset.galleryReady = 'true'
     }
 
     measure()
@@ -154,6 +155,7 @@ export default function AccordionGallery({
         '--ag-overlay': overlayColor,
         '--ag-text': textColor,
         '--ag-gap': `${gap}px`,
+        '--ag-initial-grow': count > 1 ? (Math.min(Math.max(expandRatio, 0.2), 0.9) * (count - 1)) / (1 - Math.min(Math.max(expandRatio, 0.2), 0.9)) : 1,
         '--ag-radius': `${radius}px`,
         height: vertical ? `${Math.round(height * 1.6)}px` : `${height}px`,
       }}

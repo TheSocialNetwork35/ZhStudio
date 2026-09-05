@@ -1,5 +1,7 @@
-import { Component, lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Component, lazy, Suspense, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { canonicalUrlFor, knownRoutes, legacyRoutes, routeMetadata } from './seo'
+import { faqs } from './content.js'
+import { structuredDataFor } from './structured-data.js'
 
 const SideRays = lazy(() => import('./components/SideRays'))
 const Lanyard = lazy(() => import('./components/Lanyard/Lanyard'))
@@ -61,25 +63,6 @@ const standards = [
   ['Sorgfalt', 'Typografie, Abstände, Kontraste und mobile Zustände werden konsequent ausgearbeitet.'],
   ['Tempo', 'Bilder, Code und technische Grundlagen werden auf kurze Ladezeiten ausgerichtet.'],
   ['Nähe', 'Direkte Abstimmung mit ZhStudio in Stäfa – ohne unnötige Übergaben.'],
-]
-
-const faqs = [
-  {
-    question: 'Was kostet eine Website bei ZhStudio?',
-    answer: 'Einfache Webauftritte starten ab CHF 680. Der konkrete Preis richtet sich nach Umfang, Seitenzahl, Funktionen und dem Zustand der vorhandenen Inhalte. Vor dem Start gibt es eine klare Offerte.',
-  },
-  {
-    question: 'Für welche Unternehmen eignet sich das Angebot?',
-    answer: 'ZhStudio arbeitet für lokale Unternehmen, Praxen, Gastronomie, Handwerksbetriebe, Vereine und andere Organisationen, die einen professionellen Webauftritt benötigen.',
-  },
-  {
-    question: 'Kann auch eine bestehende Website überarbeitet werden?',
-    answer: 'Ja. Bei einem Redesign wird zuerst geprüft, welche Inhalte, Funktionen und technischen Grundlagen übernommen werden können und wo eine neue Struktur sinnvoller ist.',
-  },
-  {
-    question: 'Was wird für den Projektstart benötigt?',
-    answer: 'Hilfreich sind vorhandene Texte, Bilder, Logo-Dateien und ein kurzer Überblick über Ziele und gewünschte Funktionen. Fehlende Grundlagen werden vor Projektbeginn gemeinsam eingeordnet.',
-  },
 ]
 
 const legalContent = {
@@ -159,15 +142,15 @@ function navigateTo(href, updateLocation) {
 }
 
 function useMediaQuery(query) {
-  const [matches, setMatches] = useState(() => window.matchMedia(query).matches)
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(query)
-    const updateMatches = () => setMatches(mediaQuery.matches)
-    updateMatches()
-    mediaQuery.addEventListener('change', updateMatches)
-    return () => mediaQuery.removeEventListener('change', updateMatches)
-  }, [query])
-  return matches
+  return useSyncExternalStore(
+    (notify) => {
+      const mediaQuery = window.matchMedia(query)
+      mediaQuery.addEventListener('change', notify)
+      return () => mediaQuery.removeEventListener('change', notify)
+    },
+    () => window.matchMedia(query).matches,
+    () => false,
+  )
 }
 
 function LineIcon({ name }) {
@@ -484,15 +467,22 @@ function LegalPage({ pageKey }) {
   )
 }
 
-export default function App() {
+export default function App({ initialPathname }) {
   const appRef = useRef(null)
-  const [location, setLocation] = useState(getLocationState)
+  const [location, setLocation] = useState(() => initialPathname
+    ? { pathname: normalizeRoutePathname(initialPathname), hash: '' }
+    : getLocationState())
   const [navigationTick, setNavigationTick] = useState(0)
   const path = location.pathname
   const isHomePage = path === '/'
   const pageMeta = routeMetadata[path] || routeMetadata['/']
 
   useEffect(() => {
+    // Hashes are client-only; retain incoming deep links after hydration.
+    if (window.location.hash && !location.hash) {
+      setLocation(getLocationState())
+      return
+    }
     const normalizedUrl = `${path}${location.hash}`
     if (`${window.location.pathname}${window.location.hash}` !== normalizedUrl) window.history.replaceState({}, '', normalizedUrl)
   }, [path, location.hash])
@@ -509,6 +499,8 @@ export default function App() {
 
   useEffect(() => {
     document.title = pageMeta.title
+    const structuredData = document.getElementById('structured-data')
+    if (structuredData) structuredData.textContent = JSON.stringify(structuredDataFor(path))
     const canonicalUrl = canonicalUrlFor(path)
     document.querySelector('meta[name="description"]')?.setAttribute('content', pageMeta.description)
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', pageMeta.title)
@@ -538,6 +530,14 @@ export default function App() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
     const elements = [...document.querySelectorAll('.section-reveal, .reveal-item, .image-reveal')]
+    if (!('IntersectionObserver' in window)) return undefined
+    // The initial HTML is visible. Mark the current viewport before enabling
+    // off-screen reveal effects so hydration never hides already painted text.
+    elements.forEach((element) => {
+      const rect = element.getBoundingClientRect()
+      if (rect.top < window.innerHeight && rect.bottom > 0) element.classList.add('is-visible')
+    })
+    document.documentElement.dataset.revealReady = 'true'
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {

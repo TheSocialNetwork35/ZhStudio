@@ -1,0 +1,27 @@
+/* Static content remains readable before hydration and without JavaScript.
+   Once the observer is ready, the existing reveal animations take over. */
+html:not([data-reveal-ready]) .section-reveal,
+html:not([data-reveal-ready]) .reveal-item,
+html:not([data-reveal-ready]) .image-reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+
+/* The gallery is already useful while its lazy animation code is loading.
+   Measured GSAP styles take over without changing the finished design. */
+.accordion-gallery:not([data-gallery-ready]) .ag-panel--active {
+  flex-grow: var(--ag-initial-grow, 1);
+}
+.accordion-gallery:not([data-gallery-ready]) .ag-panel__media {
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+}
+.accordion-gallery:not([data-gallery-ready]) .ag-panel--active .ag-panel__media {
+  --ag-gray: 0;
+}
+.accordion-gallery:not([data-gallery-ready]) .ag-panel--active .ag-panel__bar,
+.accordion-gallery:not([data-gallery-ready]) .ag-panel--active .ag-panel__text {
+  opacity: 1;
+}

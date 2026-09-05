@@ -52,6 +52,12 @@ ZhStudio steht für klare, performante und lokal glaubwürdige Websites. Die Mar
 setzt auf präzise Typografie, nachvollziehbare Nutzerführung, responsive Gestaltung
 und sorgfältige technische Umsetzung.
 
+## Referenz
+
+Auf der Leistungsseite zeigt ZhStudio die Website für die Schul-App Inbox
+(https://inbx.page/), einschliesslich visuellem System und responsiver Umsetzung.
+Projektbeschreibung und Screenshots: https://zhstudio.ch/leistungen
+
 ## Wichtige Seiten
 
 - [Startseite](https://zhstudio.ch/)

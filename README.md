@@ -53,7 +53,7 @@ npm run worker:dev
 npm run deploy
 ```
 
-The Worker serves the built Vite app from `dist/`. The build creates route-specific HTML metadata for public React routes and returns a real 404 for unknown paths. API routes can be added under `/api/*`; `/api/request-info` already returns basic request and Cloudflare edge metadata.
+The Worker serves the built Vite app from `dist/`. The build prerenders every public React route with its complete content and route-specific metadata and returns a real 404 for unknown paths. API routes can be added under `/api/*`; `/api/request-info` already returns basic request and Cloudflare edge metadata.
 
 ## Main Files
 
@@ -62,3 +62,8 @@ The Worker serves the built Vite app from `dist/`. The build creates route-speci
 - `src/worker.js` - Cloudflare Worker entry for API routes
 - `public/` - public assets and static files
 - `index.html` - metadata, fonts, app mount
+
+
+## Rendering regression checks
+
+Run `npm test` to build and verify the complete static HTML, blocking CSS, metadata, reference links and sitemap rules. The build-time React entry is `src/entry-server.jsx`; the browser hydrates its markup without replacing the page. No server-side runtime is needed in production.

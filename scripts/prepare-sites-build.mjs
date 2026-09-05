@@ -1,5 +1,6 @@
 import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises'
 import { canonicalUrlFor, routeMetadata } from '../src/seo.js'
+import { structuredDataFor } from '../src/structured-data.js'
 
 const defaultRobots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 const distUrl = new URL('../dist/', import.meta.url)
@@ -31,7 +32,10 @@ function renderPageHtml(baseHtml, pathname, metadata) {
   html = replaceMeta(html, 'property', 'og:url', canonicalUrl)
   html = replaceMeta(html, 'name', 'twitter:title', metadata.title)
   html = replaceMeta(html, 'name', 'twitter:description', metadata.description)
-  return html
+  return html.replace(
+    '<script id="structured-data" type="application/ld+json"></script>',
+    () => `<script id="structured-data" type="application/ld+json">${JSON.stringify(structuredDataFor(pathname)).replaceAll('<', '\\u003c')}</script>`,
+  )
 }
 
 const baseHtml = await readFile(indexUrl, 'utf8')
