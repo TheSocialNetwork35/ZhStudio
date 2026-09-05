@@ -48,3 +48,5 @@ Offizielle Grundlagen: [Google zu Canonicals und Redirects](https://developers.g
 - `npm test` baut die Website und prüft alle Routen auf vollständiges HTML, Stylesheets, Metadaten, Referenzen und Indexierungsregeln.
 
 Bei weiteren Änderungen weiterhin auf Mobil und Desktop gegen den bisherigen Auftritt vergleichen und mit verzögertem/ausgeschaltetem JavaScript testen. Veröffentlichte Inhalte und Layout werden für SEO nicht durch separate Keyword-Texte ersetzt.
+
+Das im verwalteten Google-Unternehmensprofil bestätigte LinkedIn-Unternehmensprofil ist unter `sameAs` mit der Unternehmensidentität verknüpft: https://www.linkedin.com/company/zhstudio.
