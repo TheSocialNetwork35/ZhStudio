@@ -1,5 +1,5 @@
 import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises'
-import { canonicalUrlFor, routeMetadata } from '../src/seo.js'
+import { canonicalUrlFor, routeMetadata, notFoundMetadata } from '../src/seo.js'
 import { structuredDataFor } from '../src/structured-data.js'
 
 const defaultRobots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
@@ -49,10 +49,10 @@ for (const [pathname, metadata] of Object.entries(routeMetadata)) {
   await writeFile(new URL(`${pathname.slice(1)}.html`, distUrl), pageHtml)
 }
 
-const notFoundHtml = baseHtml
-  .replace(/<title>[\s\S]*?<\/title>/i, '<title>Seite nicht gefunden | ZhStudio</title>')
-  .replace(/<meta\s+name=["']robots["'][^>]*>/i, '<meta name="robots" content="noindex, nofollow" />')
+const notFoundHtml = renderPageHtml(baseHtml, '/404', notFoundMetadata)
   .replace(/<link\s+rel=["']canonical["'][^>]*>/i, '')
+  .replace(/<meta\s+property=["']og:url["'][^>]*>/i, '')
+  .replace(/(<script id="structured-data" type="application\/ld\+json">)[\s\S]*?(<\/script>)/, '$1{}$2')
 
 await writeFile(new URL('404.html', distUrl), notFoundHtml)
 

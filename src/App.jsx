@@ -1,6 +1,7 @@
 import { Component, lazy, Suspense, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react'
-import { canonicalUrlFor, knownRoutes, legacyRoutes, routeMetadata } from './seo'
+import { canonicalUrlFor, knownRoutes, legacyRoutes, routeMetadata, notFoundMetadata } from './seo'
 import { faqs } from './content.js'
+import NotFoundPage from './components/NotFoundPage'
 import { structuredDataFor } from './structured-data.js'
 
 const SideRays = lazy(() => import('./components/SideRays'))
@@ -125,7 +126,7 @@ function normalizeRoutePathname(pathname = '/') {
   const withoutTrailingSlash = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname
   const lowerPathname = withoutTrailingSlash.toLowerCase()
   const aliasedPath = legacyRoutes[lowerPathname] || lowerPathname
-  return knownRoutes.includes(aliasedPath) ? aliasedPath : '/'
+  return knownRoutes.includes(aliasedPath) ? aliasedPath : pathname
 }
 
 function getLocationState() {
@@ -475,7 +476,8 @@ export default function App({ initialPathname }) {
   const [navigationTick, setNavigationTick] = useState(0)
   const path = location.pathname
   const isHomePage = path === '/'
-  const pageMeta = routeMetadata[path] || routeMetadata['/']
+  const isNotFound = !knownRoutes.includes(path)
+  const pageMeta = routeMetadata[path] || notFoundMetadata
 
   useEffect(() => {
     // Hashes are client-only; retain incoming deep links after hydration.
@@ -483,9 +485,11 @@ export default function App({ initialPathname }) {
       setLocation(getLocationState())
       return
     }
+    // A shared prerendered 404 must keep the visitor's original URL.
+    if (isNotFound) return
     const normalizedUrl = `${path}${location.hash}`
     if (`${window.location.pathname}${window.location.hash}` !== normalizedUrl) window.history.replaceState({}, '', normalizedUrl)
-  }, [path, location.hash])
+  }, [path, location.hash, isNotFound])
 
   useEffect(() => {
     const handleLocationChange = () => setLocation(getLocationState())
@@ -500,7 +504,7 @@ export default function App({ initialPathname }) {
   useEffect(() => {
     document.title = pageMeta.title
     const structuredData = document.getElementById('structured-data')
-    if (structuredData) structuredData.textContent = JSON.stringify(structuredDataFor(path))
+    if (structuredData) structuredData.textContent = JSON.stringify(isNotFound ? {} : structuredDataFor(path))
     const canonicalUrl = canonicalUrlFor(path)
     document.querySelector('meta[name="description"]')?.setAttribute('content', pageMeta.description)
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', pageMeta.title)
@@ -509,8 +513,19 @@ export default function App({ initialPathname }) {
     document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', pageMeta.title)
     document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', pageMeta.description)
     document.querySelector('meta[name="robots"]')?.setAttribute('content', pageMeta.robots || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')
-    document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonicalUrl)
-  }, [pageMeta, path])
+    let canonical = document.querySelector('link[rel="canonical"]')
+    if (isNotFound) {
+      canonical?.remove()
+      document.querySelector('meta[property="og:url"]')?.removeAttribute('content')
+    } else {
+      if (!canonical) {
+        canonical = document.createElement('link')
+        canonical.rel = 'canonical'
+        document.head.append(canonical)
+      }
+      canonical.href = canonicalUrl
+    }
+  }, [pageMeta, path, isNotFound])
 
   useLayoutEffect(() => {
     const scrollToTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
@@ -554,6 +569,7 @@ export default function App({ initialPathname }) {
     <div className={`site-shell${isHomePage ? ' site-selector' : ' site-web site-web-theme'}${path === '/impressum' || path === '/datenschutz' ? ' legal-shell' : ''}`} ref={appRef}>
       <div className="background-motion" /><div className="background-grid" />
       <Header onNavigate={handleNavigate} routePath={path} />
+      {isNotFound ? <><NotFoundPage /><Footer /></> : null}
       {path === '/' ? <HomePage onNavigate={handleNavigate} /> : null}
       {path === '/leistungen' ? <ServicesPage /> : null}
       {path === '/kontakt' ? <ContactPage onNavigate={handleNavigate} /> : null}

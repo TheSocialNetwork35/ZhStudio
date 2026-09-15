@@ -19,7 +19,7 @@ try {
     },
   })
   const { render } = await import(new URL('entry-server.js', serverUrl))
-  for (const pathname of Object.keys(routeMetadata)) {
+  for (const pathname of [...Object.keys(routeMetadata), '/404']) {
     const file = pathname === '/' ? 'index.html' : `${pathname.slice(1)}.html`
     const outputUrl = new URL(file, distUrl)
     const template = await readFile(outputUrl, 'utf8')
@@ -34,7 +34,7 @@ try {
     if (html === template) throw new Error(`Missing app root for ${pathname}`)
     await writeFile(outputUrl, html)
   }
-  console.log(`Prerendered ${Object.keys(routeMetadata).length} complete React pages.`)
+  console.log(`Prerendered ${Object.keys(routeMetadata).length + 1} complete React pages.`)
 } finally {
   await rm(serverUrl, { recursive: true, force: true })
 }

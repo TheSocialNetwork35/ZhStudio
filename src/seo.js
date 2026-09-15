@@ -40,3 +40,9 @@ export const legacyRoutes = {
 export function canonicalUrlFor(pathname) {
   return `${canonicalOrigin}${pathname === '/' ? '/' : pathname}`
 }
+
+export const notFoundMetadata = {
+  title: '404 – Seite nicht gefunden | ZhStudio',
+  description: 'Diese Seite wurde nicht gefunden. Zurück zur Startseite, zu unseren Leistungen oder zum Kontakt mit ZhStudio.',
+  robots: 'noindex, nofollow',
+}

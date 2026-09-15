@@ -58,14 +58,18 @@ function isPageLikePath(pathname) {
   return !lastSegment.includes('.')
 }
 
-function notFound() {
-  return new Response('<!doctype html><html lang="de-CH"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>Seite nicht gefunden | ZhStudio</title></head><body><h1>Seite nicht gefunden</h1><p><a href="/">Zur Startseite</a></p></body></html>', {
-    status: 404,
-    headers: {
-      'content-type': 'text/html; charset=utf-8',
-      'x-robots-tag': 'noindex, nofollow',
-    },
+async function notFound(request, env) {
+  // /404 is the clean asset URL; /404.html would be redirected by HTML handling.
+  const assetRequest = new Request(new URL('/404', request.url), {
+    method: request.method === 'HEAD' ? 'HEAD' : 'GET',
   })
+  const page = await env.ASSETS.fetch(assetRequest)
+  const headers = new Headers(page.headers)
+  headers.set('content-type', 'text/html; charset=utf-8')
+  headers.set('x-robots-tag', 'noindex, nofollow')
+  headers.set('cache-control', 'no-cache')
+  headers.delete('location')
+  return new Response(request.method === 'HEAD' ? null : page.body, { status: 404, headers })
 }
 
 function withAssetHeaders(request, response) {
@@ -76,7 +80,7 @@ function withAssetHeaders(request, response) {
     headers.set(name, value)
   })
 
-  if (url.pathname.startsWith('/assets/') || url.pathname.startsWith('/fonts/')) {
+  if (response.ok && (url.pathname.startsWith('/assets/') || url.pathname.startsWith('/fonts/'))) {
     headers.set('cache-control', 'public, max-age=31536000, immutable')
   }
 
@@ -121,10 +125,13 @@ export default {
     }
 
     if (isPageLikePath(url.pathname) && !knownRouteSet.has(url.pathname)) {
-      return withAssetHeaders(request, notFound())
+      return withAssetHeaders(request, await notFound(request, env))
     }
 
     const assetResponse = await env.ASSETS.fetch(request)
+    if (assetResponse.status === 404 || url.pathname === '/404.html') {
+      return withAssetHeaders(request, await notFound(request, env))
+    }
     return withAssetHeaders(request, assetResponse)
   },
 }
