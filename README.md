@@ -73,7 +73,7 @@ Run `npm test` to build and verify the complete static HTML, blocking CSS, metad
 German retains the existing URLs. French uses `/fr`, `/fr/prestations`, `/fr/contact`, `/fr/mentions-legales`, `/fr/confidentialite`, `/fr/merci` and `/fr/404`.
 
 - `src/locales/fr.js` contains the French copy; `src/languages.js` maps equivalent routes.
-- The browser only auto-selects French on entry to `/`, using a saved choice or its primary language. Explicit subpage URLs are respected. The URL's language is saved in localStorage; `?lang=de|fr` allows an explicit override, including when storage is unavailable, and is removed after use. There is no visible language switch.
+- French is auto-selected from the primary browser language only on first entry to `/` in a tab. A sessionStorage marker prevents further automatic redirects in that tab: manually removing `/fr` opens German. Explicit subpage URLs always win, internal links retain the current language, and a new tab can detect French again. Former localStorage preferences are cleared. `?lang=de|fr` remains an explicit URL override. There is no visible language switch.
 - All internal links retain the current locale. Both language versions are directly accessible by URL, including without JavaScript.
 - Each indexable page has a self-canonical, reciprocal DE/FR/x-default alternates and a sitemap entry. Thank-you and error pages remain noindex.
 - `scripts/sitemap.mjs` generates the production sitemap from route metadata. Keep `public/sitemap.xml` synchronized for development.

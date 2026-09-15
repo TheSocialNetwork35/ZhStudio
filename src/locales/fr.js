@@ -73,7 +73,7 @@ export const fr = {
   'Cookies, Analyse und Einbettungen': 'Cookies, analyse et contenus intégrés',
   'Nach aktuellem Stand werden keine Analyse- oder Tracking-Tools wie Google Analytics eingesetzt.': 'À ce jour, aucun outil d’analyse ou de suivi tel que Google Analytics n’est utilisé.',
   'Es werden keine zusätzlichen Cookies zu Werbe- oder Statistikzwecken, keine Karten, keine Newsletter-Dienste und keine eingebetteten Drittinhalte verwendet.': 'Aucun cookie supplémentaire à des fins publicitaires ou statistiques, aucune carte, aucun service de newsletter et aucun contenu tiers intégré ne sont utilisés.',
-  'Die gewählte Sprache wird lokal im Browser gespeichert, damit sie bei späteren Besuchen erhalten bleibt. Diese Einstellung wird nicht für Werbung oder Analyse verwendet.': 'La langue choisie est enregistrée localement dans le navigateur afin d’être conservée lors de vos prochaines visites. Ce réglage n’est utilisé ni à des fins publicitaires ni à des fins d’analyse.',
+  'Die Sprache wird für den aktuellen Browser-Tab gespeichert, damit die automatische Sprachauswahl nur beim ersten Einstieg erfolgt. Diese Einstellung wird nicht für Werbung oder Analyse verwendet.': 'La langue est enregistrée pour l’onglet actuel du navigateur afin que la sélection automatique ne se fasse qu’à la première visite. Ce réglage n’est utilisé ni à des fins publicitaires ni à des fins d’analyse.',
   'Schriftarten': 'Polices de caractères',
   'Die auf dieser Website eingesetzten Web-Schriftarten werden lokal bereitgestellt.': 'Les polices web utilisées sur ce site sont hébergées localement.',
   'Rechte der betroffenen Personen': 'Droits des personnes concernées',

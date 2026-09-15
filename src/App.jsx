@@ -113,7 +113,7 @@ const legalContentDe = {
       },
       {
         title: 'Cookies, Analyse und Einbettungen',
-        body: ['Nach aktuellem Stand werden keine Analyse- oder Tracking-Tools wie Google Analytics eingesetzt.', 'Die gewählte Sprache wird lokal im Browser gespeichert, damit sie bei späteren Besuchen erhalten bleibt. Diese Einstellung wird nicht für Werbung oder Analyse verwendet.', 'Es werden keine zusätzlichen Cookies zu Werbe- oder Statistikzwecken, keine Karten, keine Newsletter-Dienste und keine eingebetteten Drittinhalte verwendet.'],
+        body: ['Nach aktuellem Stand werden keine Analyse- oder Tracking-Tools wie Google Analytics eingesetzt.', 'Die Sprache wird für den aktuellen Browser-Tab gespeichert, damit die automatische Sprachauswahl nur beim ersten Einstieg erfolgt. Diese Einstellung wird nicht für Werbung oder Analyse verwendet.', 'Es werden keine zusätzlichen Cookies zu Werbe- oder Statistikzwecken, keine Karten, keine Newsletter-Dienste und keine eingebetteten Drittinhalte verwendet.'],
       },
       { title: 'Schriftarten', body: ['Die auf dieser Website eingesetzten Web-Schriftarten werden lokal bereitgestellt.'] },
       {
@@ -497,6 +497,7 @@ function LegalPage({ pageKey }) {
 
 export default function App({ initialPathname }) {
   const appRef = useRef(null)
+  const languageEntryHandled = useRef(false)
   const [location, setLocation] = useState(() => initialPathname
     ? { pathname: normalizeRoutePathname(initialPathname), hash: '' }
     : getLocationState())
@@ -509,6 +510,8 @@ export default function App({ initialPathname }) {
   const pageMeta = routeMetadata[path] || notFoundMetadataFor(locale)
 
   useEffect(() => {
+    if (languageEntryHandled.current) return
+    languageEntryHandled.current = true
     const params = new URLSearchParams(window.location.search)
     const explicit = params.get('lang')
     if (explicit === 'de' || explicit === 'fr') {
@@ -522,11 +525,14 @@ export default function App({ initialPathname }) {
     }
     const current = window.location.pathname
     if (current !== '/') { rememberLanguage(localeFor(current)); return }
-    let saved
-    try { saved = localStorage.getItem('zhstudio-language') } catch { /* Storage may be disabled. */ }
-    const language = saved || ((navigator.languages?.[0] || navigator.language || '').toLowerCase().startsWith('fr') ? 'fr' : 'de')
+    let visited = false
+    try { visited = sessionStorage.getItem('zhstudio-language') !== null } catch { /* Storage may be disabled. */ }
+    const browserIsFrench = (navigator.languages?.[0] || navigator.language || '').toLowerCase().startsWith('fr')
+    // Only detect language on first entry in this tab. Returning to / is an
+    // explicit URL choice, even when this browser prefers French.
+    const language = !visited && browserIsFrench ? 'fr' : 'de'
+    rememberLanguage(language)
     if (language === 'fr') window.location.replace(`/fr${window.location.search}${window.location.hash}`)
-    else rememberLanguage('de')
   }, [])
 
   useEffect(() => {
