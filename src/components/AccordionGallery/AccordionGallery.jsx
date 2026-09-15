@@ -1,3 +1,4 @@
+import { useLocale } from '../../i18n.jsx'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
@@ -32,6 +33,7 @@ export default function AccordionGallery({
   grayscale = true,
   className = '',
 }) {
+  const { t, href: toLocale, locale, localize } = useLocale()
   const rootRef = useRef(null)
   const panelRefs = useRef([])
   const mediaRefs = useRef([])
@@ -160,7 +162,7 @@ export default function AccordionGallery({
         height: vertical ? `${Math.round(height * 1.6)}px` : `${height}px`,
       }}
       role="list"
-      aria-label="Ansichten des Referenzprojekts Inbox"
+      aria-label={t("Ansichten des Referenzprojekts Inbox")}
     >
       {items.map((item, index) => {
         const isActive = index === active
@@ -182,7 +184,7 @@ export default function AccordionGallery({
             role="listitem"
             tabIndex={0}
             aria-current={isActive ? 'true' : undefined}
-            aria-label={`${item.label}${item.link ? ' – Projekt öffnen' : ''}`}
+            aria-label={`${item.label}${item.link ? t(" – Projekt öffnen") : ''}`}
           >
             <span className="ag-panel__frame">
               <span className="ag-panel__media" ref={(element) => { mediaRefs.current[index] = element }}>

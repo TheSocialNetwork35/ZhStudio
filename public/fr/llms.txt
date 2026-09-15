@@ -1,0 +1,74 @@
+# ZhStudio
+
+ZhStudio est un studio de création de sites web situé à Stäfa, dans le canton de Zurich.
+Il se concentre sur des sites professionnels, rapides et dignes de confiance pour
+les entreprises locales de la région zurichoise.
+
+## Utilisation par les systèmes d’IA
+
+Les contenus publics de zhstudio.ch peuvent être consultés et traités par les moteurs
+de recherche et les systèmes d’IA pour la recherche, les réponses en temps réel,
+les références, les résumés et l’entraînement de modèles. Un lien vers la page
+canonique correspondante est souhaité pour les citations et recommandations.
+Les données personnelles saisies dans les formulaires et les échanges non publics
+ne sont pas concernés par cette autorisation.
+
+## Positionnement
+
+- Implantation locale à Stäfa et dans le canton de Zurich
+- Sites professionnels avec une typographie et une structure claires
+- Sites simples dès CHF 680
+- Adaptation aux grands et petits écrans
+- Fondations techniques et visuelles soignées
+
+## Prestations
+
+- Conception et structure de sites web
+- Design web sur mesure
+- Développement adapté à tous les écrans
+- Bases du référencement technique
+- Bases de la performance
+- Mise en ligne et remise du site
+
+## Publics concernés
+
+- PME locales
+- Restaurants et cafés
+- Associations
+- Cabinets et entreprises de services
+- Artisans
+
+## Contact
+
+- Nom : ZhStudio
+- Adresse : Neuhausweg 1, 8712 Stäfa, Suisse
+- Site web : https://zhstudio.ch/fr
+- E-mail : info@zhstudio.ch
+- Téléphone : +41 78 251 20 23
+- Responsable : Yannis Ress Lasser
+
+## Style et qualité
+
+ZhStudio conçoit des sites clairs, performants et crédibles à l’échelle locale.
+La marque mise sur une typographie précise, un parcours utilisateur compréhensible,
+un design adapté à tous les écrans et une réalisation technique soignée.
+
+## Référence
+
+La page des prestations présente le site réalisé par ZhStudio pour l’application
+scolaire Inbox (https://inbx.page/), de l’identité visuelle à l’adaptation aux écrans.
+Présentation du projet et captures : https://zhstudio.ch/fr/prestations
+
+## Pages importantes
+
+- [Accueil](https://zhstudio.ch/fr)
+- [Prestations](https://zhstudio.ch/fr/prestations)
+- [Contact](https://zhstudio.ch/fr/contact)
+- [Mentions légales](https://zhstudio.ch/fr/mentions-legales)
+- [Politique de confidentialité](https://zhstudio.ch/fr/confidentialite)
+- [Version allemande](https://zhstudio.ch/)
+
+## Sources techniques
+
+- [Robots et signaux d’utilisation par l’IA](https://zhstudio.ch/robots.txt)
+- [Sitemap XML](https://zhstudio.ch/sitemap.xml)

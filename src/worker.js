@@ -1,3 +1,4 @@
+import { localeFor } from './languages.js'
 import { canonicalOrigin, knownRoutes, legacyRoutes } from './seo.js'
 
 const canonicalHost = new URL(canonicalOrigin).host
@@ -60,7 +61,7 @@ function isPageLikePath(pathname) {
 
 async function notFound(request, env) {
   // /404 is the clean asset URL; /404.html would be redirected by HTML handling.
-  const assetRequest = new Request(new URL('/404', request.url), {
+  const assetRequest = new Request(new URL(localeFor(new URL(request.url).pathname) === 'fr' ? '/fr/404' : '/404', request.url), {
     method: request.method === 'HEAD' ? 'HEAD' : 'GET',
   })
   const page = await env.ASSETS.fetch(assetRequest)
@@ -84,9 +85,11 @@ function withAssetHeaders(request, response) {
     headers.set('cache-control', 'public, max-age=31536000, immutable')
   }
 
-  if (url.pathname === '/danke') {
+  if (url.pathname === '/danke' || url.pathname === '/fr/merci') {
     headers.set('x-robots-tag', 'noindex, nofollow')
   }
+
+  if (headers.get('content-type')?.includes('text/html')) headers.set('content-language', `${localeFor(url.pathname)}-CH`)
 
   return new Response(response.body, {
     status: response.status,
@@ -129,7 +132,7 @@ export default {
     }
 
     const assetResponse = await env.ASSETS.fetch(request)
-    if (assetResponse.status === 404 || url.pathname === '/404.html') {
+    if (assetResponse.status === 404 || ['/404.html', '/fr/404.html'].includes(url.pathname)) {
       return withAssetHeaders(request, await notFound(request, env))
     }
     return withAssetHeaders(request, assetResponse)

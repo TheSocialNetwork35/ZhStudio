@@ -5,7 +5,8 @@ import path from 'node:path'
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
 const projectDirectory = path.resolve(scriptDirectory, '..')
 const logoPath = path.join(projectDirectory, 'public', 'logo-mark.png')
-const outputPath = path.join(projectDirectory, 'public', 'og.png')
+const french = process.argv.includes('--fr')
+const outputPath = path.join(projectDirectory, 'public', french ? 'og-fr.png' : 'og.png')
 
 const background = `
   <svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
@@ -19,11 +20,11 @@ const background = `
     <circle cx="1070" cy="112" r="72" fill="none" stroke="#5362e8" stroke-width="2"/>
     <circle cx="1070" cy="112" r="54" fill="none" stroke="#111216" stroke-opacity="0.14"/>
     <text x="76" y="102" fill="#5362e8" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" letter-spacing="3">ZHSTUDIO / STÄFA</text>
-    <text x="76" y="235" fill="#111216" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="700" letter-spacing="-4">
-      <tspan x="76" dy="0">Websites, die</tspan>
-      <tspan x="76" dy="82">Vertrauen schaffen.</tspan>
+    <text x="76" y="235" fill="#111216" font-family="Arial, Helvetica, sans-serif" font-size="${french ? 70 : 78}" font-weight="700" letter-spacing="-4">
+      <tspan x="76" dy="0">${french ? 'Des sites web qui' : 'Websites, die'}</tspan>
+      <tspan x="76" dy="82">${french ? 'inspirent confiance.' : 'Vertrauen schaffen.'}</tspan>
     </text>
-    <text x="78" y="505" fill="#666970" font-family="Arial, Helvetica, sans-serif" font-size="27">Webdesign für Unternehmen im Kanton Zürich.</text>
+    <text x="78" y="505" fill="#666970" font-family="Arial, Helvetica, sans-serif" font-size="${french ? 23 : 27}">${french ? 'Création de sites web pour les entreprises du canton de Zurich.' : 'Webdesign für Unternehmen im Kanton Zürich.'}</text>
     <text x="78" y="568" fill="#111216" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">zhstudio.ch</text>
   </svg>`
 

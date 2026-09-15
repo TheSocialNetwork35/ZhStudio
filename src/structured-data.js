@@ -1,35 +1,44 @@
+import { localeFor, baseRoute } from './languages.js'
 import business from './business.json' with { type: 'json' }
-import { faqs } from './content.js'
+import { faqsFor } from './content.js'
 import { canonicalUrlFor, routeMetadata } from './seo.js'
 
 export function structuredDataFor(pathname) {
+  const locale = localeFor(pathname)
+  const route = baseRoute(pathname)
+  const provider = locale === 'fr' ? {
+    ...business['@graph'][0],
+    image: 'https://zhstudio.ch/og-fr.png',
+    areaServed: [{ '@type': 'City', name: 'Stäfa' }, { '@type': 'AdministrativeArea', name: 'Canton de Zurich' }],
+    knowsAbout: ['Design web', 'Développement adapté à tous les écrans', 'Référencement local', 'Conception de sites web', 'Développement frontend'],
+  } : business['@graph'][0]
   const metadata = routeMetadata[pathname] || routeMetadata['/']
   const url = canonicalUrlFor(pathname)
   const page = {
-    '@type': pathname === '/kontakt' ? 'ContactPage' : 'WebPage',
+    '@type': route === '/kontakt' ? 'ContactPage' : 'WebPage',
     '@id': `${url}#webpage`,
     url,
     name: metadata.title,
     description: metadata.description,
-    inLanguage: 'de-CH',
+    inLanguage: `${locale}-CH`,
     isPartOf: { '@id': 'https://zhstudio.ch/#website' },
     about: { '@id': 'https://zhstudio.ch/#business' },
   }
-  if (pathname === '/') {
+  if (route === '/') {
     page['@type'] = ['WebPage', 'FAQPage']
-    page.mainEntity = faqs.map(({ question, answer }) => ({
+    page.mainEntity = faqsFor(locale).map(({ question, answer }) => ({
       '@type': 'Question',
       name: question,
       acceptedAnswer: { '@type': 'Answer', text: answer },
     }))
   }
-  if (pathname === '/leistungen') {
+  if (route === '/leistungen') {
     page.mainEntity = {
       '@type': 'Service',
-      name: 'Webdesign und Website-Entwicklung',
-      serviceType: 'Webdesign',
+      name: locale === 'fr' ? 'Design et développement de sites web' : 'Webdesign und Website-Entwicklung',
+      serviceType: locale === 'fr' ? 'Création de sites web' : 'Webdesign',
       provider: { '@id': 'https://zhstudio.ch/#business' },
-      areaServed: business['@graph'][0].areaServed,
+      areaServed: provider.areaServed,
       description: metadata.description,
     }
     page.mentions = {
@@ -41,6 +50,6 @@ export function structuredDataFor(pathname) {
   }
   return {
     '@context': 'https://schema.org',
-    '@graph': [...business['@graph'], page],
+    '@graph': [...business['@graph'].map(item => item['@type'] === 'WebSite' ? { ...item, inLanguage: ['de-CH', 'fr-CH'] } : provider), page],
   }
 }

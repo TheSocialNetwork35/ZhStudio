@@ -2,7 +2,9 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { canonicalUrlFor, routeMetadata } from '../src/seo.js'
-import { faqs } from '../src/content.js'
+import { faqsFor } from '../src/content.js'
+
+import { baseRoute, localeFor, languageAlternates } from '../src/languages.js'
 
 const dist = new URL('../dist/', import.meta.url)
 for (const [pathname, metadata] of Object.entries(routeMetadata)) {
@@ -12,7 +14,20 @@ for (const [pathname, metadata] of Object.entries(routeMetadata)) {
     assert.ok(html.includes(`data-pathname="${pathname}"`))
     assert.equal([...html.matchAll(/<h1\b/g)].length, 1)
     assert.doesNotMatch(html, /seo-fallback|<main[^>]*\bhidden\b/)
-    assert.match(html, /<nav\b[^>]*aria-label="Hauptnavigation"/)
+    const locale = localeFor(pathname)
+    const base = baseRoute(pathname)
+    const faqs = faqsFor(locale)
+    assert.ok(html.includes('aria-label="' + (locale === 'fr' ? 'Navigation principale' : 'Hauptnavigation') + '"'))
+    assert.ok(html.includes('lang="' + locale + '-CH"'))
+    for (const alternate of languageAlternates(pathname)) {
+      assert.ok(html.includes('hreflang="' + alternate.lang + '" href="' + canonicalUrlFor(alternate.path) + '"'))
+    }
+    if (locale === 'fr') {
+      const links = [...html.matchAll(/<a\b[^>]*href="(\/[^"]*)"/g)].map(match => match[1])
+      assert.ok(links.filter(link => !link.includes('?lang=de')).every(link =>
+        link.startsWith('/fr')
+      ), 'French navigation must retain its locale')
+    }
     assert.ok(html.includes(`<title>${metadata.title.replaceAll('&', '&amp;')}</title>`))
     assert.ok(html.includes(`href="${canonicalUrlFor(pathname)}"`))
     assert.ok(html.includes(`content="${metadata.robots || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}"`))
@@ -24,24 +39,25 @@ for (const [pathname, metadata] of Object.entries(routeMetadata)) {
     assert.match(css, /html:not\(\[data-reveal-ready\]\)/)
     const schema = JSON.parse(html.match(/<script id="structured-data" type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])
     assert.equal(schema['@graph'].at(-1).url, canonicalUrlFor(pathname))
-    if (pathname === '/') {
+    if (base === '/') {
+      assert.equal(faqs.length, 6)
       for (const {question,answer} of faqs) {
         assert.ok(html.includes(question))
         assert.ok(html.includes(answer))
       }
       assert.deepEqual(schema['@graph'].at(-1).mainEntity.map(q => q.acceptedAnswer.text), faqs.map(q => q.answer))
     }
-    if (pathname === '/leistungen') {
+    if (base === '/leistungen') {
       assert.match(html, /<h2[^>]*>Inbox<\/h2>/)
       assert.match(html, /href="https:\/\/inbx\.page\/"/)
       assert.equal([...html.matchAll(/src="\/references\/inbox-/g)].length, 3)
     }
-    if (pathname === '/kontakt') assert.match(html, /<form[^>]*action="https:\/\/formspree\.io\/f\/xvzdeqvn"[^>]*method="POST"/)
+    if (base === '/kontakt') assert.match(html, /<form[^>]*action="https:\/\/formspree\.io\/f\/xvzdeqvn"[^>]*method="POST"/)
   })
 }
 test('the sitemap excludes thank-you and legacy URLs', async () => {
   const xml = await readFile(new URL('sitemap.xml',dist),'utf8')
-  assert.doesNotMatch(xml, /<loc>[^<]*(?:\/danke|\/website)/)
+  assert.doesNotMatch(xml, /<loc>[^<]*(?:\/danke|\/fr\/merci|\/website)/)
   for (const [pathname,metadata] of Object.entries(routeMetadata)) {
     if (!metadata.robots?.includes('noindex')) assert.ok(xml.includes(`<loc>${canonicalUrlFor(pathname)}</loc>`))
   }
@@ -90,4 +106,23 @@ test('unknown URLs serve the branded 404, with status and headers intact', async
   const redirect = await worker.fetch(new Request('https://zhstudio.ch/website/kontakt'), env)
   assert.equal(redirect.status, 301)
   assert.equal(redirect.headers.get('location'), 'https://zhstudio.ch/kontakt')
+})
+
+test('French error pages and social image are available', async () => {
+  const html = await readFile(new URL('fr/404.html', dist), 'utf8')
+  assert.match(html, /lang="fr-CH"/)
+  assert.match(html, /content="noindex, nofollow"/)
+  assert.doesNotMatch(html, /rel="canonical"/)
+  assert.match(html, /href="\/fr"/)
+  assert.match(html, /href="\/fr\/contact"/)
+  assert.ok((await readFile(new URL('og-fr.png', dist))).length > 1000)
+  const {default: worker} = await import('../src/worker.js')
+  const env = {ASSETS: {fetch: async request => new URL(request.url).pathname === '/fr/404'
+    ? new Response(html, {headers: {'content-type':'text/html'}}) : new Response('missing',{status:404})}}
+  for (const path of ['/fr/inconnue', '/fr/404', '/fr/404.html']) {
+    const response = await worker.fetch(new Request('https://zhstudio.ch' + path), env)
+    assert.equal(response.status, 404)
+    assert.equal(response.headers.get('content-language'), 'fr-CH')
+    assert.match(await response.text(), /lang="fr-CH"/)
+  }
 })

@@ -7,7 +7,7 @@
 - Doppelte URL-Varianten mit abschliessendem Slash werden auf die kanonische Variante ohne Slash weitergeleitet.
 - Unbekannte Pfade liefern einen echten HTTP-Status `404` und `noindex` statt einer Startseitenkopie mit Status `200`.
 - `/danke` bleibt erreichbar, ist aber absichtlich nicht indexierbar und steht weiterhin nicht in der Sitemap.
-- Die echten indexierbaren Seiten bleiben `/`, `/leistungen`, `/kontakt`, `/impressum` und `/datenschutz`. Sie sind intern über Navigation oder Footer verlinkt und in der Sitemap enthalten.
+- Die deutschen indexierbaren Seiten bleiben `/`, `/leistungen`, `/kontakt`, `/impressum` und `/datenschutz`. Sie sind intern über Navigation oder Footer verlinkt und in der Sitemap enthalten.
 - `/website`, `/website/leistungen` und `/website/kontakt` bleiben bewusst permanente Redirects auf `/`, `/leistungen` und `/kontakt`. Sie sollen nicht separat indexiert werden. Auch `/website/danke` bleibt ein Redirect auf die nicht indexierbare Dankeseite.
 - Die kanonische Startseite als Ziel von `/website` ist natürlich auf „Webdesign Stäfa“ ausgerichtet. Es wurde keine konkurrierende doppelte Landingpage angelegt.
 - `robots.txt`, `sitemap.xml`, strukturierte Unternehmensdaten und die Schreibweise „ZhStudio“ wurden geprüft. Im Repository gibt es keine Marketing-Metadaten mehr.
@@ -40,7 +40,7 @@ Offizielle Grundlagen: [Google zu Canonicals und Redirects](https://developers.g
 
 ## 4. Vollständiges HTML ohne Text-Aufblitzen (September 2026)
 
-- `src/entry-server.jsx` rendert alle sechs bekannten Routen beim Build. Das temporäre SSR-Bundle wird danach entfernt; das Hosting bleibt statisch.
+- `src/entry-server.jsx` rendert alle zwölf bekannten Sprachrouten und beide 404-Seiten beim Build. Das temporäre SSR-Bundle wird danach entfernt; das Hosting bleibt statisch.
 - `src/main.jsx` hydriert dieses HTML, statt es durch eine zweite Fassung zu ersetzen. Im Vite-Entwicklungsmodus wird weiterhin ein leerer Root normal gerendert.
 - Das reguläre Stylesheet inklusive Referenzgalerie wird als render-blockierender Link im Head geladen. Keine ungestaltete Text-Zwischenversion und keine nur für Bots sichtbaren Texte.
 - Ohne JavaScript bleiben Navigation, sichtbare Texte, FAQ, Kontaktwege und Galerie verfügbar. Die bestehenden Scroll-Animationen werden erst aktiviert, wenn der Observer bereit ist. WebGL bleibt eine verzögert geladene Erweiterung.
@@ -50,3 +50,13 @@ Offizielle Grundlagen: [Google zu Canonicals und Redirects](https://developers.g
 Bei weiteren Änderungen weiterhin auf Mobil und Desktop gegen den bisherigen Auftritt vergleichen und mit verzögertem/ausgeschaltetem JavaScript testen. Veröffentlichte Inhalte und Layout werden für SEO nicht durch separate Keyword-Texte ersetzt.
 
 Das im verwalteten Google-Unternehmensprofil bestätigte LinkedIn-Unternehmensprofil ist unter `sameAs` mit der Unternehmensidentität verknüpft: https://www.linkedin.com/company/zhstudio.
+
+
+## 5. Französische Sprachversion
+
+- Deutsche URLs bleiben bestehen. Die französischen Entsprechungen sind `/fr`, `/fr/prestations`, `/fr/contact`, `/fr/mentions-legales` und `/fr/confidentialite`.
+- Beide Sprachen werden vollständig vorgerendert, mit eigenen Titeln, Beschreibungen, Bildbeschreibungen und strukturierten Daten. Jede Seite verweist per Canonical auf sich selbst; DE/FR/x-default-Verweise sind gegenseitig in HTML und Sitemap enthalten.
+- Die automatisch generierte Sitemap enthält alle zehn indexierbaren Sprachseiten. `/fr/merci` und französische Fehlerseiten bleiben wie die deutschen Entsprechungen ausgeschlossen und noindex.
+- Die automatische Browser-Sprachauswahl gilt nur beim Einstieg über `/`. Direkt aufgerufene Unterseiten bleiben in der Sprache ihrer URL. Der DE/FR-Schalter speichert die Auswahl lokal. Der Server liefert für jede URL unabhängig von der Browser-Sprache dieselben Inhalte.
+- Nach Veröffentlichung kann die bestehende Sitemap in Search Console erneut eingereicht und die französischen URLs geprüft werden. Eine Indexierung oder bestimmte Platzierung lässt sich nicht garantieren.
+- Beim Ergänzen von Texten die französische Übersetzung und gegebenenfalls beide SEO-Metadaten mitpflegen.
