@@ -1,0 +1,101 @@
+@namespace sm url("http://www.sitemaps.org/schemas/sitemap/0.9");
+@namespace xhtml url("http://www.w3.org/1999/xhtml");
+
+@font-face {
+  font-family: Manrope;
+  src: url("/fonts/manrope-latin-variable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+sm|urlset {
+  display: block;
+  box-sizing: border-box;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 64px 24px;
+  background: #f3f3f1;
+  color: #111216;
+  font: 400 15px/1.7 Manrope, system-ui, sans-serif;
+  counter-reset: pages;
+}
+
+sm|urlset::before {
+  content: "ZhStudio / Sitemap";
+  display: block;
+  margin-bottom: 36px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #d8d9d8;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+
+sm|url {
+  display: block;
+  counter-increment: pages;
+  margin-bottom: 16px;
+  padding: 24px 28px;
+  border: 1px solid #dededb;
+  border-radius: 16px;
+  background: #fff;
+}
+
+sm|url::before {
+  content: counter(pages, decimal-leading-zero) " / URL";
+  display: block;
+  margin-bottom: 8px;
+  color: #5362e8;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+sm|loc {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+xhtml|link {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid #efefec;
+  font-size: 13px;
+}
+
+xhtml|link::before {
+  content: attr(hreflang);
+  color: #666970;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+xhtml|link::after {
+  content: attr(href);
+  color: #41444b;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+sm|urlset::after {
+  content: "XML Sitemap · " counter(pages) " URLs · DE / FR · x-default = Standardsprache / langue par défaut";
+  display: block;
+  margin-top: 28px;
+  color: #666970;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  sm|urlset { padding: 32px 16px; }
+  sm|url { padding: 20px 16px; }
+  sm|loc { font-size: 15px; }
+  xhtml|link { grid-template-columns: 65px minmax(0, 1fr); gap: 8px; font-size: 12px; }
+}
