@@ -113,7 +113,10 @@
 .ag-panel__text {
   overflow: hidden;
   color: var(--ag-text);
-  font: 650 clamp(1rem, 1.4vw, 1.35rem)/1.2 inherit;
+  font-family: inherit;
+  font-size: clamp(0.94rem, 1.316vw, 1.269rem);
+  font-weight: 500;
+  line-height: 1.2;
   letter-spacing: -0.015em;
   opacity: 0;
   text-overflow: ellipsis;
