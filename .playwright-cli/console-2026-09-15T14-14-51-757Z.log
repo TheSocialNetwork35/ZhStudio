@@ -1,0 +1,8 @@
+[  208200ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_RESET @ http://127.0.0.1:5173/fonts/space-grotesk-latin.woff2:0
+[  208201ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_RESET @ http://127.0.0.1:5173/src/main.jsx:0
+[  208201ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_RESET @ http://127.0.0.1:5173/@react-refresh:0
+[  208201ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_RESET @ http://127.0.0.1:5173/@vite/client:0
+[  208209ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:5173/favicon-32.png?v=1:0
+[  208210ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:5173/favicon-192.png?v=1:0
+[  208212ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:5173/favicon.png?v=1:0
+[  211213ms] [WARNING] The resource http://127.0.0.1:5173/fonts/space-grotesk-latin.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://127.0.0.1:5173/:0

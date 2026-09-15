@@ -13,7 +13,7 @@
       "priceRange": "CHF",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Webereistrasse 4",
+        "streetAddress": "Neuhausweg 1",
         "postalCode": "8712",
         "addressLocality": "Stäfa",
         "addressRegion": "ZH",

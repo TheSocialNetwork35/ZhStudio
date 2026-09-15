@@ -1,0 +1,64 @@
+- generic [ref=f39e3]:
+  - banner [ref=f39e4]:
+    - link [ref=f39e5] [cursor=pointer]:
+      - /url: /
+      - img "ZhStudio Logo" [ref=f39e6]
+    - navigation "Hauptnavigation" [ref=f39e7]:
+      - link "Start" [ref=f39e8] [cursor=pointer]:
+        - /url: /
+      - link "Leistungen" [ref=f39e9] [cursor=pointer]:
+        - /url: /leistungen
+      - link "Kontakt" [ref=f39e10] [cursor=pointer]:
+        - /url: /kontakt
+  - main [ref=f39e11]:
+    - generic [ref=f39e12]:
+      - generic [ref=f39e13]: Ein kleiner Umweg.
+      - generic [ref=f39e14]: Seite nicht gefunden
+    - generic [ref=f39e16]:
+      - generic [aria-hidden] [ref=f39e18]:
+        - generic [ref=f39e19]: "4"
+        - generic [ref=f39e20]:
+          - text: "0"
+          - generic [ref=f39e21]: ↗
+        - generic [ref=f39e22]: "4"
+      - button "Kompass neu ausrichten" [ref=f39e23] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f39e24]: ↗
+        - text: Zurück auf Kurs?
+    - generic [ref=f39e25]:
+      - generic [ref=f39e26]:
+        - heading "Kurz vom Weg abgekommen." [level=1] [ref=f39e27]
+        - paragraph [ref=f39e28]: Diese Seite gibt es hier leider nicht. Vielleicht hat sich ein Tippfehler eingeschlichen oder der Link ist nicht mehr aktuell.
+        - status [ref=f39e29]: Kein Problem. Hier geht’s weiter.
+      - generic [ref=f39e30]:
+        - link "Zur Startseite" [ref=f39e31] [cursor=pointer]:
+          - /url: /
+          - text: Zur Startseite
+          - generic [aria-hidden] [ref=f39e32]: ↗
+        - generic [ref=f39e33]:
+          - link "Leistungen" [ref=f39e34] [cursor=pointer]:
+            - /url: /leistungen
+            - text: Leistungen
+            - generic [aria-hidden] [ref=f39e35]: ↗
+          - link "Kontakt" [ref=f39e36] [cursor=pointer]:
+            - /url: /kontakt
+            - text: Kontakt
+            - generic [aria-hidden] [ref=f39e37]: ↗
+          - button "← Zurück" [ref=f39e38] [cursor=pointer]
+  - contentinfo [ref=f39e39]:
+    - generic [ref=f39e42]:
+      - strong [ref=f39e43]: ZhStudio
+      - text: Webdesign aus Stäfa im Kanton Zürich
+    - generic [ref=f39e44]:
+      - link "Start" [ref=f39e45] [cursor=pointer]:
+        - /url: /
+      - link "Leistungen" [ref=f39e46] [cursor=pointer]:
+        - /url: /leistungen
+      - link "Kontakt" [ref=f39e47] [cursor=pointer]:
+        - /url: /kontakt
+      - link "E-Mail" [ref=f39e48] [cursor=pointer]:
+        - /url: mailto:info@zhstudio.ch
+      - link "Impressum" [ref=f39e49] [cursor=pointer]:
+        - /url: /impressum
+      - link "Datenschutz" [ref=f39e50] [cursor=pointer]:
+        - /url: /datenschutz
+    - paragraph [ref=f39e51]: Professionelle Websites für Unternehmen rund um Stäfa, die Goldküste und Zürich.
