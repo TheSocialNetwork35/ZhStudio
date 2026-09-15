@@ -73,8 +73,8 @@ Run `npm test` to build and verify the complete static HTML, blocking CSS, metad
 German retains the existing URLs. French uses `/fr`, `/fr/prestations`, `/fr/contact`, `/fr/mentions-legales`, `/fr/confidentialite`, `/fr/merci` and `/fr/404`.
 
 - `src/locales/fr.js` contains the French copy; `src/languages.js` maps equivalent routes.
-- The browser only auto-selects French on entry to `/`, using a saved choice or its primary language. Explicit subpage URLs are respected. The DE/FR links save the visitor's choice in localStorage; `?lang=de|fr` handles switching even when storage is unavailable and is removed after use.
-- All internal links retain the current locale. Without JavaScript, both versions remain accessible through ordinary links.
+- The browser only auto-selects French on entry to `/`, using a saved choice or its primary language. Explicit subpage URLs are respected. The URL's language is saved in localStorage; `?lang=de|fr` allows an explicit override, including when storage is unavailable, and is removed after use. There is no visible language switch.
+- All internal links retain the current locale. Both language versions are directly accessible by URL, including without JavaScript.
 - Each indexable page has a self-canonical, reciprocal DE/FR/x-default alternates and a sitemap entry. Thank-you and error pages remain noindex.
 - `scripts/sitemap.mjs` generates the production sitemap from route metadata. Keep `public/sitemap.xml` synchronized for development.
 - `node scripts/create-og.mjs --fr` regenerates the French social preview image.

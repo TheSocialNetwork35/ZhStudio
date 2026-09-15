@@ -168,7 +168,7 @@ function LineIcon({ name }) {
 }
 
 function Header({ onNavigate, routePath }) {
-  const { t, href: toLocale, locale } = useLocale()
+  const { t, href: toLocale } = useLocale()
   const handleNavigate = (event, href) => {
     event.preventDefault()
     onNavigate(href)
@@ -197,9 +197,6 @@ function Header({ onNavigate, routePath }) {
           </a>
         ))}
       </nav>
-      <div className="language-switch" role="group" aria-label={locale === 'fr' ? 'Langue du site' : 'Sprache der Website'}>
-        {['de', 'fr'].map(language => <a key={language} href={`${localizedPath(knownRoutes.includes(localizedPath(routePath, locale)) ? routePath : '/', language)}?lang=${language}`} hrefLang={language} lang={language} aria-current={language === locale ? 'true' : undefined} onClick={() => rememberLanguage(language)}>{language.toUpperCase()}</a>)}
-      </div>
       <a className="header-cta" href={toLocale("/kontakt")} onClick={(event) => handleNavigate(event, '/kontakt')}>{t("Projekt anfragen")}{' '}<span aria-hidden="true">↗</span></a>
     </header>
   )
