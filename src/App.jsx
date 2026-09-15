@@ -2,6 +2,7 @@ import { Component, lazy, Suspense, useEffect, useLayoutEffect, useRef, useState
 import { canonicalUrlFor, knownRoutes, legacyRoutes, routeMetadata, notFoundMetadata } from './seo'
 import { faqs } from './content.js'
 import NotFoundPage from './components/NotFoundPage'
+import FaqItem from './components/FaqItem'
 import { structuredDataFor } from './structured-data.js'
 
 const SideRays = lazy(() => import('./components/SideRays'))
@@ -331,7 +332,7 @@ function FaqSection() {
     <section className="studio-faq section-reveal" aria-labelledby="studio-faq-title">
       <div className="studio-section-head"><span className="studio-index">04 / Fragen</span><div><h2 id="studio-faq-title">Häufige Fragen, klar beantwortet.</h2></div></div>
       <div className="studio-faq-list">
-        {faqs.map((item) => <details key={item.question}><summary><span>{item.question}</span><i aria-hidden="true">+</i></summary><p>{item.answer}</p></details>)}
+        {faqs.map((item) => <FaqItem key={item.question} {...item} />)}
       </div>
     </section>
   )

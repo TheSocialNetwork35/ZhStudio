@@ -5327,12 +5327,12 @@ strong, b {
   transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1), background-color 180ms ease;
 }
 
-.studio-faq details[open] summary i {
+.studio-faq details[open]:not([data-expanded="false"]) summary i {
   transform: rotate(45deg);
   background: rgba(22, 79, 67, 0.1);
 }
 
-.studio-faq details > p {
+.studio-faq .faq-answer p {
   max-width: 68ch;
   margin: -6px 0 30px;
   color: var(--studio-muted);
@@ -6066,7 +6066,7 @@ body {
   color: #fff;
 }
 
-.studio-faq details[open] summary i,
+.studio-faq details[open]:not([data-expanded="false"]) summary i,
 .studio-faq summary:hover i {
   background: rgba(83, 98, 232, 0.1);
 }
@@ -6675,4 +6675,17 @@ body {
     margin-left: calc(var(--edge) * -1);
     border-radius: 0;
   }
+}
+
+/* Keep answer spacing inside the animated details height. */
+.studio-faq .faq-answer {
+  display: flow-root;
+}
+
+.studio-faq details[data-instant="true"] summary i {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-faq summary i { transition: none; }
 }
