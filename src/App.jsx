@@ -360,6 +360,7 @@ function ServicesPage() {
             <h1 id="services-title">{t("Websites mit Substanz.")}</h1>
             <p>{t("Vom ersten Seitenraster bis zum veröffentlichten Auftritt: ZhStudio gestaltet und entwickelt Websites, die verständlich, hochwertig und auf jedem Gerät überzeugend sind.")}</p>
             <a className="services-inline-link" href={toLocale("/kontakt")}>{t("Projekt besprechen")}{' '}<span aria-hidden="true">↗</span></a>
+            <a className="services-inline-link references-anchor-link" href={toLocale("/leistungen") + "#referenzen"}>{t("Referenzen ansehen")}{' '}<span aria-hidden="true">↓</span></a>
           </div>
           <figure className="services-redesign-visual image-reveal">
             <img src="/editorial/workspace.jpg" alt={t("Aufgeräumter Arbeitsplatz für Konzeption und Webdesign")} />
@@ -377,7 +378,7 @@ function ServicesPage() {
           </div>
         </section>
 
-        <section className="reference-showcase section-reveal" aria-labelledby="reference-title">
+        <section id="referenzen" className="reference-showcase section-reveal" aria-labelledby="reference-title">
           <div className="reference-showcase-head">
             <div>
               <span className="eyebrow">{t("03 / Referenz")}</span>
@@ -404,6 +405,32 @@ function ServicesPage() {
             />
           </Suspense>
           <p className="reference-showcase-note">{t("Mit Maus, Fokus oder Fingertipp erkunden · Das aktive Panel öffnet die jeweilige Seite.")}</p>
+        </section>
+
+        <section id="modrinth" className="reference-showcase reference-showcase-modrinth section-reveal" aria-labelledby="modrinth-title">
+          <div className="reference-showcase-head">
+            <div>
+              <span className="eyebrow">{t("Weitere Referenz")}</span>
+              <h2 id="modrinth-title">Modrinth</h2>
+            </div>
+            <div className="reference-showcase-copy">
+              <p>{t("Eine Modrinth-Projektübersicht mit automatisch aktualisierten Projekten, Downloadzahlen und einem Feedbackformular. Besucher können die Projekte ansehen und Rückmeldungen zu Problemen, Funktionen oder Verbesserungen senden.")}</p>
+              <div className="reference-showcase-links">
+                <a href="https://modrinth.pages.dev/">{t("Website ansehen")}{' '}<span aria-hidden="true">↗</span></a>
+                <a href={toLocale("/kontakt")}>{t("Eigenes Webprojekt besprechen")}{' '}<span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+          </div>
+          <div className="reference-screenshots">
+            <figure>
+              <img src="/references/modrinth-desktop.webp" alt={t("Modrinth-Projektübersicht auf dem Desktop mit Downloadzahlen, Projektliste und Feedbackformular")} width="1440" height="1211" loading="lazy" decoding="async" />
+              <figcaption>{t("Desktop · Projektübersicht und Feedbackformular")}</figcaption>
+            </figure>
+            <figure className="reference-screenshot-mobile">
+              <img src="/references/modrinth-mobile.webp" alt={t("Mobile Ansicht der Modrinth-Website mit Downloadzahl und Beginn des Feedbackformulars")} width="390" height="844" loading="lazy" decoding="async" />
+              <figcaption>{t("Mobile · Downloadzahl und Feedback")}</figcaption>
+            </figure>
+          </div>
         </section>
 
         <section className="refined-price section-reveal">

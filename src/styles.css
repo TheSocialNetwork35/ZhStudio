@@ -6689,3 +6689,61 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .studio-faq summary i { transition: none; }
 }
+
+/* Modrinth reference: original desktop and mobile captures, without cropping. */
+.references-anchor-link {
+  margin-left: 24px;
+}
+
+.reference-showcase-modrinth {
+  border-top: 1px solid rgba(247, 247, 245, 0.12);
+}
+
+.reference-showcase-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 24px;
+}
+
+.reference-screenshots {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.32fr);
+  align-items: start;
+  gap: clamp(16px, 3vw, 40px);
+}
+
+.reference-screenshots figure {
+  min-width: 0;
+  margin: 0;
+}
+
+.reference-screenshots img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+}
+
+.reference-screenshots figcaption {
+  margin-top: 16px;
+  color: rgba(247, 247, 245, 0.67);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 720px) {
+  .reference-screenshots {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .reference-screenshot-mobile {
+    width: min(100%, 320px);
+    justify-self: center;
+  }
+
+  .references-anchor-link {
+    display: flex;
+    margin: 16px 0 0;
+  }
+}
