@@ -1,14 +1,13 @@
 // French copy is shared by server rendering, the browser and structured data.
 export const fr = {
+  'Projektübersicht': 'Aperçu des projets',
+  'Mobile Ansicht': 'Vue mobile',
+  'Ansichten des Referenzprojekts Modrinth': 'Aperçus du projet de référence Modrinth',
   'Referenzen ansehen': 'Voir les références',
   'Weitere Referenz': 'Autre référence',
   'Eine Modrinth-Projektübersicht mit automatisch aktualisierten Projekten, Downloadzahlen und einem Feedbackformular. Besucher können die Projekte ansehen und Rückmeldungen zu Problemen, Funktionen oder Verbesserungen senden.': 'Un aperçu des projets Modrinth avec des projets actualisés automatiquement, des statistiques de téléchargement et un formulaire de retour. Les visiteurs peuvent consulter les projets et signaler des problèmes, proposer des fonctionnalités ou suggérer des améliorations.',
-  'Website ansehen': 'Voir le site',
-  'Eigenes Webprojekt besprechen': 'Parlons de votre projet web',
   'Modrinth-Projektübersicht auf dem Desktop mit Downloadzahlen, Projektliste und Feedbackformular': 'Aperçu des projets Modrinth sur ordinateur avec statistiques de téléchargement, liste des projets et formulaire de retour',
   'Mobile Ansicht der Modrinth-Website mit Downloadzahl und Beginn des Feedbackformulars': 'Vue mobile du site Modrinth avec le nombre de téléchargements et le début du formulaire de retour',
-  'Desktop · Projektübersicht und Feedbackformular': 'Ordinateur · Projets et formulaire de retour',
-  'Mobile · Downloadzahl und Feedback': 'Mobile · Téléchargements et retours',
   'Konzept & Struktur': 'Concept et structure',
   'Eine klare Seitenlogik führt Menschen schnell zu den Informationen und Kontaktwegen, die wirklich zählen.': 'Une structure claire guide rapidement les visiteurs vers les informations et les moyens de contact essentiels.',
   'Seitenstruktur und Nutzerführung': 'Structure du site et parcours utilisateur',

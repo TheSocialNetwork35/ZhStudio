@@ -55,6 +55,27 @@ const inboxReferenceViewsDe = [
   },
 ]
 
+const modrinthReferenceViewsDe = [
+  {
+    image: '/references/modrinth-desktop.webp',
+    label: 'Projektübersicht',
+    link: 'https://modrinth.pages.dev/',
+    alt: 'Modrinth-Projektübersicht auf dem Desktop mit Downloadzahlen, Projektliste und Feedbackformular',
+    fit: 'contain',
+    width: 1440,
+    height: 1211,
+  },
+  {
+    image: '/references/modrinth-mobile.webp',
+    label: 'Mobile Ansicht',
+    link: 'https://modrinth.pages.dev/',
+    alt: 'Mobile Ansicht der Modrinth-Website mit Downloadzahl und Beginn des Feedbackformulars',
+    fit: 'contain',
+    width: 390,
+    height: 844,
+  },
+]
+
 const processStepsDe = [
   ['01', 'Kennenlernen', 'Ziele, Umfang und vorhandene Inhalte werden in einem kurzen Gespräch geklärt.'],
   ['02', 'Richtung festlegen', 'Struktur, visuelle Richtung und die wichtigsten Entscheidungen werden transparent abgestimmt.'],
@@ -347,10 +368,36 @@ function FaqSection() {
   )
 }
 
+function ReferenceGallery({ items, ariaLabel }) {
+  const { t } = useLocale()
+  return (
+    <>
+      <Suspense fallback={<div className="reference-gallery-fallback" aria-hidden="true" />}>
+        <AccordionGallery
+          items={items}
+          ariaLabel={ariaLabel}
+          defaultIndex={0}
+          expandRatio={0.62}
+          accentColor="#7d89ff"
+          overlayColor="#0a0a0d"
+          height={500}
+          gap={10}
+          radius={14}
+          duration={0.55}
+          tilt={4}
+          parallax={0.35}
+        />
+      </Suspense>
+      <p className="reference-showcase-note">{t("Mit Maus, Fokus oder Fingertipp erkunden · Das aktive Panel öffnet die jeweilige Seite.")}</p>
+    </>
+  )
+}
+
 function ServicesPage() {
   const { t, href: toLocale, localize } = useLocale()
   const services = localize(servicesDe)
   const inboxReferenceViews = localize(inboxReferenceViewsDe)
+  const modrinthReferenceViews = localize(modrinthReferenceViewsDe)
   return (
     <>
       <main className="services-page-main refined-page services-redesign">
@@ -389,22 +436,7 @@ function ServicesPage() {
               <a href="https://inbx.page/" target="_blank" rel="noreferrer">{t("Live ansehen")}{' '}<span aria-hidden="true">↗</span></a>
             </div>
           </div>
-          <Suspense fallback={<div className="reference-gallery-fallback" aria-hidden="true" />}>
-            <AccordionGallery
-              items={inboxReferenceViews}
-              defaultIndex={0}
-              expandRatio={0.62}
-              accentColor="#7d89ff"
-              overlayColor="#0a0a0d"
-              height={500}
-              gap={10}
-              radius={14}
-              duration={0.55}
-              tilt={4}
-              parallax={0.35}
-            />
-          </Suspense>
-          <p className="reference-showcase-note">{t("Mit Maus, Fokus oder Fingertipp erkunden · Das aktive Panel öffnet die jeweilige Seite.")}</p>
+          <ReferenceGallery items={inboxReferenceViews} ariaLabel={t("Ansichten des Referenzprojekts Inbox")} />
         </section>
 
         <section id="modrinth" className="reference-showcase reference-showcase-modrinth section-reveal" aria-labelledby="modrinth-title">
@@ -415,22 +447,10 @@ function ServicesPage() {
             </div>
             <div className="reference-showcase-copy">
               <p>{t("Eine Modrinth-Projektübersicht mit automatisch aktualisierten Projekten, Downloadzahlen und einem Feedbackformular. Besucher können die Projekte ansehen und Rückmeldungen zu Problemen, Funktionen oder Verbesserungen senden.")}</p>
-              <div className="reference-showcase-links">
-                <a href="https://modrinth.pages.dev/">{t("Website ansehen")}{' '}<span aria-hidden="true">↗</span></a>
-                <a href={toLocale("/kontakt")}>{t("Eigenes Webprojekt besprechen")}{' '}<span aria-hidden="true">↗</span></a>
-              </div>
+              <a href="https://modrinth.pages.dev/">{t("Live ansehen")}{' '}<span aria-hidden="true">↗</span></a>
             </div>
           </div>
-          <div className="reference-screenshots">
-            <figure>
-              <img src="/references/modrinth-desktop.webp" alt={t("Modrinth-Projektübersicht auf dem Desktop mit Downloadzahlen, Projektliste und Feedbackformular")} width="1440" height="1211" loading="lazy" decoding="async" />
-              <figcaption>{t("Desktop · Projektübersicht und Feedbackformular")}</figcaption>
-            </figure>
-            <figure className="reference-screenshot-mobile">
-              <img src="/references/modrinth-mobile.webp" alt={t("Mobile Ansicht der Modrinth-Website mit Downloadzahl und Beginn des Feedbackformulars")} width="390" height="844" loading="lazy" decoding="async" />
-              <figcaption>{t("Mobile · Downloadzahl und Feedback")}</figcaption>
-            </figure>
-          </div>
+          <ReferenceGallery items={modrinthReferenceViews} ariaLabel={t("Ansichten des Referenzprojekts Modrinth")} />
         </section>
 
         <section className="refined-price section-reveal">

@@ -14,6 +14,7 @@ const DEFAULT_ITEMS = [
 
 export default function AccordionGallery({
   items = DEFAULT_ITEMS,
+  ariaLabel,
   defaultIndex = 2,
   accentColor = '#ffffff',
   overlayColor = '#060010',
@@ -162,7 +163,7 @@ export default function AccordionGallery({
         height: vertical ? `${Math.round(height * 1.6)}px` : `${height}px`,
       }}
       role="list"
-      aria-label={t("Ansichten des Referenzprojekts Inbox")}
+      aria-label={ariaLabel || t("Ansichten des Referenzprojekts Inbox")}
     >
       {items.map((item, index) => {
         const isActive = index === active
@@ -188,7 +189,7 @@ export default function AccordionGallery({
           >
             <span className="ag-panel__frame">
               <span className="ag-panel__media" ref={(element) => { mediaRefs.current[index] = element }}>
-                <img src={item.image} alt={item.alt || item.label || ''} loading={index === defaultIndex ? 'eager' : 'lazy'} draggable="false" />
+                <img src={item.image} alt={item.alt || item.label || ''} width={item.width} height={item.height} style={item.fit ? { objectFit: item.fit } : undefined} decoding="async" loading={index === defaultIndex ? 'eager' : 'lazy'} draggable="false" />
               </span>
               <span className="ag-panel__overlay" aria-hidden="true" />
             </span>
